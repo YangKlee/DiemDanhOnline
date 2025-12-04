@@ -1,0 +1,161 @@
+/* ===== ROOT VARIABLES ===== */
+:root {
+  --primary: #1565c0;
+  --primary-hover: #0d47a1;
+  --accent: #00b0ff;
+
+  --bg: #f4f7fb;
+  --card: #ffffff;
+  --text: #1f2937;
+  --muted: #6b7280;
+
+  --border: #e5e7eb;
+  --radius: 12px;
+
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+}
+
+/* ===== PAGE WRAPPER ===== */
+.page-container {
+  flex: 1;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background: var(--bg);
+}
+
+/* ===== CARD ===== */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px;
+  box-shadow: 0 3px 10px rgba(20, 40, 80, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* ===== TYPOGRAPHY ===== */
+.muted {
+  color: var(--muted);
+}
+
+/* ===== GRID SYSTEM ===== */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.col-6 {
+  flex: 1 1 calc(50% - 16px);
+}
+.col-4 {
+  flex: 1 1 calc(33.333% - 16px);
+}
+.col-12 {
+  flex: 1 1 100%;
+}
+
+/* ===== BUTTON ===== */
+.button {
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.2s;
+  text-decoration: none;
+  display: inline-block;
+}
+.button:hover {
+  background: var(--primary-hover);
+}
+
+.button.ghost {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+.button.ghost:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+/* ===== FORM ELEMENTS ===== */
+.input,
+.select {
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* ===== TABLE ===== */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--card);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.table th,
+.table td {
+  padding: 12px;
+  border-bottom: 1px solid var(--border);
+  text-align: center;
+}
+.table th {
+  background: #f9fafb;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.table tr:last-child td {
+  border-bottom: none;
+}
+
+/* ===== BADGES ===== */
+.badge {
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 999px;
+  display: inline-block;
+}
+
+.badge.success {
+  background: #e6f9f0;
+  color: var(--success);
+}
+.badge.warning {
+  background: #fff6e5;
+  color: var(--warning);
+}
+.badge.danger {
+  background: #ffecec;
+  color: var(--danger);
+}
+.profile-center{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0px 10%;
+}
+/* ===== RESPONSIVE FIXES ===== */
+@media (max-width: 768px) {
+  .col-6, .col-4 {
+    flex: 1 1 100%;
+  }
+
+  .table th, .table td {
+    padding: 8px;
+  }
+}

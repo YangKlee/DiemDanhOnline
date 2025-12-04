@@ -1,0 +1,44 @@
+:root{
+    --sidebars-color:  #f3f3f3;
+    --header-color: #2c3e50;
+
+}
+*{
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+}
+
+body
+{
+    background-color: #F6F8FB;
+    overflow: hidden;
+}
+.main{
+    display: flex;
+}
+.app{
+    overflow-x: scroll;
+    overflow-y: scroll;
+    height: calc(100vh - 100px);
+    width: 100vw;
+
+}
+.menubars{
+    background: var(--sidebars-color);   
+}
+.warning-box
+{
+    background-color: wheat;
+    border: 1px solid #f0ad4e;
+    padding: 10px 15px;
+    margin: 10px 0px;
+}
+.info-box
+{
+    background-color: rgb(206, 223, 243);
+    border: 1px solid #0077ff;
+    padding: 10px 15px;
+    margin: 10px 0px;
+    color: #004085;
+}
