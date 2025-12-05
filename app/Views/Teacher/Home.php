@@ -33,31 +33,27 @@
             <p>Tỷ lệ chuyên cần</p>
         </div>
     </div>
-
+    <h2>Truy cập nhanh</h2>
     <!-- Dashboard chức năng -->
     <div class="feature-grid">
 
-        <a href="#" class="feature-card">
+        <a href="Teacher/DSMonDayHoc" class="feature-card">
             <h3>Quản lý lớp học phần</h3>
-            <p>Xem danh sách lớp sinh viên</p>
+            <p>Xem danh sách lớp học phần giảng dạy</p>
         </a>
 
-        <a href="#" class="feature-card">
-            <h3>Quản lý môn học</h3>
-            <p>Danh sách các môn giảng dạy</p>
-        </a>
 
-        <a href="#" class="feature-card">
-            <h3>Quản lý điểm danh</h3>
+        <a href="Teacher/TaoPhienDiemDanh" class="feature-card">
+            <h3>Tạo phiên điểm hanh</h3>
             <p>Tạo & cập nhật biểu điểm danh</p>
+        </a>    
+
+        <a href="Teacher/QLDanhSachDiemDanh" class="feature-card">
+            <h3>Danh sách điểm danh</h3>
+            <p>Xem danh sách điểm danh các buổi điểm danh đã tạo</p>
         </a>
 
-        <a href="#" class="feature-card">
-            <h3>Danh sách phiên</h3>
-            <p>Xem các buổi điểm danh đã tạo</p>
-        </a>
-
-        <a href="#" class="feature-card">
+        <a href="Teacher/ThongKeChuyenCan" class="feature-card">
             <h3>Thống kê chuyên cần</h3>
             <p>Theo dõi & xuất báo cáo</p>
         </a>
