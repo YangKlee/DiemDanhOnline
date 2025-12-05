@@ -11,9 +11,13 @@
     }
     $requestPath = '/' . ltrim($requestPath, '/');
     require_once __DIR__ . "/app/Controllers/StudentController.php";
+    require_once __DIR__ . "/app/Controllers/TeacherController.php";
     require_once __DIR__ . "/app/Controllers/AccountController.php";
+    require_once __DIR__ . "/app/Controllers/baseController.php";
     $studentController = new StudentController();
     $accountController = new AccountController();
+    $baseController = new BaseController();
+    $teacherController = new TeacherController();
 
 
     if(session_status() != PHP_SESSION_ACTIVE)
@@ -29,6 +33,16 @@
 
     switch ($requestPath)
     {
+        case "/":
+        {
+            $baseController->returnHomePage();
+            break;
+        }
+        case "":    
+        {
+            $baseController->returnHomePage();
+            break;
+        }
         case "/Student":
         {
             $studentController->showHomeStudent();
@@ -90,6 +104,12 @@
         case "/Account/DangXuat":   
         {
             $accountController->logout();
+            break;
+        }
+
+        case "/Teacher/Home" :
+        {
+            $teacherController->showHomePage();
             break;
         }
         default :

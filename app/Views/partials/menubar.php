@@ -93,7 +93,8 @@
       <div class="p-3 pb-2">
         <span class="section-title small text-secondary text-uppercase">Menu</span>
       </div>
-
+      <!--Menu cho role sinh viên-->
+      <?php if($_SESSION['Role'] == 1): ?>
       <div class="list-group list-group-flush">
         <a href="Student/Home" class="list-group-item d-flex align-items-center gap-2">
           <i class="bi bi-house-door"></i> Trang chủ
@@ -104,8 +105,45 @@
           <a href="Student/QuetQR" class="list-group-item d-flex align-items-center gap-2">
           <i class="bi bi-qr-code-scan"></i></i> Quét QR
         </a>
-
       </div>
+      <!-- Menu cho role giảng viên -->
+      <?php elseif($_SESSION['Role'] == 2): ?>
+        <div class="list-group list-group-flush">
+          <a href="./Teacher/Home" class="list-group-item d-flex align-items-center gap-2">
+            <i class="bi bi-house-door"></i> Trang chủ
+          </a>
+          <div>
+            <button class="toggle" data-bs-toggle="collapse" data-bs-target="#grpAccounts" aria-expanded="false">
+              <span class="label"><i class="bi bi-calendar-event"></i> Quản lý lớp</span>
+              <i class="bi bi-chevron-down chevron"></i>
+            </button>
+            <div id="grpAccounts" class="collapse submenu">
+              <a class="list-group-item" href="Student/DangKySuKien">Quản lý lớp học phần</a>
+              <a class="list-group-item" href="Student/LichSuKien">Danh sách lớp sinh viên</a>
+              <a class="list-group-item" href="Student/NopMinhChungThamGiaSK">Nộp minh chứng</a>
+            </div>
+          </div>
+          <a href="./Teacher/Home" class="list-group-item d-flex align-items-center gap-2">
+            <i class="bi bi-house-door"></i> Danh sách môn dạy học
+          </a>
+          <div>
+            <button class="toggle" data-bs-toggle="collapse" data-bs-target="#grpAccounts" aria-expanded="false">
+              <span class="label"><i class="bi bi-calendar-event"></i>Quản lý điểm danh</span>
+              <i class="bi bi-chevron-down chevron"></i>
+            </button>
+            <div id="grpAccounts" class="collapse submenu">
+              <a class="list-group-item" href="Student/DangKySuKien">Tạo phiên điểm danh</a>
+              <a class="list-group-item" href="Student/LichSuKien">Cập nhật phiên điểm danh</a>>
+              <a class="list-group-item" href="Student/DangKySuKien">Quản lý danh sách điểm danh</a>
+            </div>
+          </div>
+          <a href="./Teacher/Home" class="list-group-item d-flex align-items-center gap-2">
+            <i class="bi bi-house-door"></i> Thống kê chuyên cần
+          </a>
+        </div>
+      <!-- Menu cho role giảng viên-->
+      <?php elseif($_SESSION['Role'] == 3): ?>  
+      <?php endif ?>  
     </aside>
 
   <!-- Bootstrap JS -->

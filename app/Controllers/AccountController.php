@@ -20,13 +20,17 @@ require_once __DIR__ . '/BaseController.php';
         }
         public function submitLogin()
         {
+            // 1 aka sinh viên
+            // 2 aka giảng viên
+            // 3 aka admin
+            $customRole = 2;
             if(isset($_POST['username']) && isset($_POST['password']))
             {
                 $_SESSION['UID'] = $_POST['username'];
-                $_SESSION['Role'] = 1;
+                $_SESSION['Role'] = $customRole;
                 global $publicBase;
-                header( "Location: ". $publicBase."/Student/Home");
-
+                header( "Location: ". $publicBase."/");
+                exit;
             }
         }
         public function logout()
