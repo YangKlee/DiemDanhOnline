@@ -1,0 +1,70 @@
+/* ===== MAIN CONTENT ===== */
+.main-content {
+    /* margin-left: 280px;  ai lại đánh magin để né sidebar */ /* tránh sidebar 260px + padding 20px */
+    padding: 20px;
+    background-color: #eef1f7;
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+}
+
+/* Tiêu đề */
+.main-content h2 {
+    text-align: left;
+    color: #2d8cf0;
+    margin-bottom: 30px;
+}
+
+/* ===== Filter Container ===== */
+.main-content .filter-container {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+    align-items: center;
+}
+
+.main-content .filter-container input,
+.main-content .filter-container select {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+
+.main-content .filter-container input {
+    flex: 1 1 200px; /* tự co giãn, tối thiểu 200px */
+}
+
+.main-content .filter-container select {
+    flex: 0 0 150px; /* cố định 150px */
+}
+
+/* ===== Stats Container ===== */
+.main-content .stats-container {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.main-content .stat-card {
+    background-color: #fff;
+    padding: 20px;
+    width: 200px;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0 0 8px rgba(0,0,0,0.1);
+}
+
+.main-content .stat-card h3 {
+    margin: 0;
+    font-size: 18px;
+    color: #666;
+}
+
+.main-content .stat-card p {
+    font-size: 28px;
+    margin: 10px 0 0 0;
+    font-weight: bold;
+    color: #2d8cf0;
+}

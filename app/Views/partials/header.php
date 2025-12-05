@@ -1,6 +1,6 @@
 <header class="qnu-header">
   <div class="qnu-header-left">
-    <img src="./assest/img/logo.webp" alt="Logo QNU" class="qnu-logo" />
+    <img src="https://www.qnu.edu.vn/Resources/assets/QNUNew/images/logo/logo_QNU_white.png" alt="Logo QNU" class="qnu-logo" />
     <div class="qnu-text">
       <p class="vn">TRƯỜNG ĐẠI HỌC QUY NHƠN</p>
       <p class="en">QUY NHON UNIVERSITY</p>
@@ -13,14 +13,14 @@
         <span class="username"><?php echo $_SESSION['FullName']?></span>
         <span class="rolename">
           <?php 
-            if ($_SESSION['role'] == 0)
+            if ($_SESSION['Role'] == 1)
               echo "Sinh viên";
-            else if($_SESSION['role'] == 1)
-              echo "Ban cán sự";
-            else if($_SESSION['role'] == 2)
+            else if($_SESSION['Role'] == 2)
+              echo "Giảng viên";
+            else if($_SESSION['Role'] == 3)
               echo "Admin";
             else
-              echo "404";
+              echo "Who????";
           ?>
         </span>
       </div>

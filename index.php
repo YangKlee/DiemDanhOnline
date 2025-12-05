@@ -31,6 +31,11 @@
         header( "Location: ". $publicBase."/Account/Login");
     }
 
+
+    if(isset($_SESSION['UID']))
+    {
+        $accountController->loadUserData();
+    }
     switch ($requestPath)
     {
         case "/":
@@ -112,10 +117,53 @@
             $teacherController->showHomePage();
             break;
         }
+        case "/Teacher/DSLHP": 
+        {
+            $teacherController->showDSLopHP();
+            break;
+        }
+
+        case "/Teacher/DSLopSV":
+        {
+            $teacherController->showDSLopSV();
+            break;
+        }
+
+        case "/Teacher/DSMonDayHoc":
+        {
+            $teacherController->showDSMonDayHoc();
+            break;
+        }
+
+        case "/Teacher/TaoPhienDiemDanh":
+        {
+            $teacherController->showTaoPhienDiemDanh();
+            break;
+        }
+
+        case "/Teacher/CapNhatPhienDiemDanh":
+        {
+            $teacherController->showCapNhatPhienDiemDanh();
+            break;
+        }
+
+        case "/Teacher/QLDanhSachDiemDanh":
+        {
+            $teacherController->showQLDanhSachDiemDanh();
+            break;
+        }
+
+        case "/Teacher/ThongKeChuyenCan":
+        {
+            $teacherController->showThongKeChuyenCan();
+            break;
+        }
+
         default :
         {
             $studentController->Error404();
             break;
         }
+
     }
 ?>

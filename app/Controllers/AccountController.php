@@ -20,18 +20,29 @@ require_once __DIR__ . '/BaseController.php';
         }
         public function submitLogin()
         {
-            // 1 aka sinh viên
-            // 2 aka giảng viên
-            // 3 aka admin
-            $customRole = 2;
+
             if(isset($_POST['username']) && isset($_POST['password']))
             {
                 $_SESSION['UID'] = $_POST['username'];
-                $_SESSION['Role'] = $customRole;
                 global $publicBase;
                 header( "Location: ". $publicBase."/");
                 exit;
             }
+        }
+
+        public function loadUserData()
+        {
+            // get từ database qua UserID
+            // các thông tin cần get: tên, role
+            // để đảm bảo bảo mật và tiện cho cookies, hàm này được chạy mỗi khi chuyển trang
+
+            // demo
+            
+            $_SESSION['FullName'] = "Han Sara";
+            // 1 aka sinh viên
+            // 2 aka giảng viên
+            // 3 aka admin
+            $_SESSION['Role'] = 2;
         }
         public function logout()
         {

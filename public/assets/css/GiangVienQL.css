@@ -1,0 +1,44 @@
+ h2 {
+    text-align: left;
+    color: #2d8cf0;
+    margin-bottom: 30px;
+ }
+
+/* Container chính để tránh bị che bởi sidebar */
+.main-content {
+    /* margin-left: 280px;  ai lại đánh magin để né sidebar */ /* rộng hơn sidebar một chút để có khoảng cách */
+    padding: 20px;
+}
+
+/* Điều chỉnh thanh tìm kiếm */
+#searchInput {
+    width: 400px;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    display: inline-block;
+}
+
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: #fff;
+        box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    }
+
+    th, td {
+        padding: 12px;
+        text-align: center;
+        border-bottom: 1px solid #ddd;
+    }
+
+    th {
+        background-color: #2d8cf0;
+        color: white;
+    }
+
+    tr:hover {
+        background-color: #f1f1f1;
+    }
