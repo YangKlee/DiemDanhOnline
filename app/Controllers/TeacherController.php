@@ -1,4 +1,5 @@
 <?php 
+    require_once __DIR__ . '/BaseController.php';
     class TeacherController extends BaseController
     {
         public function showHomePage()
@@ -23,7 +24,7 @@
         }
         public function showCapNhatPhienDiemDanh()
         {
-            $this->renderTeacher("Cập nhật phiên điểm danh", "CapNhapDiemDanh.php");
+            $this->renderTeacher("Cập nhật phiên điểm danh", "CapNhap   DiemDanh.php");
         }
         public function showQLDanhSachDiemDanh()
         {

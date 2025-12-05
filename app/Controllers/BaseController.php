@@ -6,22 +6,27 @@ if (session_status() != PHP_SESSION_ACTIVE) {
 class BaseController
 {
 
-    public function renderStudent($title, $render)
+    protected function renderStudent($title, $render)
     {
         $render = __DIR__ . "/../Views/Student/" . $render;
         require_once __DIR__ . "/../Views/layout.php";
     }
-    public function renderTeacher($title, $render)
+    protected function renderTeacher($title, $render)
     {
         $render = __DIR__ . "/../Views/Teacher/" . $render;
         require_once __DIR__ . "/../Views/layout.php";
     }
-    public function renderCommon($title, $render)
+    protected function renderAdmin($title, $render)
+    {
+        $render = __DIR__ . "/../Views/Admin/" . $render;
+        require_once __DIR__ . "/../Views/layout.php";
+    }
+    protected function renderCommon($title, $render)
     {
         $render = __DIR__ . "/../Views/common/" . $render;
         require_once __DIR__ . "/../Views/layout.php";
     }
-    public function renderAuth($title, $render, $isLayout)
+    protected function renderAuth($title, $render, $isLayout)
     {
         if (!$isLayout) {
             require_once __DIR__ . "/../Views/auth/" . $render;

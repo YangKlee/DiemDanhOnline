@@ -42,7 +42,7 @@ require_once __DIR__ . '/BaseController.php';
             // 1 aka sinh viên
             // 2 aka giảng viên
             // 3 aka admin
-            $_SESSION['Role'] = 2;
+            $_SESSION['Role'] = 3;
         }
         public function logout()
         {

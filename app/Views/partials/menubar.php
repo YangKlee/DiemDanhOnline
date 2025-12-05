@@ -140,6 +140,42 @@
         </div>
       <!-- Menu cho role admin-->
       <?php elseif($_SESSION['Role'] == 3): ?>  
+                <div class="list-group list-group-flush">
+          <a href="./Admin/Home" class="list-group-item d-flex align-items-center gap-2">
+            <i class="bi bi-house-door"></i> Trang chủ
+          </a>
+          <a href="./Admin/QuanLyDiemDanh" class="list-group-item d-flex align-items-center gap-2">
+            <i class="bi bi-house-door"></i> Quản lý điểm danh
+          </a>
+          <div>
+            <button class="toggle" data-bs-toggle="collapse" data-bs-target="#grpAccounts1" aria-expanded="false">
+              <span class="label"><i class="bi bi-list-check"></i>Quản lý tài khoản</span>
+              <i class="bi bi-chevron-down chevron"></i>
+            </button>
+            <div id="grpAccounts1" class="collapse submenu">
+              <a class="list-group-item" href="Admin/QuanLyTaiKhoan/SinhVien">Quản lý tài khoản sinh viên</a>
+              <a class="list-group-item" href="Admin/QuanLyTaiKhoan/GiangVien">Quản lý tài khoản giảng viên</a>
+              <a class="list-group-item" href="Admin/QuanLyTaiKhoan/Admin">Quản lý tài khoản admin</a>
+              <a class="list-group-item" href="Admin/QuanLyTaiKhoan/ResetMatKhau">Reser mật khẩu</a>
+            </div>
+          </div>
+          <div>
+            <button class="toggle" data-bs-toggle="collapse" data-bs-target="#grpAccounts" aria-expanded="false">
+              <span class="label"><i class="bi bi-mortarboard"></i>Quản lý hệ thống</span>
+              <i class="bi bi-chevron-down chevron"></i>
+            </button>
+            <div id="grpAccounts" class="collapse submenu">
+              <a class="list-group-item" href="Admin/QuanLyHeThong/Khoa">Khoa</a>
+              <a class="list-group-item" href="Admin/QuanLyHeThong/Nganh">Ngành</a>
+              <a class="list-group-item" href="Admin/QuanLyHeThong/Lop">Lớp</a>
+              <a class="list-group-item" href="Admin/QuanLyHeThong/HocKy">Học kỳ</a>
+            </div>
+          </div>
+          
+          <a href="Teacher/ThongKeChuyenCan" class="list-group-item d-flex align-items-center gap-2">
+            <i class="bi bi-graph-down"></i> Thống kê
+          </a>
+        </div>
       <?php endif ?>  
     </aside>
 

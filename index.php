@@ -12,13 +12,14 @@
     $requestPath = '/' . ltrim($requestPath, '/');
     require_once __DIR__ . "/app/Controllers/StudentController.php";
     require_once __DIR__ . "/app/Controllers/TeacherController.php";
+     require_once __DIR__ . "/app/Controllers/AdminController.php";
     require_once __DIR__ . "/app/Controllers/AccountController.php";
     require_once __DIR__ . "/app/Controllers/baseController.php";
     $studentController = new StudentController();
     $accountController = new AccountController();
     $baseController = new BaseController();
     $teacherController = new TeacherController();
-
+    $adminController = new AdminController();
 
     if(session_status() != PHP_SESSION_ACTIVE)
     {
@@ -30,7 +31,6 @@
     {
         header( "Location: ". $publicBase."/Account/Login");
     }
-
 
     if(isset($_SESSION['UID']))
     {
@@ -156,6 +156,71 @@
         case "/Teacher/ThongKeChuyenCan":
         {
             $teacherController->showThongKeChuyenCan();
+            break;
+        }
+        case "/Admin/Home":
+        {
+            $adminController->showHomePage();
+            break;
+        }
+
+        case "/Admin/QuanLyDiemDanh":
+        {
+            $adminController->showQuanLyDiemDanh();
+            break;
+        }
+
+        case "/Admin/QuanLyTaiKhoan/SinhVien":
+        {
+            $adminController->showQuanLyTKSinhVien();
+            break;
+        }
+
+        case "/Admin/QuanLyTaiKhoan/GiangVien":
+        {
+            $adminController->showQuanLyTKGiangVien();
+            break;
+        }
+
+        case "/Admin/QuanLyTaiKhoan/Admin":
+        {
+            $adminController->showQuanLyTKAdmin();
+            break;
+        }
+
+        case "/Admin/QuanLyTaiKhoan/ResetMatKhau":
+        {
+            $adminController->showResetMatKhau();
+            break;
+        }
+
+        case "/Admin/QuanLyHeThong/Khoa":
+        {
+            $adminController->showQLKhoa();
+            break;
+        }
+
+        case "/Admin/QuanLyHeThong/Nganh":
+        {
+            $adminController->showQlNganh();
+            break;
+        }
+
+        case "/Admin/QuanLyHeThong/Lop":
+        {
+            $adminController->showQlLop();
+            break;
+        }
+
+        case "/Admin/QuanLyHeThong/HocKy":
+        {
+            $adminController->showQlHocKy();
+            break;
+        }
+
+        case "/Admin/ThongKe":
+        {
+            $adminController->showThongKe();
             break;
         }
 
