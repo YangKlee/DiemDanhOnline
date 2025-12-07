@@ -1,7 +1,14 @@
 <?php 
+require_once __DIR__ . '/../Config/db.php';
 require_once __DIR__ . '/BaseController.php';
     class AccountController extends BaseController
     {
+        private $db;
+
+        public function __construct($db)
+        {
+            $this->db = $db;
+        }
         public function showThongTinCaNhan()
         {
             $this->renderCommon("Thông tin cá nhân", "profile.php");
@@ -20,30 +27,53 @@ require_once __DIR__ . '/BaseController.php';
         }
         public function submitLogin()
         {
+            if (!isset($_POST['username'], $_POST['password'])) return;
 
-            if(isset($_POST['username']) && isset($_POST['password']))
-            {
-                $_SESSION['UID'] = $_POST['username'];
-                global $publicBase;
-                header( "Location: ". $publicBase."/");
-                exit;
+            $username = $_POST['username'];
+            $password = $_POST['password'];
+
+            $query = $this->db->prepare("SELECT * FROM account WHERE UserID = ?");
+            $query->execute([$username]);
+            $user = $query->fetch();
+
+            if (!$user) {
+                echo "UserID không tồn tại!";
+                return;
             }
+            if ($password !== $user['MatKhau']) {
+                echo "Sai mật khẩu!";
+                return;
+            }
+
+
+            $_SESSION['UID'] = $user['UserID'];
+            global $publicBase;
+            header("Location: $publicBase/");
+            exit;
         }
 
         public function loadUserData()
         {
-            // get từ database qua UserID
-            // các thông tin cần get: tên, role
-            // để đảm bảo bảo mật và tiện cho cookies, hàm này được chạy mỗi khi chuyển trang
+            // Nếu chưa đăng nhập thì bỏ qua
+            if (!isset($_SESSION['UID'])) return;
 
-            // demo
-            
-            $_SESSION['FullName'] = "Han Sara";
-            // 1 aka sinh viên
-            // 2 aka giảng viên
-            // 3 aka admin
-            $_SESSION['Role'] = 3;
+            $uid = $_SESSION['UID'];
+
+            // Lấy thông tin tên, role, Email... tùy bạn muốn dùng gì
+            $query = $this->db->prepare("
+                SELECT Ten, Role
+                FROM account
+                WHERE UserID = ?
+            ");
+            $query->execute([$uid]);
+            $user = $query->fetch();
+
+            if ($user) {
+                $_SESSION['Ten'] = $user['Ten'];
+                $_SESSION['Role']     = $user['Role']; 
+            }
         }
+
         public function logout()
         {
             session_destroy();
