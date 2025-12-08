@@ -21,7 +21,7 @@
         }
         public function showQuanLyTKAdmin()
         {
-            $this->renderAdmin("Quản lý tài khoản admin", "account-admin.php");
+            $this->renderAdmin("Quản lý tài khoản admin", "tkadmin.php");
 
         }
         public function showResetMatKhau()
