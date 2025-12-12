@@ -24,7 +24,7 @@
         }
         public function showCapNhatPhienDiemDanh()
         {
-            $this->renderTeacher("Cập nhật phiên điểm danh", "CapNhap   DiemDanh.php");
+            $this->renderTeacher("Cập nhật phiên điểm danh", "CapNhapDiemDanh.php");
         }
         public function showQLDanhSachDiemDanh()
         {

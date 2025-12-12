@@ -13,58 +13,57 @@
       <h3>Thông tin cá nhân</h3>
 
       <?php 
-        // DEMO DATA
-        $user = [
-          'mssv'    => '22110123',
-          'full_name' => 'Nguyễn Văn A',
-          'gender'  => 'Nam',
-          'dob'     => '2004-03-12',
-          'phone'   => '0912345678',
-          'cccd'    => '040306021045',
-          'email'   => 'vana@example.com',
-          'address' => 'Thôn Suối Đá, Xã Hồng Sơn, Bình Định'
-        ];
+
+        $user = $data['studentData'];
       ?>
 
       <table class="table">
         <tr>
           <th>MSSV</th>
-          <td><?= htmlspecialchars($user['mssv']) ?></td>
+          <td><?= htmlspecialchars($user['UserID']) ?></td>
         </tr>
 
         <tr>
           <th>Họ tên</th>
-          <td><?= htmlspecialchars($user['full_name']) ?></td>
+          <td><?= htmlspecialchars($user['Ho'] . ' ' . $user['Ten']) ?></td>
         </tr>
 
         <tr>
           <th>Giới tính</th>
-          <td><?= htmlspecialchars($user['gender']) ?></td>
+          <td><?= htmlspecialchars($user['GioiTinh']) ?></td>
         </tr>
 
         <tr>
           <th>Ngày sinh</th>
-          <td><?= htmlspecialchars($user['dob']) ?></td>
+          <td><?= htmlspecialchars($user['NgaySinh']) ?></td>
         </tr>
 
         <tr>
           <th>Số điện thoại</th>
-          <td><?= htmlspecialchars($user['phone']) ?></td>
+          <td><?= htmlspecialchars($user['SoDT']) ?></td>
         </tr>
 
         <tr>
           <th>CCCD</th>
-          <td><?= htmlspecialchars($user['cccd']) ?></td>
+          <td><?= htmlspecialchars($user['CCCD']) ?></td>
         </tr>
 
         <tr>
           <th>Email</th>
-          <td><?= htmlspecialchars($user['email']) ?></td>
+          <td><?= htmlspecialchars($user['Email']) ?></td>
         </tr>
 
         <tr>
           <th>Địa chỉ</th>
-          <td><?= htmlspecialchars($user['address']) ?></td>
+          <td><?= htmlspecialchars($user['DiaChi']) ?></td>
+        </tr>
+        <tr>
+          <th>Lớp</th>
+          <td><?= htmlspecialchars($user['TenLop']) ?></td>
+        </tr>
+          <tr>
+          <th>Ngành</th>
+          <td><?= htmlspecialchars($user['TenNganh']) ?></td>
         </tr>
       </table>
 

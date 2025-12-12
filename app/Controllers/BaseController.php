@@ -2,31 +2,34 @@
 if (session_status() != PHP_SESSION_ACTIVE) {
     session_start();
 }
-
+require_once __DIR__ . '/../Models/User.php';
+require_once __DIR__ . '/../Config/database.php';
 class BaseController
 {
 
-    protected function renderStudent($title, $render)
+    protected function renderStudent($title, $render,$data = [])
     {
         $render = __DIR__ . "/../Views/Student/" . $render;
         require_once __DIR__ . "/../Views/layout.php";
     }
-    protected function renderTeacher($title, $render)
+    protected function renderTeacher($title, $render,$data = [])
     {
         $render = __DIR__ . "/../Views/Teacher/" . $render;
         require_once __DIR__ . "/../Views/layout.php";
     }
-    protected function renderAdmin($title, $render)
+    protected function renderAdmin($title, $render,$data = [])
     {
         $render = __DIR__ . "/../Views/Admin/" . $render;
         require_once __DIR__ . "/../Views/layout.php";
     }
-    protected function renderCommon($title, $render)
+    protected function renderCommon($title, $render, $data = [])
     {
+        
         $render = __DIR__ . "/../Views/common/" . $render;
         require_once __DIR__ . "/../Views/layout.php";
+        
     }
-    protected function renderAuth($title, $render, $isLayout)
+    protected function renderAuth($title, $render, $isLayout, $data = [])
     {
         if (!$isLayout) {
             require_once __DIR__ . "/../Views/auth/" . $render;

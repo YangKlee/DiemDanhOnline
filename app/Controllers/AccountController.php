@@ -10,8 +10,14 @@ require_once __DIR__ . '/BaseController.php';
             $this->db = $db;
         }
         public function showThongTinCaNhan()
+
         {
-            $this->renderCommon("Thông tin cá nhân", "profile.php");
+            $userModel = new User();
+            //var_dump($_SESSION['UID']);
+            $data = $userModel->getStudentInfo($_SESSION['UID']);
+            //var_dump($studentData);
+            $this->renderCommon("Thông tin cá nhân", "profile.php", ['studentData' => $data]);
+
         }
         public function showEditInfoForm()
         {
