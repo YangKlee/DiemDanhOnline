@@ -27,5 +27,11 @@
             $result = $stmt->get_result();
             return $result->fetch_assoc();
         }
+        public function updateStudentInfo($studentId, $ho, $ten, $gioiTinh, $ngaySinh, $soDT, $cccd, $email, $diaChi)
+        {
+            $stmt = $this->conn->prepare("UPDATE account SET Ho = ?, Ten = ?, GioiTinh = ?, NgaySinh = ?, SoDT = ?, CCCD = ?, Email = ?, DiaChi = ? WHERE UserID = ?");
+            $stmt->bind_param("sssssssss", $ho, $ten, $gioiTinh, $ngaySinh, $soDT, $cccd, $email, $diaChi, $studentId);
+            return $stmt->execute();
+        }
     }
 ?>

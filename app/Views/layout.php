@@ -12,7 +12,13 @@
     
 
 </head>
-
+<?php 
+    if(isset($_SESSION['message']))
+    {
+        $message = $_SESSION['message'];
+        unset($_SESSION['message']);
+    }
+?>
 <body>
     <header>
         <?php include __DIR__ . "/partials/header.php" ?>

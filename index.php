@@ -78,7 +78,16 @@ switch ($requestPath)
         break;
 
     case "/Account/ThongTinCaNhan/EditInfo":
-        $accountController->showEditInfoForm();
+        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+
+            $accountController->submitEditInfo();
+
+        }
+        else 
+        {
+            $accountController->showEditInfoForm();
+            
+        }
         break;
 
     case "/Account/ChangePassword":

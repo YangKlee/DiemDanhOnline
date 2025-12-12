@@ -21,7 +21,31 @@ require_once __DIR__ . '/BaseController.php';
         }
         public function showEditInfoForm()
         {
-            $this->renderCommon("Thông tin cá nhân", "profile_edit.php");
+            $userModel = new User();
+            $data = $userModel->getStudentInfo($_SESSION['UID']);
+            $this->renderCommon("Thông tin cá nhân", "profile_edit.php", ['studentData' => $data]);
+        }
+        public function submitEditInfo()
+        {
+            
+
+            $ho = trim($_POST['Ho']);
+            $ten = trim($_POST['Ten']);
+            $gioiTinh = trim($_POST['GioiTinh']);
+            $ngaySinh = trim($_POST['NgaySinh']);
+            $soDT = trim($_POST['SoDT']);
+            $cccd = trim($_POST['CCCD']);
+            $email = trim($_POST['Email']);
+            $diaChi = trim($_POST['DiaChi']);
+            $userModel = new User();
+            
+            $success = $userModel->updateStudentInfo($_SESSION['UID'], $ho, $ten, $gioiTinh, $ngaySinh, $soDT, $cccd, $email, $diaChi);
+            
+            if ($success) {
+                $this->rejectToPage("/Account/ThongTinCaNhan", "Cập nhật thông tin thành công!");
+            } else {
+                $this->rejectToPage("/Account/ThongTinCaNhan", "Cập nhật thông tin thất bại!");
+            }
         }
         public function showChangePasswordLogined()
         {

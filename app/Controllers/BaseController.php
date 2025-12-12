@@ -66,4 +66,11 @@ class BaseController
             exit;
         }
     }
+    public function rejectToPage($path, $message)
+    {
+        $_SESSION['message'] = $message;
+        global $publicBase;
+        header("Location: " . $publicBase . $path);
+
+    }
 }
