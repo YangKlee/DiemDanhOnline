@@ -3,6 +3,8 @@ if (session_status() != PHP_SESSION_ACTIVE) {
     session_start();
 }
 require_once __DIR__ . '/../Models/User.php';
+require_once __DIR__ . '/../Models/AttendanceModel.php';
+require_once __DIR__ . '/../Models/AttendanceModelST.php';
 require_once __DIR__ . '/../Config/database.php';
 class BaseController
 {

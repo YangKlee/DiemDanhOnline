@@ -24,17 +24,6 @@
             <div class="col-md-4">
                 <input id="searchInput" class="form-control" placeholder="Tìm kiếm...">
             </div>
-            <div class="col-md-4">
-                <select id="filterClass" class="form-select">
-                    <option value="">Lọc theo mã lớp học phần</option>
-                    <option>CT101</option>
-                    <option>CT201</option>
-                </select>
-            </div>
-            <div class="col-md-4">
-                <input id="dateFilter" type="date" class="form-control">
-            </div>
-        </div>
     </div>
 
     <!-- Bảng chính -->

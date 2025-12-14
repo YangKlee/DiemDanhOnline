@@ -2,19 +2,23 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-    <link rel="stylesheet" href="public/assets/css/GiangVien.css">
-    <link rel="stylesheet" href="public/assets/css/GiangVienQL.css">
-
+<link rel="stylesheet" href="public/assets/css/GiangVien.css">
+<link rel="stylesheet" href="public/assets/css/GiangVienQL.css">
 </head>
+
 <body>
 <div class="main-content">
-<h2>Danh sách lớp học phần</h2>
 
-<input type="text" id="searchInput" placeholder="Tìm kiếm lớp học phần...">
+      <table class="table" id="classTable">
+           <h3>Danh sách lớp học phần</h3>
+    <input type="text" id="searchInput" placeholder="Tìm kiếm lớp học phần...">
 
-<table id="classTable">
-    <thead>
-        <tr>
+      <?php
+        // Lấy dữ liệu từ Controller truyền sang
+        $dsLopHP = $data['dsLopHP'];
+      ?>
+        <thead>
+          <tr>
             <th>Mã lớp HP</th>
             <th>Môn học</th>
             <th>Thứ</th>
@@ -22,44 +26,34 @@
             <th>Phòng</th>
             <th>Học kỳ</th>
             <th>Năm học</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>CT101</td>
-            <td>Lập trình C</td>
-            <td>2</td>
-            <td>1-3</td>
-            <td>A102</td>
-            <td>HK1</td>
-            <td>2024-2025</td>
-        </tr>
-       
-    </tbody>
+          </tr>
+        </thead>
+
+        <tbody>
+          <?php if (!empty($dsLopHP)): ?>
+            <?php foreach ($dsLopHP as $lop): ?>
+              <tr>
+                <td><?= htmlspecialchars($lop['MaLHP']) ?></td>
+                <td><?= htmlspecialchars($lop['TenMonHoc']) ?></td>
+                <td><?= htmlspecialchars($lop['Thu']) ?></td>
+                <td><?= htmlspecialchars($lop['KhungTiet']) ?></td>
+                <td><?= htmlspecialchars($lop['Phong']) ?></td>
+                <td><?= htmlspecialchars($lop['TenHK']) ?></td>
+                <td><?= htmlspecialchars($lop['NamHoc']) ?></td>
+              </tr>
+            <?php endforeach; ?>
+          <?php else: ?>
+            <tr>
+              <td colspan="7" style="text-align:center;">
+                Không có dữ liệu lớp học phần
+              </td>
+            </tr>
+          <?php endif; ?>
+        </tbody>
 </table>
+<script src="public/assets/js/search.js"></script>
 </div>
 
-<script>
-const searchInput = document.getElementById('searchInput');
-const table = document.getElementById('classTable').getElementsByTagName('tbody')[0];
-
-searchInput.addEventListener('keyup', function() {
-    const filter = searchInput.value.toLowerCase();
-    const rows = table.getElementsByTagName('tr');
-
-    for (let i = 0; i < rows.length; i++) {
-        const cells = rows[i].getElementsByTagName('td');
-        let match = false;
-        for (let j = 0; j < cells.length; j++) {
-            if (cells[j].textContent.toLowerCase().indexOf(filter) > -1) {
-                match = true;
-                break;
-            }
-        }
-        rows[i].style.display = match ? '' : 'none';
-    }
-});
-</script>
 
 </body>
 </html>

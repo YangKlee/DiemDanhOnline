@@ -1,6 +1,7 @@
 <?php 
     require_once __DIR__ . '/BaseController.php';
     require_once __DIR__ . '/../Models/AttendanceModel.php';
+    require_once __DIR__ . '/../Models/QuanLyGiangDayModel.php';
     class TeacherController extends BaseController
     {
         private $model;
@@ -15,7 +16,14 @@
         }
         public function showDSLopHP()
         {
-            $this->renderTeacher("Danh sách lớp học phần", "DSLHP.php");
+            $dsLopHP = new QuanLyGiangDayModel();
+            $maGV = $_SESSION['UID'];
+            $data = $dsLopHP->getLopHPTheoGiangVien($maGV);
+             $this->renderTeacher(
+        "Danh sách lớp học phần",
+        "DSLHP.php",
+        ['dsLopHP' => $data]
+            );
         }
         public function showDSLopSV()
         {   
@@ -23,7 +31,14 @@
         }
         public function showDSMonDayHoc()
         {
-            $this->renderTeacher("Danh sách môn dạy học", "QLMH.php");
+            $dsMon = new QuanLyGiangDayModel();
+            $maGV = $_SESSION['UID'];
+            $data = $dsMon->getMHTheoGiangVien($maGV);
+             $this->renderTeacher(
+        "Danh sách môn học giảng dạy",
+        "QLMH.php",
+        ['dsMon' => $data]
+            );
         }
         public function showTaoPhienDiemDanh()
         {

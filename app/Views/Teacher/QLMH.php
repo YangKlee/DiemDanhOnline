@@ -7,66 +7,49 @@
 </head>
 <body>
 <div class="main-content">
+      <?php
+        // Lấy dữ liệu từ Controller truyền sang
+        $dsMon = $data['dsMon'];
+      ?>
 
-<h2>Quản lý môn học</h2>
+<table class="table" id="classTable">
+    <h3>Quản lý môn học</h3>
 
 <input type="text" id="searchInput" placeholder="Tìm kiếm môn học...">
-
-<table id="subjectTable">
     <thead>
         <tr>
             <th>Mã môn</th>
             <th>Tên môn học</th>
             <th>Số tín chỉ</th>
             <th>Khoa</th>
-            <th>Mô tả</th>
+            <th>Số lớp học phần</th>
         </tr>
     </thead>
 
-    <tbody>
-        <tr>
-            <td>CT101</td>
-            <td>Lập trình C</td>
-            <td>3</td>
-            <td>CNTT</td>
-            <td>Môn học cơ bản về lập trình</td>
-        </tr>
-
-        <tr>
-            <td>CT203</td>
-            <td>Cấu trúc dữ liệu</td>
-            <td>4</td>
-            <td>CNTT</td>
-            <td>Học về các cấu trúc dữ liệu cơ bản</td>
-        </tr>
-    </tbody>
+        <tbody>
+          <?php if (!empty($dsMon)): ?>
+            <?php foreach ($dsMon as $lop): ?>
+              <tr>
+                <td><?= htmlspecialchars($lop['MaMonHoc']) ?></td>
+                <td><?= htmlspecialchars($lop['TenMonHoc']) ?></td>
+                <td><?= htmlspecialchars($lop['SoTC']) ?></td>
+                <td><?= htmlspecialchars($lop['TenKhoa']) ?></td>
+                <td><?= htmlspecialchars($lop['SoLopHP']) ?></td>
+              </tr>
+            <?php endforeach; ?>
+          <?php else: ?>
+            <tr>
+              <td colspan="7" style="text-align:center;">
+                Không có dữ liệu lớp học phần
+              </td>
+            </tr>
+          <?php endif; ?>
+        </tbody>
 </table>
+<script src="public/assets/js/search.js"></script>
 
 </div>
 
-<script>
-// ======= TÌM KIẾM MÔN HỌC =======
-const searchInput = document.getElementById('searchInput');
-const table = document.getElementById('subjectTable').getElementsByTagName('tbody')[0];
-
-searchInput.addEventListener('keyup', function() {
-    const filter = searchInput.value.toLowerCase();
-    const rows = table.getElementsByTagName('tr');
-
-    for (let i = 0; i < rows.length; i++) {
-        const cells = rows[i].getElementsByTagName('td');
-        let match = false;
-
-        for (let j = 0; j < cells.length; j++) {
-            if (cells[j].textContent.toLowerCase().includes(filter)) {
-                match = true;
-                break;
-            }
-        }
-        rows[i].style.display = match ? '' : 'none';
-    }
-});
-</script>
 
 </body>
 </html>

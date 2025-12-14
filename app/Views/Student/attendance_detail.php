@@ -1,38 +1,51 @@
+<!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="utf-8">
   <link rel="stylesheet" href="./public/assets/css/theme.css">
-  <script defer src="/student-portal/assets/js/filters.js"></script>
 </head>
+
 <body>
 <main class="page-container">
-  <div class="card">
-    <h3>Lịch sử điểm danh lớp học phần</h3>
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Mã phiên</th>
-          <th>Thời gian</th>
-          <th>Trạng thái</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
+<div class="card">
 
-          <td>2025001</td>
-          <td>11/12/2025 09:00 </td>
-          <td ><span cclass="badge success"> Có mặt</span></td>
-       
-        </tr>
-        <tr>
+<h3>Chi tiết điểm danh học phần</h3>
 
-          <td>2025002</td>
-          <td>10/12/2025 09:00 </td>
-          <td ><span cclass="badge danger"> Vắng mặt</span></td>
-        </tr> 
-      </tbody>
-    </table>
-  </div>
+<?php
+// Lấy dữ liệu từ Controller
+$chiTiet = $data['chiTiet'];
+$maLHP   = $data['MaLHP'];
+?>
+
+<p><strong>Mã lớp học phần:</strong> <?= htmlspecialchars($maLHP) ?></p>
+
+<table class="table">
+<thead>
+<tr>
+    <th>Mã phiên</th>
+    <th>Thời gian</th>
+    <th>Trạng thái</th>
+</tr>
+</thead>
+
+<tbody>
+<?php if (!empty($chiTiet)): ?>
+    <?php foreach ($chiTiet as $row): ?>
+    <tr>
+        <td><?= htmlspecialchars($row['MaPhien']) ?></td>
+        <td><?= date('d/m/Y H:i', strtotime($row['ThoiGianBatDau'])) ?></td>
+        <td><?= htmlspecialchars($row['TrangThai']) ?></td>
+    </tr>
+    <?php endforeach; ?>
+<?php else: ?>
+    <tr>
+        <td colspan="3">Chưa có dữ liệu điểm danh</td>
+    </tr>
+<?php endif; ?>
+</tbody>
+</table>
+
+</div>
 </main>
 </body>
 </html>

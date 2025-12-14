@@ -21,13 +21,7 @@
       background: var(--sidebars-color);
       
     }
-    .list-group a{
 
-    }
-    .sidebar .section-title {
-      
-
-    }
     .sidebar .list-group-item {
       border: 0;
       border-radius: 0;
@@ -118,7 +112,7 @@
               <i class="bi bi-chevron-down chevron"></i>
             </button>
             <div id="grpAccounts" class="collapse submenu">
-              <a class="list-group-item" href="Teacher/DSMonDayHoc">Danh sách học phần giảng dạy</a>
+              <a class="list-group-item" href="Teacher/DSMonDayHoc">Danh sách môn học giảng dạy</a>
               <a class="list-group-item" href="Teacher/DSLHP">Danh sách lớp học phần giảng dạy</a>
               
             </div>
