@@ -18,11 +18,31 @@
         public function getStudentInfo($studentId)
         {
             $stmt = $this->conn->prepare("SELECT UserID, Ho, Ten, GioiTinh, NgaySinh, SoDT, CCCD, Email, DiaChi, TenLop, TenNganh FROM account 
-            JOIN student on account.UserID = student.MSSV  
-            JOIN lopsv on  lopsv.MaLop = student.MaLop 
-            JOIN nganh on lopsv.MaNganh = nganh.MaNganh 
+            LEFT JOIN student on account.UserID = student.MSSV  
+            LEFT JOIN lopsv on  lopsv.MaLop = student.MaLop 
+            LEFT JOIN nganh on lopsv.MaNganh = nganh.MaNganh 
             WHERE account.UserID = ?");
             $stmt->bind_param("s", $studentId);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            return $result->fetch_assoc();
+        }
+        public function getTeacherInfo($teacherId)
+        {
+            $stmt = $this->conn->prepare("SELECT UserID, Ho, Ten, GioiTinh, NgaySinh, SoDT, CCCD, Email, DiaChi, TenKhoa FROM account 
+            LEFT JOIN giangvien on account.UserID = giangvien.MaGV
+            left JOIN khoa on giangvien.MaKhoa = khoa.MaKhoa 
+            WHERE account.UserID = ?");
+            $stmt->bind_param("s", $teacherId);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            return $result->fetch_assoc();
+        }
+        public function getAdminInfo($adminId)
+        {
+            $stmt = $this->conn->prepare("SELECT UserID, Ho, Ten, GioiTinh, NgaySinh, SoDT, CCCD, Email, DiaChi FROM account 
+            WHERE account.UserID = ?");
+            $stmt->bind_param("s", $adminId);
             $stmt->execute();
             $result = $stmt->get_result();
             return $result->fetch_assoc();

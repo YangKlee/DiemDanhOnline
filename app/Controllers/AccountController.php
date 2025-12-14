@@ -14,7 +14,15 @@ require_once __DIR__ . '/BaseController.php';
         {
             $userModel = new User();
             //var_dump($_SESSION['UID']);
-            $data = $userModel->getStudentInfo($_SESSION['UID']);
+            
+            if($_SESSION['Role'] == 1)
+                $data = $userModel->getStudentInfo($_SESSION['UID']);
+            else if($_SESSION['Role'] == 2)
+                $data = $userModel->getTeacherInfo($_SESSION['UID']);
+            else if($_SESSION['Role'] == 3)
+                $data = $userModel->getAdminInfo($_SESSION['UID']);
+            
+
             //var_dump($studentData);
             $this->renderCommon("Thông tin cá nhân", "profile.php", ['studentData' => $data]);
 
@@ -22,6 +30,7 @@ require_once __DIR__ . '/BaseController.php';
         public function showEditInfoForm()
         {
             $userModel = new User();
+
             $data = $userModel->getStudentInfo($_SESSION['UID']);
             $this->renderCommon("Thông tin cá nhân", "profile_edit.php", ['studentData' => $data]);
         }

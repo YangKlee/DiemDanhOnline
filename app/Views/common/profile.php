@@ -57,7 +57,8 @@
           <th>Địa chỉ</th>
           <td><?= htmlspecialchars($user['DiaChi']) ?></td>
         </tr>
-        <tr>
+        <?php if ($_SESSION['Role'] == 1): ?>
+                  <tr>
           <th>Lớp</th>
           <td><?= htmlspecialchars($user['TenLop']) ?></td>
         </tr>
@@ -65,8 +66,16 @@
           <th>Ngành</th>
           <td><?= htmlspecialchars($user['TenNganh']) ?></td>
         </tr>
-      </table>
 
+      <?php elseif ($_SESSION['Role'] == 2): ?>
+        <tr>
+          <th>Khoa</th>
+          <td><?= htmlspecialchars($user['TenKhoa']) ?></td>
+        </tr>
+      <?php else: ?>
+
+      <?php endif; ?>
+      </table>
       <div style="margin-top:12px; text-align:center;">
         <a class="button" href="./Account/ThongTinCaNhan/EditInfo">Cập nhật thông tin</a>
         <a class="button ghost" href="./Account/ChangePassword">Đổi mật khẩu</a>
