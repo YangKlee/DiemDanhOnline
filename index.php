@@ -20,6 +20,7 @@ require_once __DIR__ . "/app/Controllers/StudentController.php";
 require_once __DIR__ . "/app/Controllers/TeacherController.php";
 require_once __DIR__ . "/app/Controllers/AdminController.php";
 require_once __DIR__ . "/app/Controllers/AccountController.php";
+require_once __DIR__ . "/app/Controllers/AttendanceController.php";
 require_once __DIR__ . "/app/Controllers/BaseController.php";
 
 /* ------------------  Khởi tạo CONTROLLER --------------- */
@@ -28,6 +29,7 @@ $accountController = new AccountController($pdo);
 $baseController    = new BaseController($pdo);
 $teacherController = new TeacherController($pdo);
 $adminController   = new AdminController($pdo);
+$attendanceController = new AttendanceController();
 
 /* ------------------  SESSION  ------------------ */
 if (session_status() != PHP_SESSION_ACTIVE) {
@@ -71,6 +73,12 @@ switch ($requestPath)
         break;
 
 
+    case "/Attendance/ScanQR":
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $attendanceController->scanQR();
+    }
+    break;
+
     /* ----------- Account ------------ */
 
     case "/Account/ThongTinCaNhan":
@@ -107,6 +115,7 @@ switch ($requestPath)
         break;
 
 
+
     /* ----------- Teacher ------------ */
 
     case "/Teacher/Home":
@@ -126,8 +135,13 @@ switch ($requestPath)
         break;
 
     case "/Teacher/TaoPhienDiemDanh":
-        $teacherController->showTaoPhienDiemDanh();
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $teacherController->createDiemDanh();
+        } else {
+            $teacherController->showTaoPhienDiemDanh();
+        }
         break;
+
 
     case "/Teacher/CapNhatPhienDiemDanh":
         $teacherController->showCapNhatPhienDiemDanh();
@@ -140,6 +154,13 @@ switch ($requestPath)
     case "/Teacher/ThongKeChuyenCan":
         $teacherController->showThongKeChuyenCan();
         break;
+
+    case "/Attendance/CreateSession":
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $attendanceController->createSession();
+    }
+    break;
+
 
 
     /* ----------- Admin ------------ */
