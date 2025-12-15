@@ -30,26 +30,27 @@
         </thead>
 
         <tbody>
-          <?php if (!empty($dsLopHP)): ?>
-            <?php foreach ($dsLopHP as $lop): ?>
-              <tr>
-                <td><?= htmlspecialchars($lop['MaLHP']) ?></td>
-                <td><?= htmlspecialchars($lop['TenMonHoc']) ?></td>
-                <td><?= htmlspecialchars($lop['Thu']) ?></td>
-                <td><?= htmlspecialchars($lop['KhungTiet']) ?></td>
-                <td><?= htmlspecialchars($lop['Phong']) ?></td>
-                <td><?= htmlspecialchars($lop['TenHK']) ?></td>
-                <td><?= htmlspecialchars($lop['NamHoc']) ?></td>
-              </tr>
-            <?php endforeach; ?>
-          <?php else: ?>
-            <tr>
-              <td colspan="7" style="text-align:center;">
-                Không có dữ liệu lớp học phần
-              </td>
-            </tr>
-          <?php endif; ?>
-        </tbody>
+  <?php if (!empty($dsLopHP)): ?>
+    <?php foreach ($dsLopHP as $lop): ?>
+      <tr>
+        <td><?= htmlspecialchars($lop['MaLHP'] ?? '') ?></td>
+        <td><?= htmlspecialchars($lop['TenMonHoc'] ?? '') ?></td>
+        <td><?= htmlspecialchars($lop['Thu'] ?? '') ?></td>
+        <td><?= htmlspecialchars($lop['KhungTiet'] ?? '') ?></td>
+        <td><?= htmlspecialchars($lop['Phong'] ?? '') ?></td>
+        <td><?= htmlspecialchars($lop['TenHK'] ?? '') ?></td>
+        <td><?= htmlspecialchars($lop['NamHoc'] ?? '') ?></td>
+      </tr>
+    <?php endforeach; ?>
+  <?php else: ?>
+    <tr>
+      <td colspan="7" style="text-align:center;">
+        Không có dữ liệu lớp học phần
+      </td>
+    </tr>
+  <?php endif; ?>
+</tbody>
+
 </table>
 <script src="public/assets/js/search.js"></script>
 </div>

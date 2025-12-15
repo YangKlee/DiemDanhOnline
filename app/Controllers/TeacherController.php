@@ -1,6 +1,5 @@
 <?php 
     require_once __DIR__ . '/BaseController.php';
-    require_once __DIR__ . '/../Models/AttendanceModel.php';
     require_once __DIR__ . '/../Models/QuanLyGiangDayModel.php';
     require_once __DIR__ . '/../Models/AttendanceModelGV.php';
     class TeacherController extends BaseController
@@ -9,12 +8,25 @@
 
         public function __construct($db)
         {
-            $this->model = new AttendanceModel();
+            $this->model = new AttendanceModelGV();
         } 
         public function showHomePage()
         {
-            $this->renderTeacher("Trang chủ giảng viên", "Home.php");
+            $attendanceModel = new AttendanceModelGV();
+
+            if (!isset($_SESSION['UID'])) {
+                $this->rejectPage("/Account/Login");
+                return;
+            }
+            $maGV = $_SESSION['UID'];
+
+            // Lấy thống kê cho giảng viên hiện tại
+            $thongKeGV = $attendanceModel->getGVStatistics($maGV); 
+            $this->renderTeacher("Trang chủ giảng viên", "Home.php", [
+                'thongKeGV' => $thongKeGV
+            ]);
         }
+
         public function showDSLopHP()
         {
             $dsLopHP = new QuanLyGiangDayModel();
@@ -43,31 +55,11 @@
         }
         public function showTaoPhienDiemDanh()
         {
-            $dsLop = $this->model->getClassesByTeacher($_SESSION['UID']);
-            $dsDiemDanh = $this->model->getSessionsByTeacher($_SESSION['UID']);
-
-            $this->renderTeacher(
-                "Tạo phiên điểm danh",
-                "Teacher/TaoPhienDiemDanh.php",
-                compact('dsLop', 'dsDiemDanh')
-            );
         }
 
         public function createDiemDanh()
         {
-            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-                $lopId = $_POST['lop_id'];
-
-                $token = bin2hex(random_bytes(16));
-                $start = date('Y-m-d H:i:s');
-                $end   = date('Y-m-d H:i:s', strtotime('+10 minutes'));
-
-                $this->model->createSession($lopId, $token, $start, $end);
-
-                header("Location: /Teacher/TaoPhienDiemDanh");
-                exit;
-            }
         }  
          public function showCapNhatPhienDiemDanh()
         {
@@ -97,9 +89,41 @@
                 ['detail' => $detail]
             );
             }
-        public function showThongKeChuyenCan()
-        {
-                $this->renderTeacher("Thống kê chuyên cần", "ThongKeGV.php");
-         }
+public function showThongKeChuyenCan()
+{
+    if (!isset($_SESSION['UID'])) {
+        $this->rejectPage("/Account/Login");
+        return;
+    }
+
+    $MaGV = $_SESSION['UID']; 
+    $MaHK = isset($_GET['MaHK']) && $_GET['MaHK'] !== '' ? $_GET['MaHK'] : null;
+    $MaLHP = isset($_GET['MaLHP']) && $_GET['MaLHP'] !== '' ? (int)$_GET['MaLHP'] : null; 
+
+
+
+    $model = new AttendanceModelGV();
+    $thongKe = $model->getAttendanceStats($MaGV, $MaHK, $MaLHP);
+
+    // Tạo danh sách học kỳ và lớp học phần để filter
+    $hocKyList = [];
+    $dsLHPList = [];
+    foreach ($thongKe as $row) {
+        $hocKyList[$row['MaHK']] = $row['MaHK'];
+        $dsLHPList[$row['MaLHP']] = $row['MaLHP']; 
+    }
+
+    $data = [
+        'thongKe' => $thongKe,
+        'MaHK' => $MaHK,
+        'MaLHP' => $MaLHP,
+        'hocKyList' => $hocKyList,
+        'dsLHPList' => $dsLHPList
+    ];
+
+    $this->renderTeacher("Thống kê chuyên cần", "ThongKeGV.php", $data);
+}
+
+
     }
 ?>

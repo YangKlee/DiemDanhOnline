@@ -20,7 +20,6 @@ require_once __DIR__ . "/app/Controllers/StudentController.php";
 require_once __DIR__ . "/app/Controllers/TeacherController.php";
 require_once __DIR__ . "/app/Controllers/AdminController.php";
 require_once __DIR__ . "/app/Controllers/AccountController.php";
-require_once __DIR__ . "/app/Controllers/AttendanceController.php";
 require_once __DIR__ . "/app/Controllers/BaseController.php";
 
 /* ------------------  Khởi tạo CONTROLLER --------------- */
@@ -29,7 +28,6 @@ $accountController = new AccountController($pdo);
 $baseController    = new BaseController($pdo);
 $teacherController = new TeacherController($pdo);
 $adminController   = new AdminController($pdo);
-$attendanceController = new AttendanceController();
 
 /* ------------------  SESSION  ------------------ */
 if (session_status() != PHP_SESSION_ACTIVE) {

@@ -11,12 +11,9 @@ class StudentController extends BaseController
         $this->attendanceModel = new AttendanceModelST();
     }
 
-    /* ===============================
-       Trang chủ sinh viên
-    =============================== */
+
 public function showHomeStudent()
 {
-    // Kiểm tra sinh viên đã đăng nhập chưa
     if (!isset($_SESSION['UID'])) {
         $this->rejectPage("/Account/Login");
         return;
@@ -25,13 +22,10 @@ public function showHomeStudent()
     $mssv = $_SESSION['UID'];
     $attendanceModel = new AttendanceModelST();
 
-    // Lấy tổng quan điểm danh trong tuần (Có mặt / Vắng)
     $summary = $attendanceModel->getWeeklySummary($mssv);
 
-    // Lấy lịch sử điểm danh trong tuần
     $history = $attendanceModel->getWeeklyHistory($mssv);
 
-    // Render view home.php với dữ liệu
     $this->renderStudent(
         "Trang chủ",
         "home.php",
@@ -42,14 +36,10 @@ public function showHomeStudent()
     );
 }
 
-
-    /* ======================================
-       Lịch sử điểm danh theo học kỳ
-    ====================================== */
     public function showLichSuDiemDanh()
     {
         $lsDD = new AttendanceModelST();
-        // Chưa đăng nhập
+
         if (!isset($_SESSION['UID'])) {
             $this->rejectPage("/Account/Login");
             return;
@@ -71,10 +61,6 @@ public function showHomeStudent()
     );
 }
 
-    
-    /* ======================================
-       Chi tiết điểm danh 1 lớp học phần
-    ====================================== */
     public function showChiTietLichSuDiemDanh()
     {
         $lsDD = new AttendanceModelST();
@@ -101,9 +87,6 @@ public function showHomeStudent()
         );
     }
 
-    /* ===============================
-       Quét QR điểm danh
-    =============================== */
     public function showCheckinQR()
     {
         if (!isset($_SESSION['UID'])) {

@@ -32,22 +32,20 @@ $dsPhien = $data['sessions'];
                 <?php if (!empty($dsPhien)): ?>
                     <?php foreach ($dsPhien as $row): ?>
                         <tr>
-                            <td><?= htmlspecialchars($row['MaLHP']) ?></td>
-                            <td><?= htmlspecialchars($row['TenMonHoc']) ?></td>
-                            <td><?= htmlspecialchars($row['MaQR']) ?></td>
-                            <td><?= isset($row['ThoiGianQR']) ? $row['ThoiGianQR'] : '-' ?></td>
+                            <td><?= htmlspecialchars($row['MaLHP'] ?? '') ?></td>
+                            <td><?= htmlspecialchars($row['TenMonHoc'] ?? '') ?></td>
+                            <td><?= htmlspecialchars($row['MaQR'] ?? '') ?></td>
+                            <td><?= isset($row['ThoiGianQR']) ? htmlspecialchars($row['ThoiGianQR']) : '-' ?></td>
                             <td><?= isset($row['Ngay']) ? date('d/m/Y', strtotime($row['Ngay'])) : '-' ?></td>
-                            <td><?= htmlspecialchars($row['SoLuong']) ?></td>
+                            <td><?= htmlspecialchars($row['SoLuong'] ?? '') ?></td>
                             <td>
-                                <a href="./Teacher/QLDanhSachDiemDanh/XemChiTiet?MaPhien=<?= $row['MaPhien'] ?>">Chi tiết</a>
+                                <a href="./Teacher/QLDanhSachDiemDanh/XemChiTiet?MaPhien=<?= htmlspecialchars($row['MaPhien'] ?? '') ?>">Chi tiết</a>
                             </td>
-
-
                         </tr>
                     <?php endforeach; ?>
                 <?php else: ?>
                     <tr>
-                        <td colspan="6">Chưa có dữ liệu điểm danh</td>
+                        <td colspan="7" style="text-align:center;">Chưa có dữ liệu điểm danh</td>
                     </tr>
                 <?php endif; ?>
             </tbody>
@@ -59,4 +57,3 @@ $dsPhien = $data['sessions'];
 <script src="public/assets/js/search.js"></script>
 </body>
 </html>
-
