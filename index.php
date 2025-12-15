@@ -144,6 +144,19 @@ switch ($requestPath)
     case "/Teacher/CapNhatPhienDiemDanh":
         $teacherController->showCapNhatPhienDiemDanh();
         break;
+    
+    case "/Teacher/CapNhatPhienDiemDanh/XemChiTiet":
+        $teacherController->showCNChiTiet();
+        break;
+
+    case "/Teacher/xoaPhien":
+        $teacherController->xoaPhien();
+        break;
+
+    case "/Teacher/capNhatTrangThai":
+        $teacherController->capNhatTrangThai();
+        break;
+
 
     case "/Teacher/QLDanhSachDiemDanh":
         $teacherController->showQLDanhSachDiemDanh();
@@ -151,6 +164,15 @@ switch ($requestPath)
 
     case "/Teacher/QLDanhSachDiemDanh/XemChiTiet":
         $teacherController->showQLDanhSachDiemDanhChiTiet();
+    break;
+
+        // Hiển thị form chỉnh hạn QR
+    case "/Teacher/CapNhatPhienDiemDanh/XemChiTiet/ChinhHanQR":
+        $teacherController->showFormChinhHanQR();
+        break;
+
+    case "/Teacher/CapNhatThoiGianQR":
+    $teacherController->capNhatThoiGianQR();
     break;
 
     case "/Teacher/ThongKeChuyenCan":

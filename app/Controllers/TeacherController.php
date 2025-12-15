@@ -61,10 +61,33 @@
         {
 
         }  
-         public function showCapNhatPhienDiemDanh()
+public function showCapNhatPhienDiemDanh()
+{
+    $phienModel = new AttendanceModelGV();
+
+    $maGV = $_SESSION['UID'];
+
+    $data = $phienModel->layDanhSachPhienTheoGV($maGV);
+
+    $this->renderTeacher(
+        "Cập nhật phiên điểm danh",
+        "CapNhapDiemDanh.php",
+        ['dsPhien' => $data]
+    );
+}
+
+         public function showCNChiTiet()
         {
-                $this->renderTeacher("Cập nhật phiên điểm danh", "CapNhapDiemDanh.php");
-         }
+            $maPhien = $_GET['MaPhien'] ?? '';
+            $dsDDChitiet = new AttendanceModelGV();
+            $detail = $dsDDChitiet->getSessionDetail($maPhien);
+            $this->renderTeacher(
+                "Chi tiết điểm danh",
+                "ChiTietCNDD.php",
+                ['detail' => $detail]
+            );
+            }
+
         public function showQLDanhSachDiemDanh()
         {
              $maGV = $_SESSION['UID'];
@@ -123,6 +146,91 @@ public function showThongKeChuyenCan()
 
     $this->renderTeacher("Thống kê chuyên cần", "ThongKeGV.php", $data);
 }
+
+public function capNhatThoiGian()
+{
+    if($_SERVER['REQUEST_METHOD'] === 'POST'){
+        $MaPhien = $_POST['MaPhien'];
+        $ThoiGianBatDau = $_POST['ThoiGianBatDau'];
+        $ThoiGianKetThuc = $_POST['ThoiGianKetThuc'];
+
+        $model = new AttendanceModelGV();
+        $success = $model->capNhatThoiGian($MaPhien, $ThoiGianBatDau, $ThoiGianKetThuc);
+
+        echo json_encode(['success' => $success]);
+    }
+}
+public function capNhatTrangThai()
+{
+    if($_SERVER['REQUEST_METHOD'] === 'POST'){
+        $MaPhien = $_POST['MaPhien'];
+        $MSSV = $_POST['MSSV'];
+        $TrangThai = $_POST['TrangThai'];
+
+        $model = new AttendanceModelGV();
+        $success = $model->capNhatTrangThai($MaPhien, $MSSV, $TrangThai);
+
+        echo json_encode(['success' => $success]);
+    }
+}
+public function xoaPhien()
+{
+    if($_SERVER['REQUEST_METHOD'] === 'POST'){
+        $MaPhien = $_POST['MaPhien'];
+
+        $model = new AttendanceModelGV();
+        $success = $model->xoaPhien($MaPhien);
+
+        echo json_encode(['success' => $success]);
+    }
+}
+
+public function showFormChinhHanQR()
+{
+    if (!isset($_GET['MaPhien'])) {
+        die("Thiếu mã phiên");
+    }
+
+    $maPhien = $_GET['MaPhien'];
+
+    $model = new AttendanceModelGV();
+    $phien = $model->layPhienTheoMa($maPhien);
+
+    $this->renderTeacher(
+        "Chỉnh hạn QR",
+        "ChinhHanQR.php",
+        ['phien' => $phien]
+    );
+}
+public function capNhatThoiGianQR()
+{
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        die("Phương thức không hợp lệ");
+    }
+
+    if (!isset($_POST['MaPhien'], $_POST['SoPhut'])) {
+        die("Thiếu dữ liệu");
+    }
+    $maPhien = $_POST['MaPhien'];
+    $soPhut  = $_POST['SoPhut'];
+
+    $model = new AttendanceModelGV();
+    $model->capNhatHanQR($maPhien, $soPhut);
+
+    // 🔹 LẤY LẠI DỮ LIỆU PHIÊN SAU KHI UPDATE
+    $phien = $model->layPhienTheoMa($maPhien);
+    // 🔹 TRẢ VỀ VIEW CẬP NHẬT PHIÊN ĐIỂM DANH
+    $this->renderTeacher(
+        "Cập nhật điểm danh chi tiết",
+        "ChiTietCNDD.php",
+        [
+            'phien'      => $phien
+        ]
+    );
+}
+
+
+
 
 
     }
