@@ -2,6 +2,7 @@
     require_once __DIR__ . '/BaseController.php';
     require_once __DIR__ . '/../Models/AttendanceModel.php';
     require_once __DIR__ . '/../Models/QuanLyGiangDayModel.php';
+    require_once __DIR__ . '/../Models/AttendanceModelGV.php';
     class TeacherController extends BaseController
     {
         private $model;
@@ -74,8 +75,28 @@
          }
         public function showQLDanhSachDiemDanh()
         {
-                $this->renderTeacher("Danh sách điểm danh", "PhienDiemDanh.php");
+             $maGV = $_SESSION['UID'];
+             $dsDiemDanh = new AttendanceModelGV();
+            $sessions = $dsDiemDanh -> getSessionsByGV($maGV);
+            $this->renderTeacher(
+                "Danh sách điểm danh",
+                "PhienDiemDanh.php",
+                [
+                    'sessions' => $sessions]
+            );
          }
+
+         public function showQLDanhSachDiemDanhChiTiet()
+        {
+            $maPhien = $_GET['MaPhien'] ?? '';
+            $dsDDChitiet = new AttendanceModelGV();
+            $detail = $dsDDChitiet->getSessionDetail($maPhien);
+            $this->renderTeacher(
+                "Chi tiết điểm danh",
+                "ChiTietPhienDiemDanh.php",
+                ['detail' => $detail]
+            );
+            }
         public function showThongKeChuyenCan()
         {
                 $this->renderTeacher("Thống kê chuyên cần", "ThongKeGV.php");

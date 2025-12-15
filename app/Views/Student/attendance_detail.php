@@ -17,32 +17,32 @@ $chiTiet = $data['chiTiet'];
 $maLHP   = $data['MaLHP'];
 ?>
 
-<p><strong>Mã lớp học phần:</strong> <?= htmlspecialchars($maLHP) ?></p>
 
 <table class="table">
 <thead>
-<tr>
-    <th>Mã phiên</th>
-    <th>Thời gian</th>
-    <th>Trạng thái</th>
-</tr>
+    <tr>
+        <th>Mã phiên</th>
+        <th>Thời gian</th>
+        <th>Trạng thái</th>
+    </tr>
 </thead>
-
-<tbody>
-<?php if (!empty($chiTiet)): ?>
-    <?php foreach ($chiTiet as $row): ?>
-    <tr>
-        <td><?= htmlspecialchars($row['MaPhien']) ?></td>
-        <td><?= date('d/m/Y H:i', strtotime($row['ThoiGianBatDau'])) ?></td>
-        <td><?= htmlspecialchars($row['TrangThai']) ?></td>
-    </tr>
-    <?php endforeach; ?>
-<?php else: ?>
-    <tr>
-        <td colspan="3">Chưa có dữ liệu điểm danh</td>
-    </tr>
-<?php endif; ?>
-</tbody>
+    <td>
+        <tbody>
+        <?php if (!empty($chiTiet)): ?>
+            <?php foreach ($chiTiet as $row): ?>
+            <tr>
+                <td><?= htmlspecialchars($row['MaPhien']) ?></td>
+                <td><?= date('d/m/Y H:i', strtotime($row['ThoiGian'])) ?></td>
+                <td><?= htmlspecialchars($row['TrangThai']) ?></td>
+            </tr>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <tr>
+                <td colspan="3">Chưa có dữ liệu điểm danh</td>
+            </tr>
+        <?php endif; ?>
+        </tbody>
+    </td>
 </table>
 
 </div>

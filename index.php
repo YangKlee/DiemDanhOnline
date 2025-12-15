@@ -151,6 +151,10 @@ switch ($requestPath)
         $teacherController->showQLDanhSachDiemDanh();
         break;
 
+    case "/Teacher/QLDanhSachDiemDanh/XemChiTiet":
+        $teacherController->showQLDanhSachDiemDanhChiTiet();
+    break;
+
     case "/Teacher/ThongKeChuyenCan":
         $teacherController->showThongKeChuyenCan();
         break;

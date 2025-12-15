@@ -14,10 +14,34 @@ class StudentController extends BaseController
     /* ===============================
        Trang chủ sinh viên
     =============================== */
-    public function showHomeStudent()
-    {
-        $this->renderStudent("Trang chủ", "home.php");
+public function showHomeStudent()
+{
+    // Kiểm tra sinh viên đã đăng nhập chưa
+    if (!isset($_SESSION['UID'])) {
+        $this->rejectPage("/Account/Login");
+        return;
     }
+
+    $mssv = $_SESSION['UID'];
+    $attendanceModel = new AttendanceModelST();
+
+    // Lấy tổng quan điểm danh trong tuần (Có mặt / Vắng)
+    $summary = $attendanceModel->getWeeklySummary($mssv);
+
+    // Lấy lịch sử điểm danh trong tuần
+    $history = $attendanceModel->getWeeklyHistory($mssv);
+
+    // Render view home.php với dữ liệu
+    $this->renderStudent(
+        "Trang chủ",
+        "home.php",
+        [
+            'summary' => $summary,
+            'history' => $history
+        ]
+    );
+}
+
 
     /* ======================================
        Lịch sử điểm danh theo học kỳ
@@ -65,9 +89,10 @@ class StudentController extends BaseController
 
         $mssv  = $_SESSION['UID'];
         $maLHP = $_GET['MaLHP'];
+        
 
         $chiTiet = $lsDD->getAttendanceDetail($mssv, $maLHP);
-
+   
         $this->renderStudent(
             "Chi tiết điểm danh",
             "attendance_detail.php",

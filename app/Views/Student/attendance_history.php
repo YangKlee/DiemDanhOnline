@@ -49,9 +49,10 @@ $maHK      = $data['maHK'];
     <td><?= htmlspecialchars($row['TenGV']) ?></td>
     <td><?= $row['CoMat'] ?> / <?= $row['TongBuoi'] ?></td>
     <td>
-<a href="/StudentController/showChiTietLichSuDiemDanh?MaLHP=<?= $row['MaLHP'] ?>">
+<a href="./Student/LichSuDiemDanh/XemChiTiet?MaLHP=<?= $row['MaLHP'] ?>">
     Chi tiết
 </a>
+
 
 
     </td>
