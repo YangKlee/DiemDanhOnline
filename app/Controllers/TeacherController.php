@@ -3,7 +3,7 @@ require_once __DIR__ . '/BaseController.php';
 require_once __DIR__ . '/../Models/QuanLyGiangDayModel.php';
 require_once __DIR__ . '/../Models/AttendanceModelGV.php';
 
-class TeacherController extends BaseController
+class TeacherController extends BaseController {
         public function __construct($db)
         {
             $this->model = new AttendanceModelGV();
@@ -110,18 +110,7 @@ public function showCapNhatPhienDiemDanh()
                 ['detail' => $detail]
             );
             }
-public function showThongKeChuyenCan()
-{
-    private PDO $pdo;
-    private AttendanceModelGV $attendanceModel;
-    private QuanLyGiangDayModel $qlgdModel;
 
-    public function __construct($db)
-{
-    $this->pdo = $db;
-    $this->attendanceModel = new AttendanceModelGV($db);
-    $this->qlgdModel       = new QuanLyGiangDayModel($db);
-}
 
 public function capNhatThoiGian()
 {
@@ -212,33 +201,33 @@ public function capNhatThoiGianQR()
     /* ===============================
        TRANG CHỦ GIẢNG VIÊN
     =============================== */
-    public function showHomePage()
-    {
-        if (!isset($_SESSION['UID'])) {
-            $this->rejectPage("/Account/Login");
-            return;
-        }
+    // public function showHomePage()
+    // {
+    //     if (!isset($_SESSION['UID'])) {
+    //         $this->rejectPage("/Account/Login");
+    //         return;
+    //     }
 
-        $maGV = $_SESSION['UID'];
-        $thongKeGV = $this->attendanceModel->getGVStatistics($maGV);
+    //     $maGV = $_SESSION['UID'];
+    //     $thongKeGV = $this->attendanceModel->getGVStatistics($maGV);
 
-        $this->renderTeacher("Trang chủ giảng viên", "Home.php", [
-            'thongKeGV' => $thongKeGV
-        ]);
-    }
+    //     $this->renderTeacher("Trang chủ giảng viên", "Home.php", [
+    //         'thongKeGV' => $thongKeGV
+    //     ]);
+    // }
 
     /* ===============================
        DANH SÁCH LỚP HỌC PHẦN
     =============================== */
-    public function showDSLopHP()
-    {
-        $maGV = $_SESSION['UID'];
-        $data = $this->qlgdModel->getLopHPTheoGiangVien($maGV);
+    // public function showDSLopHP()
+    // {
+    //     $maGV = $_SESSION['UID'];
+    //     $data = $this->qlgdModel->getLopHPTheoGiangVien($maGV);
 
-        $this->renderTeacher("Danh sách lớp học phần", "DSLHP.php", [
-            'dsLopHP' => $data
-        ]);
-    }
+    //     $this->renderTeacher("Danh sách lớp học phần", "DSLHP.php", [
+    //         'dsLopHP' => $data
+    //     ]);
+    // }
 
     /* ===============================
        DANH SÁCH MÔN DẠY

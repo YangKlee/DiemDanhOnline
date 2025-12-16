@@ -206,10 +206,7 @@ class AttendanceModelGV
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute($params);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-    $stmt->execute();
-    $result = $stmt->get_result();
-    return $result->fetch_all(MYSQLI_ASSOC);
+
 }
 
 public function layDanhSachPhienTheoGV($MaGV)
