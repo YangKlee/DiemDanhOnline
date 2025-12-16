@@ -149,6 +149,19 @@ switch ($requestPath) {
     case '/Teacher/CapNhatPhienDiemDanh':
         $teacherController->showCapNhatPhienDiemDanh();
         break;
+    
+    case "/Teacher/CapNhatPhienDiemDanh/XemChiTiet":
+        $teacherController->showCNChiTiet();
+        break;
+
+    case "/Teacher/xoaPhien":
+        $teacherController->xoaPhien();
+        break;
+
+    case "/Teacher/capNhatTrangThai":
+        $teacherController->capNhatTrangThai();
+        break;
+
 
     case '/Teacher/QLDanhSachDiemDanh':
         $teacherController->showQLDanhSachDiemDanh();
@@ -159,6 +172,16 @@ switch ($requestPath) {
         break;
 
     case '/Teacher/ThongKeChuyenCan':
+        // Hiển thị form chỉnh hạn QR
+    case "/Teacher/CapNhatPhienDiemDanh/XemChiTiet/ChinhHanQR":
+        $teacherController->showFormChinhHanQR();
+        break;
+
+    case "/Teacher/CapNhatThoiGianQR":
+    $teacherController->capNhatThoiGianQR();
+    break;
+
+    case "/Teacher/ThongKeChuyenCan":
         $teacherController->showThongKeChuyenCan();
         break;
 
@@ -196,6 +219,44 @@ switch ($requestPath) {
         break;
 
     case '/Admin/QuanLyHeThong/Lop':
+    case "/Admin/QuanLyHeThong/Khoa/ThemKhoa":
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $adminController->submitThemKhoa();
+        } else {
+            $adminController->showThemKhoa();
+        }
+        break;
+    case "/Admin/QuanLyHeThong/Khoa/SuaKhoa":
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $adminController->submitSuaKhoa();
+        } else {
+            $adminController->showSuaKhoa();
+        }
+        break;
+    case "/Admin/QuanLyHeThong/Khoa/XoaKhoa":
+        $adminController->xoaKhoa();
+        break;  
+    case "/Admin/QuanLyHeThong/Nganh":
+        $adminController->showQlNganh();
+        break;
+    case "/Admin/QuanLyHeThong/Nganh/ThemNganh":
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $adminController->submitThemNganh();
+        } else {
+            $adminController->showThemNganh();
+        }
+        break;
+    case "/Admin/QuanLyHeThong/Nganh/SuaNganh":
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $adminController->submitSuaNganh();
+        } else {
+            $adminController->showSuaNganh();
+        }
+        break;
+    case "/Admin/QuanLyHeThong/Nganh/XoaNganh":
+        $adminController->xoaNganh();
+        break;
+    case "/Admin/QuanLyHeThong/Lop":
         $adminController->showQlLop();
         break;
 

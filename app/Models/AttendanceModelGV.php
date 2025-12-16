@@ -207,4 +207,134 @@ class AttendanceModelGV
         $stmt->execute($params);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    $stmt->execute();
+    $result = $stmt->get_result();
+    return $result->fetch_all(MYSQLI_ASSOC);
+}
+
+public function layDanhSachPhienTheoGV($MaGV)
+{
+    $sql = "
+        SELECT 
+            pd.MaPhien,
+            pd.MaLHP,
+            pd.StrToken AS MaQR,
+            pd.ThoiGian AS Ngay,
+            TIMESTAMPDIFF(MINUTE, pd.ThoiGianBatDau, pd.ThoiGianKetThuc) AS SuaHanQR,
+            CONCAT(
+                COUNT(DISTINCT lsd.MSSV), 
+                '/', 
+                (SELECT COUNT(*) 
+                 FROM diemdanhonline.dangkyhocphan dk 
+                 WHERE dk.MaLHP = pd.MaLHP AND dk.TrangThai = 'Hoc')
+            ) AS SoLuong,
+            CONCAT('./Teacher/CapNhatPhienDiemDanh/XemChiTiet?MaPhien=', pd.MaPhien) AS ChiTiet
+        FROM 
+            diemdanhonline.phiendiemdanh pd
+        JOIN 
+            diemdanhonline.lophp lhp ON pd.MaLHP = lhp.MaLHP
+        LEFT JOIN 
+            diemdanhonline.lichsudiemdanh lsd ON pd.MaPhien = lsd.MaPhien
+        WHERE 
+            lhp.MaGV = ?
+        GROUP BY 
+            pd.MaPhien, pd.MaLHP, pd.StrToken, pd.ThoiGian, pd.ThoiGianBatDau, pd.ThoiGianKetThuc
+        ORDER BY pd.ThoiGian DESC
+    ";
+
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bind_param("i", $MaGV); // i = integer, s = string
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    return $result->fetch_all(MYSQLI_ASSOC); // trả về tất cả dưới dạng mảng kết hợp
+}
+
+public function capNhatThoiGian($MaPhien, $ThoiGianBatDau, $ThoiGianKetThuc)
+{
+    $sql = "UPDATE phiendiemdanh SET ThoiGianBatDau = ?, ThoiGianKetThuc = ? WHERE MaPhien = ?";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bind_param("ssi", $ThoiGianBatDau, $ThoiGianKetThuc, $MaPhien);
+    return $stmt->execute();
+}
+public function capNhatTrangThai($MaPhien, $MSSV, $TrangThai)
+{
+    if ($TrangThai === 'Co mat') {
+
+        // Nếu chưa có thì thêm
+        $sql = "
+            INSERT INTO lichsudiemdanh (MSSV, MaPhien, ThoiGian)
+            VALUES (?, ?, NOW())
+            ON DUPLICATE KEY UPDATE ThoiGian = NOW()
+        ";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("ii", $MSSV, $MaPhien);
+        return $stmt->execute();
+
+    } else {
+
+        // Vắng → xóa bản ghi
+        $sql = "DELETE FROM lichsudiemdanh WHERE MSSV = ? AND MaPhien = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("ii", $MSSV, $MaPhien);
+        return $stmt->execute();
+    }
+}
+
+public function xoaPhien($MaPhien)
+{
+    $sql = "DELETE FROM phiendiemdanh WHERE MaPhien = ?";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bind_param("i", $MaPhien);
+    return $stmt->execute();
+}
+public function layChiTietPhien($MaPhien)
+{
+    $sql = "SELECT * FROM phiendiemdanh WHERE MaPhien = ?";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bind_param("i", $MaPhien);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    return $result->fetch_assoc();
+}
+
+public function layPhienTheoMa($maPhien)
+{
+    $sql = "SELECT * FROM phiendiemdanh WHERE MaPhien = ?";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bind_param("i", $maPhien);
+    $stmt->execute();
+    return $stmt->get_result()->fetch_assoc();
+}
+
+public function capNhatHanQR($maPhien, $soPhut)
+{
+    // Lấy thời gian bắt đầu
+    $sql = "SELECT ThoiGianBatDau FROM phiendiemdanh WHERE MaPhien = ?";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bind_param("i", $maPhien);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $phien = $result->fetch_assoc();
+
+    if (!$phien) return false;
+
+    // Tính thời gian kết thúc mới
+    $batDau = new DateTime($phien['ThoiGianBatDau']);
+    $batDau->modify("+$soPhut minutes");
+    $thoiGianKetThucMoi = $batDau->format("Y-m-d H:i:s");
+
+    // Update DB
+    $sqlUpdate = "
+        UPDATE phiendiemdanh
+        SET ThoiGianKetThuc = ?
+        WHERE MaPhien = ?
+    ";
+    $stmt = $this->conn->prepare($sqlUpdate);
+    $stmt->bind_param("si", $thoiGianKetThucMoi, $maPhien);
+
+    return $stmt->execute();
+}
+
+
 }
