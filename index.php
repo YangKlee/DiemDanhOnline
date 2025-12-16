@@ -230,29 +230,10 @@ switch ($requestPath)
             $adminController->showSuaKhoa();
         }
         break;
-    case "/Admin/QuanLyHeThong/Khoa/XoaKhoa":
-        $adminController->xoaKhoa();
-        break;  
     case "/Admin/QuanLyHeThong/Nganh":
         $adminController->showQlNganh();
         break;
-    case "/Admin/QuanLyHeThong/Nganh/ThemNganh":
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $adminController->submitThemNganh();
-        } else {
-            $adminController->showThemNganh();
-        }
-        break;
-    case "/Admin/QuanLyHeThong/Nganh/SuaNganh":
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $adminController->submitSuaNganh();
-        } else {
-            $adminController->showSuaNganh();
-        }
-        break;
-    case "/Admin/QuanLyHeThong/Nganh/XoaNganh":
-        $adminController->xoaNganh();
-        break;
+
     case "/Admin/QuanLyHeThong/Lop":
         $adminController->showQlLop();
         break;

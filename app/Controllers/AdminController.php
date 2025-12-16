@@ -60,14 +60,6 @@
             }
             $this->renderAdmin("Sửa khoa", "ThemKhoa.php", ['DataKhoa' => $dataKhoa]);
         }
-        public function xoaKhoa()
-        {
-            $khoaModel = new Khoa();
-            $maKhoa = trim($_GET['KhoaID'] ?? '');
-            $khoaModel->deleteKhoa($maKhoa);
-            $this->rejectToPage("/Admin/QuanLyHeThong/Khoa","Xóa khoa thành công.");
-            return;    
-        }
         public function submitSuaKhoa()
         {
             $khoaModel = new Khoa();
@@ -111,62 +103,6 @@
                 $listNganh = $nganhModel->getAllNganh();
 
             $this->renderAdmin("Quản lý ngành", "QLNganh.php", ['listNganh' => $listNganh, 'listKhoa' => $listKhoa]);
-        }
-        public function showThemNganh()
-        {
-            $khoaModel = new Khoa();
-            $listKhoa = $khoaModel->getAll();
-            $this->renderAdmin("Thêm ngành", "ThemNganh.php", ['listKhoa' => $listKhoa]);
-        }
-        public function submitThemNganh()
-        {
-            $maNganh = trim($_POST['MaNganh'] ?? '');
-            $tenNganh = trim($_POST['TenNganh'] ?? '');
-            $maKhoa = trim($_POST['MaKhoa'] ?? '');
-            $nganhModel = new Nganh();
-            $findNganh = $nganhModel->getNganh($maNganh);
-            if ($findNganh)
-            {
-                $this->rejectToPage("/Admin/QuanLyHeThong/Nganh","Mã ngành đã tồn tại, vui lòng sử dụng mã khác.");
-                return;
-            }
-            else 
-            {
-                $nganhModel->insertNganh($maNganh, $tenNganh, $maKhoa);
-                $this->rejectToPage("/Admin/QuanLyHeThong/Nganh","Thêm ngành thành công.");
-                return;
-            }
-        }
-        public function showSuaNganh()
-        {
-            $nganhModel = new Nganh();
-            $dataNganh = $nganhModel->getNganh($_GET['NganhID']);
-            if(!$dataNganh)
-            {
-                $this->rejectToPage("/Admin/QuanLyHeThong/Nganh","Ngành không tồn tại.");
-                return;
-            }
-            $khoaModel = new Khoa();
-            $listKhoa = $khoaModel->getAll();
-            $this->renderAdmin("Sửa ngành", "ThemNganh.php", ['dataNganh' => $dataNganh, 'listKhoa' => $listKhoa]);
-        }
-        public function submitSuaNganh()
-        {
-            $maNganh = trim($_POST['MaNganh'] ?? '');
-            $tenNganh = trim($_POST['TenNganh'] ?? '');
-            $maKhoa = trim($_POST['MaKhoa'] ?? '');
-            $nganhModel = new Nganh();
-            $nganhModel->updateNganh($maNganh, $tenNganh, $maKhoa);
-            $this->rejectToPage("/Admin/QuanLyHeThong/Nganh","Cập nhật ngành thành công.");
-            return;
-        }
-        public function xoaNganh()
-        {
-            $nganhModel = new Nganh();
-            $maNganh = trim($_GET['NganhID'] ?? '');
-            $nganhModel->deleteNganh($maNganh);
-            $this->rejectToPage("/Admin/QuanLyHeThong/Nganh","Xóa ngành thành công.");
-            return;    
         }
         public function showQlLop()
         {
