@@ -9,11 +9,11 @@
         }
         public function getAllLop()
         {
-            $sql = "SELECT lop.MaLop, lop.TenLop, lop.MaNganh, nganh.TenNganh, nganh.MaKhoa, khoa.TenKhoa 
-                    FROM lop 
-                    JOIN nganh ON lop.MaNganh = nganh.MaNganh
+            $sql = "SELECT lopsv.MaLop, lopsv.TenLop, lopsv.MaNganh, nganh.TenNganh, nganh.MaKhoa, khoa.TenKhoa 
+                    FROM lopsv 
+                    JOIN nganh ON lopsv.MaNganh = nganh.MaNganh
                     LEFT JOIN khoa ON nganh.MaKhoa = khoa.MaKhoa
-                    ORDER BY lop.MaLop ASC";
+                    ORDER BY lopsv.MaLop ASC";
             $stmt = $this->conn->prepare($sql);
             $data = [];
             $stmt->execute();
@@ -31,7 +31,7 @@
         }
         public function getLop($MaLop)
         {
-            $sql = "SELECT * FROM Lop WHERE MaLop = ?";
+            $sql = "SELECT * FROM lopsv WHERE MaLop = ?";
             $stmt = $this->conn->prepare($sql);
             $stmt->bind_param('s', $MaLop);
             $stmt->execute();
@@ -59,18 +59,18 @@
         }
         public function deleteLop($MaLop)
         {
-            $sql = "DELETE from Lop WHERE MaLop = ?";
+            $sql = "DELETE FROM lopsv WHERE MaLop = ?";
             $stmt = $this->conn->prepare($sql);
             $stmt->bind_param('s', $MaLop );
             return $stmt->execute();
         }
         public function searchLop($keyword)
         {
-            $sql = "SELECT lop.MaLop, lop.TenLop, lop.MaNganh, nganh.TenNganh, nganh.MaKhoa, khoa.TenKhoa 
-                    FROM Lop 
-                    JOIN nganh on lop.MaNganh = nganh.MaNganh
+            $sql = "SELECT lopsv.MaLop, lopsv.TenLop, lopsv.MaNganh, nganh.TenNganh, nganh.MaKhoa, khoa.TenKhoa 
+                    FROM lopsv 
+                    JOIN nganh on lopsv.MaNganh = nganh.MaNganh
                     LEFT JOIN khoa on nganh.MaKhoa = khoa.MaKhoa
-                    WHERE lop.MaLop = ? OR lop.TenLop LIKE ? OR nganh.TenNganh LIKE ?";
+                    WHERE lopsv.MaLop = ? OR lopsv.TenLop LIKE ? OR nganh.TenNganh LIKE ?";
             $stm = $this->conn->prepare($sql);
             $likeKeyword = "%".$keyword."%";
             $stm->bind_param('sss', $keyword, $likeKeyword, $likeKeyword);
@@ -90,9 +90,9 @@
         }
         public function filterByMaKhoa($MaKhoa)
         {
-            $sql = "SELECT lop.MaLop, lop.TenLop, lop.MaNganh, nganh.TenNganh, nganh.MaKhoa, khoa.TenKhoa 
-                    FROM Lop 
-                    JOIN nganh on lop.MaNganh = nganh.MaNganh
+            $sql = "SELECT lopsv.MaLop, lopsv.TenLop, lopsv.MaNganh, nganh.TenNganh, nganh.MaKhoa, khoa.TenKhoa 
+                    FROM lopsv 
+                    JOIN nganh on lopsv.MaNganh = nganh.MaNganh
                     LEFT JOIN khoa on nganh.MaKhoa = khoa.MaKhoa
                     WHERE nganh.MaKhoa = ?";
             $stm = $this->conn->prepare($sql);
@@ -113,11 +113,11 @@
         }
         public function filterByMaNganh($MaNganh)
         {
-            $sql = "SELECT lop.MaLop, lop.TenLop, lop.MaNganh, nganh.TenNganh, nganh.MaKhoa, khoa.TenKhoa 
-                    FROM Lop 
-                    JOIN nganh on lop.MaNganh = nganh.MaNganh
+            $sql = "SELECT lopsv.MaLop, lopsv.TenLop, lopsv.MaNganh, nganh.TenNganh, nganh.MaKhoa, khoa.TenKhoa 
+                    FROM lopsv 
+                    JOIN nganh on lopsv.MaNganh = nganh.MaNganh
                     LEFT JOIN khoa on nganh.MaKhoa = khoa.MaKhoa
-                    WHERE lop.MaNganh = ?";
+                    WHERE lopsv.MaNganh = ?";
             $stm = $this->conn->prepare($sql);
             $stm->bind_param('s', $MaNganh);
             $data = [];
@@ -136,11 +136,11 @@
         }
         public function filterByKhoaAndNganh($MaKhoa, $MaNganh)
         {
-            $sql = "SELECT lop.MaLop, lop.TenLop, lop.MaNganh, nganh.TenNganh, nganh.MaKhoa, khoa.TenKhoa 
-                    FROM Lop 
-                    JOIN nganh on lop.MaNganh = nganh.MaNganh
+            $sql = "SELECT lopsv.MaLop, lopsv.TenLop, lopsv.MaNganh, nganh.TenNganh, nganh.MaKhoa, khoa.TenKhoa 
+                    FROM lopsv 
+                    JOIN nganh on lopsv.MaNganh = nganh.MaNganh
                     LEFT JOIN khoa on nganh.MaKhoa = khoa.MaKhoa
-                    WHERE nganh.MaKhoa = ? AND lop.MaNganh = ?";
+                    WHERE nganh.MaKhoa = ? AND lopsv.MaNganh = ?";
             $stm = $this->conn->prepare($sql);
             $stm->bind_param('ss', $MaKhoa, $MaNganh);
             $data = [];
