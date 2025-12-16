@@ -8,7 +8,6 @@
                 <i class="bi bi-calendar-week me-2"></i>
                 <span>
                     <?php 
-                    $dataNganh = isset($data['dataNganh']) ? $data['dataNganh'] : null;
                         if (isset($dataNganh) && $dataNganh != null) {
                             echo "SỬA NGÀNH";
                         } else {
@@ -28,7 +27,7 @@
                 <label class="block font-medium mb-2">Chọn khoa</label>
                 <select name="MaKhoa">
                     <option selected disabled value="-1">=CHỌN KHOA=</option>   
-                        <?php foreach($data['listKhoa'] as $khoa): ?>
+                        <?php foreach($listKhoa as $khoa): ?>
                             <option value="<?php echo htmlspecialchars($khoa['MaKhoa']); ?>" <?php echo (isset($dataNganh) && $dataNganh['MaKhoa'] == $khoa['MaKhoa']) ? 'selected' : ''; ?>><?php echo htmlspecialchars($khoa['TenKhoa']); ?></option>
                         <?php endforeach; ?>
                 </select>
@@ -40,7 +39,7 @@
 
             <div class="md:col-span-2 text-center mt-6">
                 <button type="submit" class="btn btn-blue text-lg px-12 py-1"><?php echo isset($dataNganh) ? "Cập nhật ngành" : "Thêm ngành" ?></button>
-                <a href="Admin/QuanLyHeThong/Nganh" class="btn btn-red text-lg px-12 py-1">HỦY</a>
+                <a href="Admin/CauHinh/Nganh" class="btn btn-red text-lg px-12 py-1">HỦY</a>
             </div>
         </form>
     </div>
