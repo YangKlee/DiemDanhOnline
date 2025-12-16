@@ -20,13 +20,13 @@
                 </div>
                 
                 <div class="toolbar-right d-flex align-items-center gap-3">
-                    <a <?php echo isset($_GET['search']) ? '' : 'style="display:none;"'; ?> href="Admin/QuanLyHeThong/Lop">Hủy tìm kiếm</a>
+                    <a <?php echo isset($_GET['search']) ? '' : 'style="display:none;"'; ?> href="Admin/CauHinh/Lop">Hủy tìm kiếm</a>
                     <form action="" method="GET" class="search-wrapper position-relative">
                         <input type="search" name="search" class="form-control search-input" value="<?php echo isset($_GET['search']) ? $_GET['search'] : '' ?>" placeholder="Tìm kiếm ngành...">
                         <i class="bi bi-search search-icon"></i>
                     </form>
                     
-                    <a href="Admin/QuanLyHeThong/Lop/ThemLop" class="btn btn-primary btn-add">
+                    <a href="Admin/CauHinh/Lop/ThemLop" class="btn btn-primary btn-add">
                         <i class="bi bi-plus-circle me-2"></i>
                         Thêm lớp sinh viên
                     </a>
@@ -37,7 +37,7 @@
                         <label for="luaChon" x class="form-label">Lọc lớp theo khoa:</label>
                         <select class="form-select" name="KhoaID" onchange="" id="selectKhoa" aria-label="Ví dụ chọn đáp án">
                             <option value="0" disabled selected>TẤT CẢ</option>
-                            <?php foreach($data['listKhoa'] as $khoa): ?>
+                            <?php foreach($listKhoa as $khoa): ?>
                                 <option <?php echo (isset($_GET['KhoaID']) && $_GET['KhoaID'] == $khoa['MaKhoa']) ? 'selected' : ''; ?> value="<?php echo htmlspecialchars($khoa['MaKhoa']); ?>"><?php echo htmlspecialchars($khoa['TenKhoa']); ?></option>
                             <?php endforeach; ?>
                         </select>   
@@ -68,14 +68,14 @@
                 </div>
                 
                 <div class="table-body">
-                    <?php foreach($data['listLop'] as $lop): ?>
+                    <?php foreach($listLop as $lop): ?>
                     <div class="table-row">
                         <div class="col-cell c-code"><?php echo htmlspecialchars($lop['MaLop']); ?></div>
                         <div class="col-cell c-name"><?php echo htmlspecialchars($lop['TenLop']); ?></div>
                         <div class="col-cell c-name-khoa"><?php echo htmlspecialchars($lop['TenNganh']); ?></div>
                         <div class="col-cell c-action">
-                            <a href="Admin/QuanLyHeThong/Lop/SuaLop?LopID=<?php echo htmlspecialchars($lop['MaLop']); ?>" class="btn-icon btn-edit" title="Sửa"><i class="bi bi-pencil-square"></i>Sửa </a>
-                            <a onclick="return confirm('Bạn chắc chắn muốn xóa lớp này, mọi dữ liệu liên quan cũng sẽ bị xóa?')" href="Admin/QuanLyHeThong/Lop/XoaLop?LopID=<?php echo htmlspecialchars($lop['MaLop']); ?>" class="btn-icon btn-delete"  title="Xóa"><i class="bi bi-trash"></i>Xóa</a>
+                            <a href="Admin/CauHinh/Lop/SuaLop?LopID=<?php echo htmlspecialchars($lop['MaLop']); ?>" class="btn-icon btn-edit" title="Sửa"><i class="bi bi-pencil-square"></i>Sửa </a>
+                            <a onclick="return confirm('Bạn chắc chắn muốn xóa lớp này, mọi dữ liệu liên quan cũng sẽ bị xóa?')" href="Admin/CauHinh/Lop/XoaLop?LopID=<?php echo htmlspecialchars($lop['MaLop']); ?>" class="btn-icon btn-delete"  title="Xóa"><i class="bi bi-trash"></i>Xóa</a>
                         </div>
                     </div>
                     <?php endforeach; ?>

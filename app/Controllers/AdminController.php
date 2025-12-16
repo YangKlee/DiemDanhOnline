@@ -60,6 +60,14 @@
             }
             $this->renderAdmin("Sửa khoa", "ThemKhoa.php", ['DataKhoa' => $dataKhoa]);
         }
+        public function xoaKhoa()
+        {
+            $khoaModel = new Khoa();
+            $maKhoa = trim($_GET['KhoaID'] ?? '');
+            $khoaModel->deleteKhoa($maKhoa);
+            $this->rejectToPage("/Admin/QuanLyHeThong/Khoa","Xóa khoa thành công.");
+            return;    
+        }
         public function submitSuaKhoa()
         {
             $khoaModel = new Khoa();
@@ -104,58 +112,65 @@
 
             $this->renderAdmin("Quản lý ngành", "QLNganh.php", ['listNganh' => $listNganh, 'listKhoa' => $listKhoa]);
         }
-        public function showQlLop()
+        public function showThemNganh()
         {
-            $lopModel = new Lop();
-            $nganhModel = new Nganh();
             $khoaModel = new Khoa();
             $listKhoa = $khoaModel->getAll();
-            //$listNganh = $nganhModel->getAllNganh();
-            $listLop = [];
-            if(isset($_GET['search']))
-            {
-                $listLop = $lopModel->searchLop(trim($_GET['search']));
-            }
-            else if(isset($_GET['KhoaID']) && $_GET['KhoaID'] != '0' && isset($_GET['NganhID']) && $_GET['NganhID'] != '0')
-            {
-                $listLop = $lopModel->filterByKhoaAndNganh(trim($_GET['KhoaID']), trim($_GET['NganhID']));
-            }
-            else if(isset($_GET['KhoaID']) && $_GET['KhoaID'] != '0')
-            {
-                $listLop = $lopModel->filterByMaKhoa(trim($_GET['KhoaID']));
-            }
-            else if(isset($_GET['NganhID']) && $_GET['NganhID'] != '0')
-            {
-                $listLop = $lopModel->filterByMaNganh(trim($_GET['NganhID']));
-            }
-            else
-                $listLop = NULL;
-
-            
-            $this->renderAdmin("Quản lý lớp", "QLLop.php", ['listKhoa' => $listKhoa,'listLop' => $listLop]);
+            $this->renderAdmin("Thêm ngành", "ThemNganh.php", ['listKhoa' => $listKhoa]);
         }
-        public function showThemLop()
+        public function submitThemNganh()
+        {
+            $maNganh = trim($_POST['MaNganh'] ?? '');
+            $tenNganh = trim($_POST['TenNganh'] ?? '');
+            $maKhoa = trim($_POST['MaKhoa'] ?? '');
+            $nganhModel = new Nganh();
+            $findNganh = $nganhModel->getNganh($maNganh);
+            if ($findNganh)
+            {
+                $this->rejectToPage("/Admin/QuanLyHeThong/Nganh","Mã ngành đã tồn tại, vui lòng sử dụng mã khác.");
+                return;
+            }
+            else 
+            {
+                $nganhModel->insertNganh($maNganh, $tenNganh, $maKhoa);
+                $this->rejectToPage("/Admin/QuanLyHeThong/Nganh","Thêm ngành thành công.");
+                return;
+            }
+        }
+        public function showSuaNganh()
         {
             $nganhModel = new Nganh();
-            $listNganh = $nganhModel->getAllNganh();
-            $this->renderAdmin("Thêm lớp sinh viên", "ThemLop.php", ['listNganh' => $listNganh]);
+            $dataNganh = $nganhModel->getNganh($_GET['NganhID']);
+            if(!$dataNganh)
+            {
+                $this->rejectToPage("/Admin/QuanLyHeThong/Nganh","Ngành không tồn tại.");
+                return;
+            }
+            $khoaModel = new Khoa();
+            $listKhoa = $khoaModel->getAll();
+            $this->renderAdmin("Sửa ngành", "ThemNganh.php", ['dataNganh' => $dataNganh, 'listKhoa' => $listKhoa]);
         }
-        public function apiGetDSLop()
+        public function submitSuaNganh()
         {
-
-            $lopModel = new Lop();
-            $listLop = $lopModel->filterByMaNganh($_GET['NganhID']);
-            header('Content-Type: application/json');
-            echo json_encode($listLop);
-        }
-        public function getDSNganhTheoKhoa()
-        {
-
-            $khoaID = $_GET['KhoaID'];
+            $maNganh = trim($_POST['MaNganh'] ?? '');
+            $tenNganh = trim($_POST['TenNganh'] ?? '');
+            $maKhoa = trim($_POST['MaKhoa'] ?? '');
             $nganhModel = new Nganh();
-            $listNganh = $nganhModel->filterByMaKhoa($khoaID);
-            header('Content-Type: application/json');
-            echo json_encode($listNganh);
+            $nganhModel->updateNganh($maNganh, $tenNganh, $maKhoa);
+            $this->rejectToPage("/Admin/QuanLyHeThong/Nganh","Cập nhật ngành thành công.");
+            return;
+        }
+        public function xoaNganh()
+        {
+            $nganhModel = new Nganh();
+            $maNganh = trim($_GET['NganhID'] ?? '');
+            $nganhModel->deleteNganh($maNganh);
+            $this->rejectToPage("/Admin/QuanLyHeThong/Nganh","Xóa ngành thành công.");
+            return;    
+        }
+        public function showQlLop()
+        {
+            $this->renderAdmin("Quản lý lớp", "QLLop.php");
         }
         public function showQlHocKy()
         {

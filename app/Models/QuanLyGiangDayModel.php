@@ -1,87 +1,74 @@
-<?php
+<?php 
+    class QuanLyGiangDayModel
+    {
+        private $conn;
+        public function __construct()
+        {
+            $this->conn = Database::getConnection();
+        }
 
-class QuanLyGiangDayModel
+        public function getUserById($userId)
+        {
+            $stmt = $this->conn->prepare("SELECT * FROM account WHERE UserID = ?");
+            $stmt->bind_param("s", $userId);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            return $result->fetch_assoc();
+        }
+public function getLopHPTheoGiangVien($maGV)
 {
-    private PDO $pdo;
+    $stmt = $this->conn->prepare("
+        SELECT 
+            l.MaLHP,
+            m.TenMonHoc,
+            lh.Thu,
+            t.KhungTiet,
+            lh.Phong,
+            h.TenHK,
+            CONCAT(YEAR(h.ThoiGianBatDau), '-', YEAR(h.ThoiGianKetThuc)) AS NamHoc
+        FROM lophp AS l
+        LEFT JOIN monhoc AS m   ON m.MaMonHoc = l.MaMonHoc
+        LEFT JOIN lichhoc AS lh ON lh.MaLHP   = l.MaLHP
+        LEFT JOIN tiet AS t     ON t.MaTiet   = lh.Tiet
+        LEFT JOIN hocky AS h    ON h.MaHK     = l.MaHK
+        WHERE l.MaGV = ?
+    ");
 
-    public function __construct(PDO $db)
-    {
-        $this->pdo = $db;
-    }
+    $stmt->bind_param("s", $maGV);
+    $stmt->execute();
 
-    /* =========================================
-       LẤY THÔNG TIN USER
-    ========================================= */
-    public function getUserById($userId)
-    {
-        $stmt = $this->pdo->prepare(
-            "SELECT * FROM account WHERE UserID = ?"
-        );
-        $stmt->execute([$userId]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-    }
-
-    /* =========================================
-       DANH SÁCH LỚP HỌC PHẦN THEO GIẢNG VIÊN
-    ========================================= */
-    public function getLopHPTheoGiangVien($maGV)
-    {
-        $sql = "
-            SELECT 
-                l.MaLHP,
-                m.TenMonHoc,
-                lh.Thu,
-                t.KhungTiet,
-                lh.Phong,
-                h.TenHK,
-                CONCAT(
-                    YEAR(h.ThoiGianBatDau),
-                    '-',
-                    YEAR(h.ThoiGianKetThuc)
-                ) AS NamHoc
-            FROM lophp l
-            LEFT JOIN monhoc m   ON m.MaMonHoc = l.MaMonHoc
-            LEFT JOIN lichhoc lh ON lh.MaLHP   = l.MaLHP
-            LEFT JOIN tiet t     ON t.MaTiet   = lh.Tiet
-            LEFT JOIN hocky h    ON h.MaHK     = l.MaHK
-            WHERE l.MaGV = ?
-            ORDER BY h.ThoiGianBatDau DESC, m.TenMonHoc
-        ";
-
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->execute([$maGV]);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    /* =========================================
-       DANH SÁCH MÔN HỌC GIẢNG DẠY (NĂM HIỆN TẠI)
-    ========================================= */
-    public function getMHTheoGiangVien($maGV)
-    {
-        $sql = "
-            SELECT 
-                m.MaMonHoc,
-                m.TenMonHoc,
-                m.SoTC,
-                k.TenKhoa,
-                COUNT(DISTINCT l.MaLHP) AS SoLopHP
-            FROM monhoc m
-            JOIN lophp  l ON l.MaMonHoc = m.MaMonHoc
-            JOIN hocky  h ON h.MaHK     = l.MaHK
-            JOIN khoa   k ON k.MaKhoa   = m.KhoaPhuTrach
-            WHERE l.MaGV = ?
-              AND YEAR(h.ThoiGianBatDau) = YEAR(CURDATE())
-              AND YEAR(h.ThoiGianKetThuc) = YEAR(CURDATE())
-            GROUP BY 
-                m.MaMonHoc,
-                m.TenMonHoc,
-                m.SoTC,
-                k.TenKhoa
-            ORDER BY m.MaMonHoc
-        ";
-
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->execute([$maGV]);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
+    $result = $stmt->get_result();
+    return $result->fetch_all(MYSQLI_ASSOC);
 }
+
+public function getMHTheoGiangVien($maGV)
+{
+    $sql = "
+        SELECT 
+            m.MaMonHoc,                          
+            m.TenMonHoc,                        
+            m.SoTC,                        
+            k.TenKhoa,                           
+            COUNT(DISTINCT l.MaLHP) AS SoLopHP
+        FROM monhoc AS m
+        JOIN lophp  AS l ON l.MaMonHoc = m.MaMonHoc
+        JOIN hocky  AS h ON h.MaHK     = l.MaHK
+        JOIN khoa   AS k ON k.MaKhoa   = m.KhoaPhuTrach
+        WHERE l.MaGV = ?
+          AND YEAR(h.ThoiGianBatDau) = YEAR(CURDATE())
+          AND YEAR(h.ThoiGianKetThuc) = YEAR(CURDATE())
+        GROUP BY m.MaMonHoc, m.TenMonHoc, m.SoTC, k.TenKhoa
+        ORDER BY m.MaMonHoc
+    ";
+
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bind_param("s", $maGV);
+    $stmt->execute();
+
+    $result = $stmt->get_result();
+    return $result->fetch_all(MYSQLI_ASSOC);
+}
+
+   
+    }
+?>

@@ -1,12 +1,9 @@
-<?php
-/* ================== CẤU HÌNH CHUNG ================== */
+<?php 
 error_reporting(E_ALL & ~E_WARNING & ~E_NOTICE);
 ini_set('display_errors', 1);
+define('BASE_PATH', dirname(__DIR__));
 date_default_timezone_set('Asia/Ho_Chi_Minh');
 
-define('BASE_PATH', __DIR__);
-
-/* ================== XỬ LÝ URL ================== */
 $requestPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $publicBase  = rtrim(str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'])), '/');
 
@@ -15,138 +12,136 @@ if ($publicBase !== '' && strpos($requestPath, $publicBase) === 0) {
 }
 $requestPath = '/' . ltrim($requestPath, '/');
 
-/* ================== KẾT NỐI DB ================== */
+/* ------------------  Khởi tạo PDO  ------------------ */
 $pdo = require_once __DIR__ . "/app/Config/db.php";
 
-/* ================== LOAD CONTROLLER ================== */
-require_once __DIR__ . "/app/Controllers/BaseController.php";
+/* ------------------  Nạp CONTROLLER  ------------------ */
 require_once __DIR__ . "/app/Controllers/StudentController.php";
 require_once __DIR__ . "/app/Controllers/TeacherController.php";
 require_once __DIR__ . "/app/Controllers/AdminController.php";
 require_once __DIR__ . "/app/Controllers/AccountController.php";
-require_once __DIR__ . "/app/Controllers/AttendanceController.php";
+require_once __DIR__ . "/app/Controllers/BaseController.php";
 
-/* ================== KHỞI TẠO CONTROLLER ================== */
-$baseController       = new BaseController();
-$studentController    = new StudentController($pdo);
-$teacherController    = new TeacherController($pdo);
-$adminController      = new AdminController($pdo);
-$accountController    = new AccountController($pdo);
-$attendanceController = new AttendanceController($pdo);
+/* ------------------  Khởi tạo CONTROLLER --------------- */
+$studentController = new StudentController($pdo);
+$accountController = new AccountController($pdo);
+$baseController    = new BaseController($pdo);
+$teacherController = new TeacherController($pdo);
+$adminController   = new AdminController($pdo);
 
-/* ================== SESSION ================== */
-if (session_status() !== PHP_SESSION_ACTIVE) {
+/* ------------------  SESSION  ------------------ */
+if (session_status() != PHP_SESSION_ACTIVE) {
     session_start();
 }
 
-/* ================== CHECK LOGIN ================== */
-if (
-    !isset($_SESSION['UID']) &&
-    !in_array($requestPath, [
-        '/Account/Login'
-    ])
-) {
+/* ----------- Kiểm tra đăng nhập ---------------- */
+if (!isset($_SESSION['UID']) && $requestPath != "/Account/Login" && $_SERVER['REQUEST_METHOD'] != 'POST') {
     header("Location: $publicBase/Account/Login");
     exit;
 }
 
-/* ================== LOAD USER DATA ================== */
+/* ----------- Load user nếu đã đăng nhập -------- */
 if (isset($_SESSION['UID'])) {
     $accountController->loadUserData();
 }
 
-/* ================== ROUTER ================== */
-switch ($requestPath) {
-
-    /* ========== HOME ========== */
-    case '/':
-    case '':
+/* ------------------ ROUTER ------------------ */
+switch ($requestPath)
+{
+    case "/":
+    case "":
         $baseController->returnHomePage();
         break;
 
-    /* ========== STUDENT ========== */
-    case '/Student':
-    case '/Student/Home':
+    case "/Student":
+    case "/Student/Home":
         $studentController->showHomeStudent();
         break;
 
-    case '/Student/LichSuDiemDanh':
+    case "/Student/LichSuDiemDanh":
         $studentController->showLichSuDiemDanh();
         break;
 
-    case '/Student/LichSuDiemDanh/XemChiTiet':
+    case "/Student/LichSuDiemDanh/XemChiTiet":
         $studentController->showChiTietLichSuDiemDanh();
         break;
 
-    case '/Student/QuetQR':
+    case "/Student/QuetQR":
         $studentController->showCheckinQR();
         break;
 
-    /* ========== ATTENDANCE API ========== */
-    case '/Attendance/ScanQR':
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $attendanceController->scanQR();
+
+    case "/Attendance/ScanQR":
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $attendanceController->scanQR();
+    }
+    break;
+
+    /* ----------- Account ------------ */
+
+    case "/Account/ThongTinCaNhan":
+        $accountController->showThongTinCaNhan();
+        break;
+
+    case "/Account/ThongTinCaNhan/EditInfo":
+        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+
+            $accountController->submitEditInfo();
+
+        }
+        else 
+        {
+            $accountController->showEditInfoForm();
+            
         }
         break;
 
-    case '/Attendance/CreateSession':
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $attendanceController->createSession();
-        }
+    case "/Account/ChangePassword":
+        $accountController->showChangePasswordLogined();
         break;
 
-    /* ========== ACCOUNT ========== */
-    case '/Account/Login':
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    case "/Account/Login":
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $accountController->submitLogin();
         } else {
             $accountController->showLogin();
         }
         break;
 
-    case '/Account/DangXuat':
+    case "/Account/DangXuat":
         $accountController->logout();
         break;
 
-    case '/Account/ThongTinCaNhan':
-        $accountController->showThongTinCaNhan();
-        break;
 
-    case '/Account/ThongTinCaNhan/EditInfo':
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $accountController->submitEditInfo();
-        } else {
-            $accountController->showEditInfoForm();
-        }
-        break;
 
-    case '/Account/ChangePassword':
-        $accountController->showChangePasswordLogined();
-        break;
+    /* ----------- Teacher ------------ */
 
-    /* ========== TEACHER ========== */
-    case '/Teacher/Home':
+    case "/Teacher/Home":
         $teacherController->showHomePage();
         break;
 
-    case '/Teacher/DSLHP':
+    case "/Teacher/DSLHP":
         $teacherController->showDSLopHP();
         break;
 
-    case '/Teacher/DSLopSV':
+    case "/Teacher/DSLopSV":
         $teacherController->showDSLopSV();
         break;
 
-    case '/Teacher/DSMonDayHoc':
+    case "/Teacher/DSMonDayHoc":
         $teacherController->showDSMonDayHoc();
         break;
 
-    case '/Teacher/TaoPhienDiemDanh':
-        // CHỈ render giao diện
-        $teacherController->showTaoPhienDiemDanh();
+    case "/Teacher/TaoPhienDiemDanh":
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $teacherController->createDiemDanh();
+        } else {
+            $teacherController->showTaoPhienDiemDanh();
+        }
         break;
 
-    case '/Teacher/CapNhatPhienDiemDanh':
+
+    case "/Teacher/CapNhatPhienDiemDanh":
         $teacherController->showCapNhatPhienDiemDanh();
         break;
     
@@ -163,15 +158,14 @@ switch ($requestPath) {
         break;
 
 
-    case '/Teacher/QLDanhSachDiemDanh':
+    case "/Teacher/QLDanhSachDiemDanh":
         $teacherController->showQLDanhSachDiemDanh();
         break;
 
-    case '/Teacher/QLDanhSachDiemDanh/XemChiTiet':
+    case "/Teacher/QLDanhSachDiemDanh/XemChiTiet":
         $teacherController->showQLDanhSachDiemDanhChiTiet();
-        break;
+    break;
 
-    case '/Teacher/ThongKeChuyenCan':
         // Hiển thị form chỉnh hạn QR
     case "/Teacher/CapNhatPhienDiemDanh/XemChiTiet/ChinhHanQR":
         $teacherController->showFormChinhHanQR();
@@ -185,40 +179,43 @@ switch ($requestPath) {
         $teacherController->showThongKeChuyenCan();
         break;
 
-    /* ========== ADMIN ========== */
-    case '/Admin/Home':
+    case "/Attendance/CreateSession":
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $attendanceController->createSession();
+    }
+    break;
+
+
+
+    /* ----------- Admin ------------ */
+
+    case "/Admin/Home":
         $adminController->showHomePage();
         break;
 
-    case '/Admin/QuanLyDiemDanh':
+    case "/Admin/QuanLyDiemDanh":
         $adminController->showQuanLyDiemDanh();
         break;
 
-    case '/Admin/QuanLyTaiKhoan/SinhVien':
+    case "/Admin/QuanLyTaiKhoan/SinhVien":
         $adminController->showQuanLyTKSinhVien();
         break;
 
-    case '/Admin/QuanLyTaiKhoan/GiangVien':
+    case "/Admin/QuanLyTaiKhoan/GiangVien":
         $adminController->showQuanLyTKGiangVien();
         break;
 
-    case '/Admin/QuanLyTaiKhoan/Admin':
+    case "/Admin/QuanLyTaiKhoan/Admin":
         $adminController->showQuanLyTKAdmin();
         break;
 
-    case '/Admin/QuanLyTaiKhoan/ResetMatKhau':
+    case "/Admin/QuanLyTaiKhoan/ResetMatKhau":
         $adminController->showResetMatKhau();
         break;
 
-    case '/Admin/QuanLyHeThong/Khoa':
+    case "/Admin/QuanLyHeThong/Khoa":
         $adminController->showQLKhoa();
         break;
-
-    case '/Admin/QuanLyHeThong/Nganh':
-        $adminController->showQlNganh();
-        break;
-
-    case '/Admin/QuanLyHeThong/Lop':
     case "/Admin/QuanLyHeThong/Khoa/ThemKhoa":
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $adminController->submitThemKhoa();
@@ -233,34 +230,43 @@ switch ($requestPath) {
             $adminController->showSuaKhoa();
         }
         break;
+    case "/Admin/QuanLyHeThong/Khoa/XoaKhoa":
+        $adminController->xoaKhoa();
+        break;  
     case "/Admin/QuanLyHeThong/Nganh":
         $adminController->showQlNganh();
         break;
-
+    case "/Admin/QuanLyHeThong/Nganh/ThemNganh":
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $adminController->submitThemNganh();
+        } else {
+            $adminController->showThemNganh();
+        }
+        break;
+    case "/Admin/QuanLyHeThong/Nganh/SuaNganh":
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $adminController->submitSuaNganh();
+        } else {
+            $adminController->showSuaNganh();
+        }
+        break;
+    case "/Admin/QuanLyHeThong/Nganh/XoaNganh":
+        $adminController->xoaNganh();
+        break;
     case "/Admin/QuanLyHeThong/Lop":
         $adminController->showQlLop();
         break;
 
-    case '/Admin/QuanLyHeThong/HocKy':
+    case "/Admin/QuanLyHeThong/HocKy":
         $adminController->showQlHocKy();
         break;
 
-    case '/Admin/ThongKe':
+    case "/Admin/ThongKe":
         $adminController->showThongKe();
         break;
-    case '/api/Admin/GetDSNganhTheoKhoa':
-        if($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['KhoaID'])) 
-            {
-                $adminController->getDSNganhTheoKhoa();
-                break;
-            }
-    case '/api/Admin/GetDSLopTheoNganh':
-        if($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['NganhID'])) 
-            {
-                $adminController->apiGetDSLop();
-                break;
-            }
+
     default:
-        $baseController->Error404();
+        $studentController->Error404();
         break;
 }
+?>
