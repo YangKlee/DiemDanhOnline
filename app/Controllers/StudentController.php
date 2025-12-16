@@ -87,6 +87,7 @@ public function showHomeStudent()
         );
     }
 
+
     public function showCheckinQR()
     {
         if (!isset($_SESSION['UID'])) {
