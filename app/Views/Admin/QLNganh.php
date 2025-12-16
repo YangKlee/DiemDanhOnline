@@ -36,6 +36,7 @@
                     <label for="luaChon" class="form-label">Lọc ngành theo khoa:</label>
                     <select class="form-select" onchange="window.location.href = 'Admin/CauHinh/Nganh?KhoaID='+ this.value" id="luaChon" aria-label="Ví dụ chọn đáp án">
                         <option value="0">TẤT CẢ</option>
+                        <?php $listKhoa = $data['listKhoa']; ?>
                         <?php foreach($listKhoa as $khoa): ?>
                             <option <?php echo (isset($_GET['KhoaID']) && $_GET['KhoaID'] == $khoa['MaKhoa']) ? 'selected' : ''; ?> value="<?php echo htmlspecialchars($khoa['MaKhoa']); ?>"><?php echo htmlspecialchars($khoa['TenKhoa']); ?></option>
                         <?php endforeach; ?>
@@ -50,6 +51,7 @@
                 </div>
                 
                 <div class="table-body">
+                    <?php $listNganh = $data['listNganh']; ?>
                     <?php foreach($listNganh as $nganh): ?>
                     <div class="table-row">
                         <div class="col-cell c-code"><?php echo htmlspecialchars($nganh['MaNganh']); ?></div>

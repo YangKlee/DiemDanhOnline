@@ -20,7 +20,7 @@
                 </div>
 
                 <div class="toolbar-right d-flex align-items-center gap-3">
-                    <a <?php echo isset($_GET['search']) ? '' : 'style="display:none;"'; ?> href="Admin/CauHinh/Khoa">Hủy tìm kiếm</a>
+                    <a <?php echo isset($_GET['search']) ? '' : 'style="display:none;"'; ?> href="Admin/QuanLyHeThong/Khoa">Hủy tìm kiếm</a>
                     <form action="" method="GET" class="search-wrapper position-relative">
                         <input value="<?php echo isset($_GET['search']) ? $_GET['search'] : '' ?>" type="search" name="search" class="form-control search-input" placeholder="Tìm kiếm tên khoa...">
                         <i class="bi bi-search search-icon"></i>
@@ -46,7 +46,7 @@
                         <div class="col-cell c-code"><?php echo htmlspecialchars($khoa['MaKhoa']); ?></div>
                         <div class="col-cell c-name"><?php echo htmlspecialchars($khoa['TenKhoa']); ?></div>
                         <div class="col-cell c-action">
-                            <a href="Admin/CauHinh/Khoa/SuaKhoa?KhoaID=<?php echo htmlspecialchars($khoa['MaKhoa']); ?>" class="btn-icon btn-edit" title="Sửa"><i class="bi bi-pencil-square"></i>Sửa </a>
+                            <a href="Admin/QuanLyHeThong/Khoa/SuaKhoa?KhoaID=<?php echo htmlspecialchars($khoa['MaKhoa']); ?>" class="btn-icon btn-edit" title="Sửa"><i class="bi bi-pencil-square"></i>Sửa </a>
                             <a onclick="return confirm('Bạn chắc chắn muốn xóa khoa này, mọi dữ liệu liên quan cũng sẽ bị xóa?')" href="Admin/CauHinh/Khoa/XoaKhoa?KhoaID=<?php echo htmlspecialchars($khoa['MaKhoa']); ?>" class="btn-icon btn-delete"  title="Xóa"><i class="bi bi-trash"></i>Xóa</a>
                         </div>
                     </div>

@@ -8,6 +8,7 @@
                 <i class="bi bi-calendar-week me-2"></i>
                 <span>
                     <?php 
+                        $dataKhoa = $data['DataKhoa'];
                         if (isset($dataKhoa) && $dataKhoa != null) {
                             echo "SỬA KHOA";
                         } else {
@@ -36,7 +37,7 @@
             </div>
             <div class="md:col-span-2 text-center mt-6">
                 <button type="submit" class="btn btn-blue text-lg px-12 py-1"><?php echo isset($dataKhoa) ? "Cập nhật khoa" : "Thêm khoa" ?></button>
-                <a href="Admin/CauHinh/Khoa" class="btn btn-red text-lg px-12 py-1">HỦY</a>
+                <a href="Admin/QuanLyHeThong/Khoa" class="btn btn-red text-lg px-12 py-1">HỦY</a>
             </div>
         </form>
     </div>

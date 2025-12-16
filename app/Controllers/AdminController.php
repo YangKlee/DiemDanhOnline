@@ -49,6 +49,26 @@
         {
             $this->renderAdmin("Thêm khoa", "ThemKhoa.php");
         }
+        public function showSuaKhoa()
+        {
+            $khoaModel = new Khoa();
+            $dataKhoa = $khoaModel->getKhoaByMaKhoa($_GET['KhoaID']);
+            if(!$dataKhoa)
+            {
+                $this->rejectToPage("/Admin/QuanLyHeThong/Khoa","Khoa không tồn tại.");
+                return;
+            }
+            $this->renderAdmin("Sửa khoa", "ThemKhoa.php", ['DataKhoa' => $dataKhoa]);
+        }
+        public function submitSuaKhoa()
+        {
+            $khoaModel = new Khoa();
+            $tenKhoa = trim($_POST['TenKhoa'] ?? '');
+            $maKhoa = trim($_POST['MaKhoa'] ?? '');
+            $khoaModel->updateKhoa($maKhoa, $tenKhoa);
+            $this->rejectToPage("/Admin/QuanLyHeThong/Khoa","Cập nhật khoa thành công.");
+            return;    
+        }
         public function submitThemKhoa()
         {
             $tenKhoa = trim($_POST['TenKhoa'] ?? '');
@@ -69,7 +89,20 @@
         }
         public function showQlNganh()
         {
-            $this->renderAdmin("Quản lý ngành", "QLNganh.php");
+            $nganhModel = new Nganh();
+            $listKhoa = (new Khoa())->getAll();
+            if(isset($_GET['search']))
+            {
+                $listNganh = $nganhModel->searchNganh(trim($_GET['search']));
+            }
+            else if(isset($_GET['KhoaID']) && $_GET['KhoaID'] != '0')
+            {
+                $listNganh = $nganhModel->filterByMaKhoa(trim($_GET['KhoaID']));
+            }
+            else
+                $listNganh = $nganhModel->getAllNganh();
+
+            $this->renderAdmin("Quản lý ngành", "QLNganh.php", ['listNganh' => $listNganh, 'listKhoa' => $listKhoa]);
         }
         public function showQlLop()
         {
