@@ -169,8 +169,33 @@
             return;    
         }
         public function showQlLop()
-        {
-            $this->renderAdmin("Quản lý lớp", "QLLop.php");
+        {   
+            $lopModel = new Lop();
+            $nganhModel = new Nganh();
+            $khoaModel = new Khoa();
+            $listKhoa = $khoaModel->getAll();
+            //$listNganh = $nganhModel->getAllNganh();
+            $listLop = [];
+            if(isset($_GET['search']))
+            {
+                $listLop = $lopModel->searchLop(trim($_GET['search']));
+            }
+            else if(isset($_GET['KhoaID']) && $_GET['KhoaID'] != '0' && isset($_GET['NganhID']) && $_GET['NganhID'] != '0')
+            {
+                $listLop = $lopModel->filterByKhoaAndNganh(trim($_GET['KhoaID']), trim($_GET['NganhID']));
+            }
+            else if(isset($_GET['KhoaID']) && $_GET['KhoaID'] != '0')
+            {
+                $listLop = $lopModel->filterByMaKhoa(trim($_GET['KhoaID']));
+            }
+            else if(isset($_GET['NganhID']) && $_GET['NganhID'] != '0')
+            {
+                $listLop = $lopModel->filterByMaNganh(trim($_GET['NganhID']));
+            }
+            else
+                $listLop = NULL;
+
+            $this->renderAdmin("Quản lý lớp", "QLLop.php", ['listKhoa' => $listKhoa, 'listLop' => $listLop]);
         }
         public function showQlHocKy()
         {
@@ -180,6 +205,23 @@
         {
             $this->renderAdmin("Thống kê", "thong-ke.php");
         }
+        public function getDSNganhTheoKhoa()
+        {
+            $khoaID = $_GET['KhoaID'];
+            $nganhModel = new Nganh();
+            $listNganh = $nganhModel->filterByMaKhoa($khoaID);
+            header('Content-Type: application/json');
+            echo json_encode($listNganh);
+        }
+        public function apiGetDSLop()
+        {
+            $lopModel = new Lop();
+            $listLop = $lopModel->filterByMaNganh($_GET['NganhID']);
+            header('Content-Type: application/json');
+            echo json_encode($listLop);
+        }
+
     }
+    
 
 ?>

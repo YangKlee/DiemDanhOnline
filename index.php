@@ -256,7 +256,24 @@ switch ($requestPath)
     case "/Admin/QuanLyHeThong/Lop":
         $adminController->showQlLop();
         break;
-
+    case "/Admin/QuanLyHeThong/Lop/ThemLop":
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $adminController->submitThemLop();
+        } else {
+            $adminController->showThemLop();
+        }
+        break;
+    case "/Admin/QuanLyHeThong/Lop/SuaLop":
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $adminController->submitSuaLop();
+        } else {
+            $adminController->showSuaLop();
+        }
+        break;
+    case "/Admin/QuanLyHeThong/Lop/XoaLop":
+        $adminController->xoaLop();
+        break;
+    
     case "/Admin/QuanLyHeThong/HocKy":
         $adminController->showQlHocKy();
         break;
@@ -264,7 +281,18 @@ switch ($requestPath)
     case "/Admin/ThongKe":
         $adminController->showThongKe();
         break;
-
+        case '/api/Admin/GetDSNganhTheoKhoa':
+            if($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['KhoaID'])) 
+            {
+                $adminController->getDSNganhTheoKhoa();
+                break;
+            }
+        case '/api/Admin/GetDSLopTheoNganh':
+            if($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['NganhID'])) 
+            {
+                $adminController->apiGetDSLop();
+                break;
+            }
     default:
         $studentController->Error404();
         break;
