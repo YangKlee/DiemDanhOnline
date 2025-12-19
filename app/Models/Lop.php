@@ -31,7 +31,7 @@
         }
         public function getLop($MaLop)
         {
-            $sql = "SELECT * FROM LopSVWHERE MaLop = ?";
+            $sql = "SELECT * FROM LopSV WHERE MaLop = ?";
             $stmt = $this->conn->prepare($sql);
             $stmt->bind_param('s', $MaLop);
             $stmt->execute();
@@ -45,21 +45,21 @@
         }
         public function insertLop($MaLop, $TenLop, $MaNganh)
         {
-            $sql = "INSERT INTO Lop (MaLop, TenLop, MaNganh) VALUES(?, ?, ?)";
+            $sql = "INSERT INTO LopSV (MaLop, TenLop, MaNganh) VALUES(?, ?, ?)";
             $stmt = $this->conn->prepare($sql);
             $stmt->bind_param('sss', $MaLop, $TenLop, $MaNganh );
             return $stmt->execute();
         }
         public function updateLop($MaLop, $TenLop, $MaNganh)
         {
-            $sql = "UPDATE Lop SET TenLop = ?, MaNganh = ? WHERE MaLop = ?";
+            $sql = "UPDATE LopSV SET TenLop = ?, MaNganh = ? WHERE MaLop = ?";
             $stmt = $this->conn->prepare($sql);
             $stmt->bind_param('sss',  $TenLop, $MaNganh, $MaLop );
             return $stmt->execute();
         }
         public function deleteLop($MaLop)
         {
-            $sql = "DELETE FROM LopSVWHERE MaLop = ?";
+            $sql = "DELETE FROM LopSV WHERE MaLop = ?";
             $stmt = $this->conn->prepare($sql);
             $stmt->bind_param('s', $MaLop );
             return $stmt->execute();

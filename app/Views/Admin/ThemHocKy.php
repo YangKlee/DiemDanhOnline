@@ -44,7 +44,7 @@
             </div>
             <div class="md:col-span-2 text-center mt-6">
                 <button type="submit" class="btn btn-blue text-lg px-12 py-1"><?php echo isset($dataHocKy) ? "Cập nhật học kỳ" : "Thêm học kỳ" ?></button>
-                <a href="Admin/CauHinh/HocKy" class="btn btn-red text-lg px-12 py-1">HỦY</a>
+                <a href="Admin/QuanLyHeThong/HocKy" class="btn btn-red text-lg px-12 py-1">HỦY</a>
             </div>
         </form>
     </div>

@@ -195,7 +195,64 @@
             else
                 $listLop = NULL;
 
-            $this->renderAdmin("Quản lý lớp", "QLLop.php", ['listKhoa' => $listKhoa, 'listLop' => $listLop]);
+            $this->renderAdmin("Quản lý lớp", "QLLop.php", ['listKhoa' => $listKhoa, 'listLop' => $listLop]
+        );
+        }
+        public function showThemLop()
+        {
+            $khoaModel = new Khoa();
+            $listKhoa = $khoaModel->getAll();
+            $this->renderAdmin("Thêm lớp", "ThemLop.php", ['listKhoa' => $listKhoa]);
+        }
+        public function submitThemLop()
+        {
+            $maLop = trim($_POST['MaLop'] ?? '');
+            $tenLop = trim($_POST['TenLop'] ?? '');
+            $maNganh = trim($_POST['MaNganh'] ?? '');
+            $lopModel = new Lop();
+            $findLop = $lopModel->getLop($maLop);
+            if ($findLop)
+            {
+                $this->rejectToPage("/Admin/QuanLyHeThong/Lop","Mã lớp đã tồn tại, vui lòng sử dụng mã khác.");
+                return;
+            }
+            else 
+            {
+                $lopModel->insertLop($maLop, $tenLop, $maNganh);
+                $this->rejectToPage("/Admin/QuanLyHeThong/Lop","Thêm lớp thành công.");
+                return;
+            }
+        }
+        public function showSuaLop()
+        {
+            $lopModel = new Lop();
+            $dataLop = $lopModel->getLop($_GET['LopID']);
+            if(!$dataLop)
+            {
+                $this->rejectToPage("/Admin/QuanLyHeThong/Lop","Lớp không tồn tại.");
+                return;
+            }
+            $khoaModel = new Khoa();
+            $listKhoa = $khoaModel->getAll();
+            $this->renderAdmin("Sửa lớp", "ThemLop.php", ['dataLop' => $dataLop, 'listKhoa' => $listKhoa]);
+        }
+        public function submitSuaLop()
+        {
+            $maLop = trim($_POST['MaLop'] ?? '');
+            $tenLop = trim($_POST['TenLop'] ?? '');
+            $maNganh = trim($_POST['MaNganh'] ?? '');
+            $lopModel = new Lop();
+            $lopModel->updateLop($maLop, $tenLop, $maNganh);
+            $this->rejectToPage("/Admin/QuanLyHeThong/Lop","Cập nhật lớp thành công.");
+            return;
+        }
+        public function xoaLop()
+        {
+            $maLop = trim($_GET['LopID'] ?? '');
+            $lopModel = new Lop();
+            $lopModel->deleteLop($maLop);
+            $this->rejectToPage("/Admin/QuanLyHeThong/Lop","Xóa lớp thành công.");
+            return;
         }
         public function showQlHocKy()
         {

@@ -8,6 +8,7 @@
                 <i class="bi bi-calendar-week me-2"></i>
                 <span>
                     <?php 
+                    $dataLop = $data['dataLop'] ?? null;
                         if (isset($dataLop) && $dataLop != null) {
                             echo "SỬA LỚP";
                         } else {
@@ -31,7 +32,7 @@
                 <label class="block font-medium mb-2">Chọn khoa</label>
                 <select name="MaKhoa" id="selectKhoa" required>
                     <option selected disabled value="-1">=CHỌN KHOA=</option>   
-                        <?php foreach($listKhoa as $khoa): ?>
+                        <?php foreach($data['listKhoa'] as $khoa): ?>
                             <option value="<?php echo htmlspecialchars($khoa['MaKhoa']); ?>" <?php echo (isset($dataLop) && $dataLop['MaKhoa'] == $khoa['MaKhoa']) ? 'selected' : ''; ?>><?php echo htmlspecialchars($khoa['TenKhoa']); ?></option>
                         <?php endforeach; ?>
                 </select>
@@ -45,7 +46,7 @@
 
             <div class="md:col-span-2 text-center mt-6">
                 <button type="submit" class="btn btn-blue text-lg px-12 py-1"><?php echo isset($dataLop) ? "Cập nhật lớp" : "Thêm lớp" ?></button>
-                <a href="Admin/CauHinh/Lop" class="btn btn-red text-lg px-12 py-1">HỦY</a>
+                <a href="Admin/QuanLyHeThong/Lop" class="btn btn-red text-lg px-12 py-1">HỦY</a>
             </div>
         </form>
     </div>

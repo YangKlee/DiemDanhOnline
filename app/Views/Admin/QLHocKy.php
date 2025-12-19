@@ -13,7 +13,7 @@
             <div class="toolbar-title no-icon">
                 <span>Danh sách học kỳ</span>
             </div>
-        <a href="Admin/CauHinh/HocKy/ThemHocKy" class="btn btn-blue text-lg px-12 py-2">THÊM HỌC KỲ</a>
+        <a href="Admin/QuanLyHeThong/HocKy/ThemHocKy" class="btn btn-blue text-lg px-12 py-2">THÊM HỌC KỲ</a>
         </div>
 
         <div class="custom-table">
@@ -41,10 +41,10 @@
                             <div class="col-cell"><?= date('d/m/Y', strtotime($semester['ThoiGianKetThuc'])) ?></div>
                             <div class="col-cell">
                                 <?php if(date('Y-m-d H:i:s') <= $semester['ThoiGianKetThuc'] ): ?>
-                                <a href="Admin/CauHinh/HocKy/SuaHocKy?TermID=<?= $semester['MaHK'] ?>" class="btn btn-blue btn-sm">Sửa</a>
+                                <a href="Admin/QuanLyHeThong/HocKy/SuaHocKy?TermID=<?= $semester['MaHK'] ?>" class="btn btn-blue btn-sm">Sửa</a>
                                 <?php endif; ?>
                                 <?php if(date('Y-m-d H:i:s') >= $semester['ThoiGianBatDau'] && date('Y-m-d H:i:s') <= $semester['ThoiGianKetThuc'] ): ?>
-                                <a href="Admin/CauHinh/HocKy/KetThucHocKy?TermID=<?= $semester['MaHK'] ?>" onclick="return confirm('Bạn chắc chắn muốn kết thúc học kỳ này?')" class="btn btn-red btn-sm">Kết thúc học kỳ</a>
+                                <a href="Admin/QuanLyHeThong/HocKy/KetThucHocKy?TermID=<?= $semester['MaHK'] ?>" onclick="return confirm('Bạn chắc chắn muốn kết thúc học kỳ này?')" class="btn btn-red btn-sm">Kết thúc học kỳ</a>
                                 <?php endif; ?>
                             </div>
                         </div>
