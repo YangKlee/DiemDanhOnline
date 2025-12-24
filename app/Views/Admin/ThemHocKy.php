@@ -8,6 +8,7 @@
                 <i class="bi bi-calendar-week me-2"></i>
                 <span>
                     <?php 
+                    $dataHocKy = $data['dataHK'] ?? null;
                         if (isset($dataHocKy) && $dataHocKy != null) {
                             echo "SỬA HỌC KỲ";
                         } else {

@@ -277,7 +277,23 @@ switch ($requestPath)
     case "/Admin/QuanLyHeThong/HocKy":
         $adminController->showQlHocKy();
         break;
-
+    case "/Admin/QuanLyHeThong/HocKy/ThemHocKy":
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $adminController->submitThemHocKy();
+        } else {
+            $adminController->showThemHocKy();
+        }
+        break;
+    case "/Admin/QuanLyHeThong/HocKy/SuaHocKy":
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $adminController->submitSuaHocKy();
+        } else {
+            $adminController->showSuaHocKy();
+        }
+        break;
+    case "/Admin/QuanLyHeThong/HocKy/XoaHocKy":
+        $adminController->xoaHocKy();
+        break;
     case "/Admin/ThongKe":
         $adminController->showThongKe();
         break;

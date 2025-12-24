@@ -26,26 +26,22 @@
             </div>
 
             <div class="table-body" id="semesterTable">
-                <?php if (empty($semestersList)): ?>
+                <?php if (empty($data['listHocKy'])): ?>
                     <div class="table-row text-center">
                         <div class="col-cell" >
                             Không có học kỳ nào
                         </div>
                     </div>
                 <?php else: ?>
-                    <?php foreach($semestersList as $semester): ?>
+                    <?php foreach($data['listHocKy'] as $semester): ?>
                         <div class="table-row">
                             <div class="col-cell"><?= htmlspecialchars($semester['MaHK']) ?></div>
                             <div class="col-cell"><?= htmlspecialchars($semester['TenHK']) ?></div>
                             <div class="col-cell"><?= date('d/m/Y ', strtotime($semester['ThoiGianBatDau'])) ?></div>
                             <div class="col-cell"><?= date('d/m/Y', strtotime($semester['ThoiGianKetThuc'])) ?></div>
                             <div class="col-cell">
-                                <?php if(date('Y-m-d H:i:s') <= $semester['ThoiGianKetThuc'] ): ?>
-                                <a href="Admin/QuanLyHeThong/HocKy/SuaHocKy?TermID=<?= $semester['MaHK'] ?>" class="btn btn-blue btn-sm">Sửa</a>
-                                <?php endif; ?>
-                                <?php if(date('Y-m-d H:i:s') >= $semester['ThoiGianBatDau'] && date('Y-m-d H:i:s') <= $semester['ThoiGianKetThuc'] ): ?>
-                                <a href="Admin/QuanLyHeThong/HocKy/KetThucHocKy?TermID=<?= $semester['MaHK'] ?>" onclick="return confirm('Bạn chắc chắn muốn kết thúc học kỳ này?')" class="btn btn-red btn-sm">Kết thúc học kỳ</a>
-                                <?php endif; ?>
+                                <a href="Admin/QuanLyHeThong/HocKy/SuaHocKy?TermID=<?= $semester['MaHK'] ?>" class="btn btn-blue btn-sm">Sửa</a>            
+                                <a href="Admin/QuanLyHeThong/HocKy/XoaHocKy?TermID=<?= $semester['MaHK'] ?>" onclick="return confirm('Bạn chắc chắn muốn xóa học kỳ này?')" class="btn btn-red btn-sm">Xóa học kỳ</a>
                             </div>
                         </div>
                     <?php endforeach; ?>

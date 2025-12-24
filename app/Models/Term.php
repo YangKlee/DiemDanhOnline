@@ -48,6 +48,13 @@
             $stmt->bind_param("ssss", $maHK, $tenHK, $thoiGianBatDau, $thoiGianKetThuc);
             return $stmt->execute();
         }
+        public function deleteHocKy($maHK)
+        {
+            $sql = "DELETE FROM hocky WHERE MaHK = ?";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bind_param("s", $maHK);
+            return $stmt->execute();
+        }
         public function getStateHocKy($MaHocKy)
         {
             $sql = "SELECT * FROM hocky WHERE MaHK = ?";

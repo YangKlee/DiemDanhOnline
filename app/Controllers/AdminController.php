@@ -256,11 +256,38 @@
         }
         public function showQlHocKy()
         {
-            $this->renderAdmin("Quản lý học kỳ", "QLHocKy.php");
+            $hockyModel = new Term();
+            $listHocKy = $hockyModel->getAllHK();
+            $this->renderAdmin("Quản lý học kỳ", "QLHocKy.php", ['listHocKy' => $listHocKy]);
         }
         public function showThongKe()
         {
             $this->renderAdmin("Thống kê", "thong-ke.php");
+        }
+        public function showSuaHocKy()
+        {
+            $hockyModel = new Term();
+            $dataHK = $hockyModel->getHocKyById($_GET['TermID']);
+            $this->renderAdmin("Sửa học kỳ", "ThemHocKy.php", ['dataHK' => $dataHK]);
+        }
+        public function submitSuaHocKy()
+        {
+            $maHK = trim($_POST['MaHK'] ?? '');
+            $tenHK = trim($_POST['TenHK'] ?? '');
+            $thoiGianBatDau = trim($_POST['ThoiGianBatDau'] ?? '');
+            $thoiGianKetThuc = trim($_POST['ThoiGianKetThuc'] ?? '');
+            $hockyModel = new Term();
+            $hockyModel->updateHocKy($maHK, $tenHK, $thoiGianBatDau, $thoiGianKetThuc);
+            $this->rejectToPage("/Admin/QuanLyHeThong/HocKy","Cập nhật học kỳ thành công.");
+            return;
+        }
+        public function xoaHocKy()
+        {
+            $maHK = trim($_GET['TermID'] ?? '');
+            $hockyModel = new Term();
+            $hockyModel->deleteHocKy($maHK);
+            $this->rejectToPage("/Admin/QuanLyHeThong/HocKy","Xóa học kỳ thành công.");
+            return;
         }
         public function getDSNganhTheoKhoa()
         {
@@ -276,6 +303,30 @@
             $listLop = $lopModel->filterByMaNganh($_GET['NganhID']);
             header('Content-Type: application/json');
             echo json_encode($listLop);
+        }
+        public function showThemHocKy()
+        {
+            $this->renderAdmin("Thêm học kỳ", "ThemHocKy.php");
+        }
+        public function submitThemHocKy()
+        {
+            $maHK = trim($_POST['MaHK'] ?? '');
+            $tenHK = trim($_POST['TenHK'] ?? '');
+            $thoiGianBatDau = trim($_POST['ThoiGianBatDau'] ?? '');
+            $thoiGianKetThuc = trim($_POST['ThoiGianKetThuc'] ?? '');
+            $hockyModel = new Term();
+            $findHocKy = $hockyModel->getHocKyById($maHK);
+            if ($findHocKy)
+            {
+                $this->rejectToPage("/Admin/QuanLyHeThong/HocKy","Mã học kỳ đã tồn tại, vui lòng sử dụng mã khác.");
+                return;
+            }
+            else 
+            {
+                $hockyModel->addHocKy($maHK, $tenHK, $thoiGianBatDau, $thoiGianKetThuc);
+                $this->rejectToPage("/Admin/QuanLyHeThong/HocKy","Thêm học kỳ thành công.");
+                return;
+            }
         }
 
     }
