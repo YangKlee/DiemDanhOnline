@@ -55,8 +55,8 @@
                             <div class="col-cell email"><?php echo htmlspecialchars($sv['Email']); ?></div>
                             <div class="col-cell phone"><?php echo htmlspecialchars($sv['SoDT']); ?></div>
                             <div class="col-cell c-action">
-                                <a href="Admin/SuaSinhVien?StudentID= <?php echo htmlspecialchars($sv['MSSV']) ?>" class="btn-icon btn-edit" title="Sửa"><i class="bi bi-pencil-square"></i>Sửa </a>
-                                <a onclick="return confirm('Bạn chắc chắn muốn xóa sinh viên này, mọi dữ liệu liên quan cũng sẽ bị xóa?')" href="Admin/XoaSinhVien?StudentID= <?php echo htmlspecialchars($sv['MSSV']) ?>" class="btn-icon btn-delete" title="Xóa"><i class="bi bi-trash"></i>Xóa</a>
+                                <a href="Admin/QuanLyTaiKhoan/SinhVien/SuaSinhVien?MSSV= <?php echo htmlspecialchars($sv['MSSV']) ?>" class="btn-icon btn-edit" title="Sửa"><i class="bi bi-pencil-square"></i>Sửa </a>
+                                <a onclick="return confirm('Bạn chắc chắn muốn xóa sinh viên này, mọi dữ liệu liên quan cũng sẽ bị xóa?')" href="Admin/QuanLyTaiKhoan/SinhVien/XoaSinhVien?MSSV= <?php echo htmlspecialchars($sv['MSSV']) ?>" class="btn-icon btn-delete" title="Xóa"><i class="bi bi-trash"></i>Xóa</a>
                             </div>
 
                         </div>

@@ -5,7 +5,9 @@
 <body>
 
     <div class="page-container">
-        <h1 class="main-page-title"><?php echo (isset($studentData)) ? 'Sửa tài khoản sinh viên' : 'Thêm tài khoản sinh viên' ?></h1>
+        <h1 class="main-page-title"><?php 
+            $studentData = $data['studentData'] ?? null;
+        echo (isset($studentData)) ? 'Sửa tài khoản sinh viên' : 'Thêm tài khoản sinh viên' ?></h1>
 
         <div class="custom-card">
             <div class="card-toolbar mb-4">
@@ -19,7 +21,7 @@
                 <div class="form-group-row">
                      <div class="form-account-input">
                     <label class="block font-medium mb-2">MSSV <span class="text-danger">*</span></label>
-                    <input type="text" name="MSSV" required <?php echo (isset($studentData)) ? 'readonly' : '' ?> placeholder="Nhập mã số sinh viên..." value="<?php echo (isset($studentData)) ? $studentData['MSSV'] : '' ?>">
+                    <input type="text" name="MSSV" required <?php echo (isset($studentData)) ? 'readonly' : '' ?> placeholder="Nhập mã số sinh viên..." value="<?php echo (isset($studentData)) ? $studentData['UserID'] : '' ?>">
                      </div>
                     <div class="form-account-input">
                         <label class="block font-medium mb-2">CCCD: <span class="text-danger">*</span></label>

@@ -301,6 +301,19 @@ switch ($requestPath)
             $adminController->showThemTKSinhVien();
         }
         break;
+    case "/Admin/QuanLyTaiKhoan/SinhVien/SuaSinhVien":
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $adminController->submitSuaTKSinhVien();
+        
+        } else {
+            $adminController->showSuaTKSinhVien();
+        }
+        break;
+    case "/Admin/QuanLyTaiKhoan/SinhVien/XoaSinhVien":
+        if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['MSSV'])) {
+            $adminController->xoaTKSinhVien();
+        }
+        break;
     case "/Admin/ThongKe":
         $adminController->showThongKe();
         break;

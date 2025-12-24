@@ -78,11 +78,43 @@
             $result = $stmt->get_result();
             return $result->fetch_assoc();
         }
+        public function setPassword($userId, $newPassword)
+        {
+
+            $stmt = $this->conn->prepare("UPDATE account SET Password = ? WHERE UserID = ?");
+            $stmt->bind_param("ss", $newPassword, $userId);
+            return $stmt->execute();
+        }
+        public function addStudent($studentId, $ho, $ten, $gioiTinh, $ngaySinh, $soDT, $cccd, $email, $diaChi, $maLop, $password)
+        {
+            // Thêm vào bảng account
+            $stmt = $this->conn->prepare("INSERT INTO account (UserID, Ho, Ten, GioiTinh, NgaySinh, SoDT, CCCD, Email, DiaChi, MatKhau , Role) VALUES (?, ?, ?, ?, ?, ?, ?, ?,? , ?, '1')");
+            $stmt->bind_param("ssssssssss", $studentId, $ho, $ten, $gioiTinh, $ngaySinh, $soDT, $cccd, $email, $diaChi, $password);
+            $stmt->execute();
+
+            // Thêm vào bảng student
+            $stmt2 = $this->conn->prepare("INSERT INTO student (MSSV, MaLop) VALUES (?, ?)");
+            $stmt2->bind_param("ss", $studentId, $maLop);
+            return $stmt2->execute();
+        }
         public function updateStudentInfo($studentId, $ho, $ten, $gioiTinh, $ngaySinh, $soDT, $cccd, $email, $diaChi)
         {
             $stmt = $this->conn->prepare("UPDATE account SET Ho = ?, Ten = ?, GioiTinh = ?, NgaySinh = ?, SoDT = ?, CCCD = ?, Email = ?, DiaChi = ? WHERE UserID = ?");
             $stmt->bind_param("sssssssss", $ho, $ten, $gioiTinh, $ngaySinh, $soDT, $cccd, $email, $diaChi, $studentId);
             return $stmt->execute();
         }
+        public function deleteStudent($studentId)
+        {
+            // Xóa khỏi bảng student
+            $stmt = $this->conn->prepare("DELETE FROM student WHERE MSSV = ?");
+            $stmt->bind_param("s", $studentId);
+            $stmt->execute();
+
+            // Xóa khỏi bảng account
+            $stmt2 = $this->conn->prepare("DELETE FROM account WHERE UserID = ?");
+            $stmt2->bind_param("s", $studentId);
+            return $stmt2->execute();
+        }
+
     }
 ?>

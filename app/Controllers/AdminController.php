@@ -42,7 +42,8 @@
             $email = trim($_POST['Email'] ?? '');
             $diaChi = trim($_POST['DiaChi'] ?? '');
             $maLop = trim($_POST['MaLop'] ?? '');
-
+            $matKhau = trim($_POST['MatKhau'] ?? '');
+            $reMatKhau = trim($_POST['XacNhanMatKhau'] ?? '');
             $userModel = new User();
             $findUser = $userModel->getUserById($mssv);
             if ($findUser)
@@ -52,10 +53,60 @@
             }
             else 
             {
-                //$userModel->insertStudentAccount($mssv, $ho, $ten, $gioiTinh, $ngaySinh, $soDT, $cccd, $email, $diaChi, $maLop);
+                if(is_null($matKhau) || $matKhau === '')
+                {
+                    $matKhau = $mssv; 
+                }
+                else 
+                {
+                    if($matKhau != $reMatKhau)
+                    {
+                        $this->rejectToPage("/Admin/QuanLyTaiKhoan/SinhVien/ThemSinhVien","Mật khẩu và xác nhận mật khẩu không khớp.");
+                        return;
+                    }   
+                }
+                $userModel->addStudent($mssv, $ho, $ten, $gioiTinh, 
+                $ngaySinh, $soDT, $cccd, $email, $diaChi, 
+                $maLop, $matKhau);
                 $this->rejectToPage("/Admin/QuanLyTaiKhoan/SinhVien","Thêm tài khoản sinh viên thành công.");
                 return;
             }
+        }
+        public function showSuaTKSinhVien()
+        {
+            $userModel = new User();
+            $khoaModel = new Khoa();
+             $listKhoa = $khoaModel->getAll();
+            $dataUser = $userModel->getUserById(trim($_GET['MSSV'] ?? ''));
+            
+            $this->renderAdmin("Sửa tài khoản sinh viên",
+             "ThemTKSinhVien.php", ['studentData' => $dataUser, 'listKhoa' => $listKhoa]);
+        }
+        public function submitSuaTKSinhVien()
+        {
+            $mssv = trim($_POST['MSSV'] ?? '');
+            $ho = trim($_POST['Ho'] ?? '');
+            $ten = trim($_POST['Ten'] ?? '');
+            $gioiTinh = trim($_POST['GioiTinh'] ?? '');
+            $ngaySinh = trim($_POST['NgaySinh'] ?? '');
+            $soDT = trim($_POST['SoDT'] ?? '');
+            $cccd = trim($_POST['CCCD'] ?? '');
+            $email = trim($_POST['Email'] ?? '');
+            $diaChi = trim($_POST['DiaChi'] ?? '');
+            
+            $userModel = new User();
+            $userModel->updateStudentInfo($mssv, $ho, $ten, $gioiTinh, 
+                $ngaySinh, $soDT, $cccd, $email, $diaChi);
+            $this->rejectToPage("/Admin/QuanLyTaiKhoan/SinhVien","Cập nhật tài khoản sinh viên thành công.");
+            return;
+        }
+        public function xoaTKSinhVien()
+        {
+            $mssv = trim($_GET['MSSV'] ?? '');
+            $userModel = new User();
+            $userModel->deleteStudent($mssv);
+            $this->rejectToPage("/Admin/QuanLyTaiKhoan/SinhVien","Xóa tài khoản sinh viên thành công.");
+            return;
         }
         public function showQuanLyTKGiangVien()
         {
