@@ -338,6 +338,28 @@ switch ($requestPath)
             $adminController->xoaGiangVien();
         }
         break;
+    case "/Admin/QuanLyDiemDanh/MonHoc":
+        $adminController->showQlMonHoc();
+        break;
+    case "/Admin/QuanLyDiemDanh/MonHoc/ThemMonHoc":
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $adminController->submitThemMonHoc();
+        } else {    
+            $adminController->showThemMonHoc();
+        }
+        break;
+    case "/Admin/QuanLyDiemDanh/MonHoc/SuaMonHoc":
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $adminController->submitSuaMonHoc();
+        } else {
+            $adminController->showSuaMonHoc();
+        }
+        break;
+    case "/Admin/QuanLyDiemDanh/MonHoc/XoaMonHoc":
+        if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['MaMonHoc'])) {
+            $adminController->xoaMonHoc();
+        }
+        break;
     case "/Admin/ThongKe":
         $adminController->showThongKe();
         break;

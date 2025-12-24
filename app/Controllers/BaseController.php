@@ -11,6 +11,8 @@ require_once __DIR__ . '/../Models/Lop.php';
 require_once __DIR__ . '/../Models/Nganh.php';
 require_once __DIR__ . '/../Models/Term.php';
 require_once __DIR__ . '/../Config/database.php';
+require_once __DIR__ . '/../Models/MonHoc.php';
+
 class BaseController
 {
 

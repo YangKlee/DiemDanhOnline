@@ -514,6 +514,66 @@
             $this->rejectToPage("/Admin/QuanLyTaiKhoan/GiangVien","Xóa tài khoản giảng viên thành công.");
             return;
         }
+        public function showQlMonHoc()
+        {
+            $listMonHoc = (new MonHoc())->getAllMonHoc();
+            $this->renderAdmin("Quản lý môn học", "mon-hoc.php", ['listMonHoc' => $listMonHoc]);
+        }
+        public function showThemMonHoc()
+        {
+            $listKhoa = (new Khoa())->getAll();
+            $this->renderAdmin("Thêm môn học", "ThemMonHoc.php", ['listKhoa' => $listKhoa]);
+        }
+        public function submitThemMonHoc()
+        {
+            $maMH = trim($_POST['MaMon'] ?? '');
+            $tenMH = trim($_POST['TenMon'] ?? '');
+            $soTC = trim($_POST['SoTC'] ?? '');
+            $khoaPhuTrach = trim($_POST['MaKhoa'] ?? '');
+            $monHocModel = new MonHoc();
+            $findMonHoc = $monHocModel->getMonHocById($maMH);
+            if ($findMonHoc)
+            {
+                $this->rejectToPage("/Admin/QuanLyDiemDanh/MonHoc/ThemMonHoc","Mã môn học đã tồn tại, vui lòng sử dụng mã khác.");
+                return;
+            }
+            else 
+            {
+                $monHocModel->addMonHoc($maMH, $tenMH, $soTC, $khoaPhuTrach);
+                $this->rejectToPage("/Admin/QuanLyDiemDanh/MonHoc","Thêm môn học thành công.");
+                return;
+            }
+        }
+        public function showSuaMonHoc()
+        {
+            $monHocModel = new MonHoc();
+            $dataMH = $monHocModel->getMonHocById($_GET['MaMonHoc']);
+            if(!$dataMH)
+            {
+                $this->rejectToPage("/Admin/QuanLyDiemDanh/MonHoc","Môn học không tồn tại.");
+                return;
+            }
+            $this->renderAdmin("Sửa môn học", "ThemMonHoc.php", ['dataMH' => $dataMH]);
+        }
+        public function submitSuaMonHoc()
+        {
+            $maMH = trim($_POST['MaMonHoc'] ?? '');
+            $tenMH = trim($_POST['TenMonHoc'] ?? '');
+            $soTC = trim($_POST['SoTC'] ?? '');
+            $khoaPhuTrach = trim($_POST['KhoaPhuTrach'] ?? '');
+            $monHocModel = new MonHoc();
+            $monHocModel->updateMonHoc($maMH, $tenMH, $soTC, $khoaPhuTrach);
+            $this->rejectToPage("/Admin/QuanLyDiemDanh/MonHoc","Cập nhật môn học thành công.");
+            return;
+        }
+        public function xoaMonHoc()
+        {
+            $maMH = trim($_GET['MaMonHoc'] ?? '');
+            $monHocModel = new MonHoc();
+            $monHocModel->deleteMonHoc($maMH);
+            $this->rejectToPage("/Admin/QuanLyDiemDanh/MonHoc","Xóa môn học thành công.");
+            return;
+        }
 
     }
     

@@ -17,7 +17,7 @@
             <h1 class="page-title">Danh sách môn học</h1>
 
             <input type="text" id="searchInput" placeholder="Tìm kiếm..." onkeyup="searchMH()">
-            <button onclick="showForm()" style="margin-bottom:10px;">+ Thêm môn học</button>
+            <a href="Admin/QuanLyDiemDanh/MonHoc/ThemMonHoc" class="btn btn-primary" style="margin-bottom:10px;">+ Thêm môn học</a>
 
             <div class="table-box">
                 <table>
@@ -27,18 +27,24 @@
                             <th>Tên môn học</th>
                             <th>Số tín chỉ</th>
                             <th>Khoa phụ trách</th>
-                            <th>Mã GV phụ trách</th>
-                            <th>Tên GV phụ trách</th>
-                            <th>Thời gian bắt đầu</th>
-                            <th>Thời gian kết thúc</th>
-                            <th>Học kỳ</th>
-                            <th>Năm</th>
-                            <th>Mã lớp học phần</th>
                             <th>Hành động</th>
                         </tr>
                     </thead>
                     <tbody id="mh-table">
+                        <?php foreach ($data['listMonHoc'] as $mh): ?>
                         <tr>
+                            <td><?= htmlspecialchars($mh['MaMonHoc']) ?></td>
+                            <td><?= htmlspecialchars($mh['TenMonHoc']) ?></td>
+                            <td><?= htmlspecialchars($mh['SoTC']) ?></td>
+                            <td><?= htmlspecialchars($mh['KhoaPhuTrach']) ?></td>
+
+                            <td>
+                                <a class="btn btn-primary" href="Admin/QuanLyDiemDanh/MonHoc/SuaMonHoc"> Sửa</a>
+                                <a class="btn btn-danger" style="background-color: red;" href="Admin/QuanLyDiemDanh/MonHoc/XoaMonHoc">Xóa</a>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
+                        <!-- <tr>
                             <td>MH001</td>
                             <td>Lập trình C</td>
                             <td>3</td>
@@ -54,7 +60,7 @@
                                 <button onclick="editRow(this)">Sửa</button>
                                 <button onclick="deleteRow(this)">Xóa</button>
                             </td>
-                        </tr>
+                        </tr> -->
                     </tbody>
                 </table>
 
@@ -117,53 +123,6 @@
     // Đóng popup
     function closePopup() {
         document.getElementById("popup-bg").style.display = "none";
-    }
-
-    // Thêm môn học mới
-    function saveMH() {
-        let mamh = document.getElementById("mamh").value;
-        let tenmh = document.getElementById("tenmh").value;
-        let sotc = document.getElementById("sotc").value;
-        let khoa = document.getElementById("khoa").value;
-        let magv = document.getElementById("magv").value;
-        let tengv = document.getElementById("tengv").value;
-        let tgbd = document.getElementById("tgbd").value;
-        let tgkt = document.getElementById("tgkt").value;
-        let hocky = document.getElementById("hocky").value;
-        let nam = document.getElementById("nam").value;
-        let malhp = document.getElementById("malhp").value;
-
-        if (!mamh || !tenmh || !sotc || !khoa || !magv || !tengv || !tgbd || !tgkt || !hocky || !nam || !malhp) {
-            alert("Không được để trống bất kỳ mục nào!");
-            return;
-        }
-
-        let row = `
-    <tr>
-        <td>${mamh}</td>
-        <td>${tenmh}</td>
-        <td>${sotc}</td>
-        <td>${khoa}</td>
-        <td>${magv}</td>
-        <td>${tengv}</td>
-        <td>${tgbd}</td>
-        <td>${tgkt}</td>
-        <td>${hocky}</td>
-        <td>${nam}</td>
-        <td>${malhp}</td>
-        <td>
-            <button onclick="editRow(this)">Sửa</button>
-            <button onclick="deleteRow(this)">Xóa</button>
-        </td>
-    </tr>
-    `;
-        document.getElementById("mh-table").innerHTML += row;
-        closePopup();
-
-        // Reset form
-        ["mamh", "tenmh", "sotc", "khoa", "magv", "tengv", "tgbd", "tgkt", "hocky", "nam", "malhp"].forEach(id => {
-            document.getElementById(id).value = "";
-        });
     }
 
 

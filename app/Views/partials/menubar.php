@@ -138,10 +138,25 @@
           <a href="./Admin/Home" class="list-group-item d-flex align-items-center gap-2">
             <i class="bi bi-house-door"></i> Trang chủ
           </a>
-          <a href="./Admin/QuanLyDiemDanh" class="list-group-item d-flex align-items-center gap-2">
-            <i class="bi bi-house-door"></i> Quản lý điểm danh
-          </a>
-          <div>
+          <div class="list-group list-group-flush">
+              <a href="./Admin/QuanLyDiemDanh" class="list-group-item d-flex align-items-center gap-2">
+                <i class="bi bi-house-door"></i> Quản lý điểm danh
+              </a>
+              <a class="list-group-item" href="Admin/QuanLyHeThong/LopHocPhan">Lớp học phần</a>
+          </div>
+              <div> 
+            <button class="toggle" data-bs-toggle="collapse" data-bs-target="#grpAccounts36" aria-expanded="false">
+              <span class="label"><i class="bi bi-list-check"></i>Quản lý điểm danh</span>
+              <i class="bi bi-chevron-down chevron"></i>
+            </button>
+            <div id="grpAccounts36" class="collapse submenu">
+              <a href="./Admin/QuanLyDiemDanh/PhienDiemDanh" class="list-group-item d-flex align-items-center gap-2"> Phiên điểm danh
+              </a>
+              <a class="list-group-item" href="Admin/QuanLyDiemDanh/LopHocPhan">Lớp học phần</a>
+               <a class="list-group-item" href="Admin/QuanLyDiemDanh/MonHoc">Môn học</a>
+            </div>
+          </div>
+          <div> 
             <button class="toggle" data-bs-toggle="collapse" data-bs-target="#grpAccounts1" aria-expanded="false">
               <span class="label"><i class="bi bi-list-check"></i>Quản lý tài khoản</span>
               <i class="bi bi-chevron-down chevron"></i>
@@ -162,6 +177,7 @@
               <a class="list-group-item" href="Admin/QuanLyHeThong/Khoa">Khoa</a>
               <a class="list-group-item" href="Admin/QuanLyHeThong/Nganh">Ngành</a>
               <a class="list-group-item" href="Admin/QuanLyHeThong/Lop">Lớp</a>
+              
               <a class="list-group-item" href="Admin/QuanLyHeThong/HocKy">Học kỳ</a>
             </div>
           </div>
