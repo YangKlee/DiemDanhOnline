@@ -103,6 +103,35 @@
             $stmt->bind_param("sssssssss", $ho, $ten, $gioiTinh, $ngaySinh, $soDT, $cccd, $email, $diaChi, $studentId);
             return $stmt->execute();
         }
+        public function getAllTeacherInfo()
+        {
+            $stmt = $this->conn->prepare("SELECT MaGV, Ho, Ten, GioiTinh, NgaySinh, SoDT, CCCD, Email, DiaChi, TenKhoa FROM account 
+            RIGHT JOIN giangvien on account.UserID = giangvien.MaGV
+            LEFT JOIN khoa on giangvien.MaKhoa = khoa.MaKhoa ");
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $data = [];
+            while ($row = $result->fetch_assoc()) {
+                $data[] = $row;
+            }
+            return $data;
+        }
+        public function searchTeacherInfo($keyword)
+        {
+            $likeKeyword = '%' . $keyword . '%';
+            $stmt = $this->conn->prepare("SELECT MaGV, Ho, Ten, GioiTinh, NgaySinh, SoDT, CCCD, Email, DiaChi, TenKhoa FROM account 
+            RIGHT JOIN giangvien on account.UserID = giangvien.MaGV
+            LEFT JOIN khoa on giangvien.MaKhoa = khoa.MaKhoa 
+            WHERE MaGV LIKE ? OR Ho LIKE ? OR Ten LIKE ? OR Email LIKE ?");
+            $stmt->bind_param("ssss", $likeKeyword, $likeKeyword, $likeKeyword, $likeKeyword);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $data = [];
+            while ($row = $result->fetch_assoc()) {
+                $data[] = $row;
+            }
+            return $data;
+        }
         public function deleteStudent($studentId)
         {
             // Xóa khỏi bảng student

@@ -110,7 +110,17 @@
         }
         public function showQuanLyTKGiangVien()
         {
-            $this->renderAdmin("Quản lý tài khoản giảng viên", "QLTaiKhoanGV.php");
+            $userModel = new User();
+            $khoaModel = new Khoa();
+            $listKhoa = $khoaModel->getAll();
+            if(isset($_GET['search']))
+            {
+                $dataGV = $userModel->searchTeacherInfo(trim($_GET['search']));
+            }
+            else
+                $dataGV = $userModel->getAllTeacherInfo();
+
+            $this->renderAdmin("Quản lý tài khoản giảng viên", "QLTaiKhoanGV.php", ['listGV' => $dataGV]);
         }
         public function showQuanLyTKAdmin()
         {

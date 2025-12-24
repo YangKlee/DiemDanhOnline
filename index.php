@@ -314,6 +314,11 @@ switch ($requestPath)
             $adminController->xoaTKSinhVien();
         }
         break;
+    case "/Admin/QuanLyTaiKhoan/GiangVien":
+    {
+        $adminController->showQuanLyTKGiangVien();
+        break;
+    }
     case "/Admin/ThongKe":
         $adminController->showThongKe();
         break;
