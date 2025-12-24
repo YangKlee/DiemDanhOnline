@@ -103,6 +103,12 @@
             $stmt->bind_param("sssssssss", $ho, $ten, $gioiTinh, $ngaySinh, $soDT, $cccd, $email, $diaChi, $studentId);
             return $stmt->execute();
         }
+        public function updateStudentLop($studentId, $maLop)
+        {
+            $stmt = $this->conn->prepare("UPDATE student SET MaLop = ? WHERE MSSV = ?");
+            $stmt->bind_param("ss", $maLop, $studentId);
+            return $stmt->execute();
+        }
         public function getAllTeacherInfo()
         {
             $stmt = $this->conn->prepare("SELECT MaGV, Ho, Ten, GioiTinh, NgaySinh, SoDT, CCCD, Email, DiaChi, TenKhoa FROM account 
@@ -144,6 +150,43 @@
             $stmt2->bind_param("s", $studentId);
             return $stmt2->execute();
         }
+        public function insertTeacher($teacherId, $ho, $ten, $gioiTinh, $ngaySinh, $soDT, $cccd, $email, $diaChi, $maKhoa, $password)
+        {
+            // Thêm vào bảng account
+            $stmt = $this->conn->prepare("INSERT INTO account (UserID, Ho, Ten, GioiTinh, NgaySinh, SoDT, CCCD, Email, DiaChi, MatKhau , Role) VALUES (?, ?, ?, ?, ?, ?, ?, ?,? , ?, '2')");
+            $stmt->bind_param("ssssssssss", $teacherId, $ho, $ten, $gioiTinh, $ngaySinh, $soDT, $cccd, $email, $diaChi, $password);
+            $stmt->execute();
+
+            // Thêm vào bảng giangvien
+            $stmt2 = $this->conn->prepare("INSERT INTO giangvien (MaGV, MaKhoa) VALUES (?, ?)");
+            $stmt2->bind_param("ss", $teacherId, $maKhoa);
+            return $stmt2->execute();
+        }
+        public function updateTeacherInfo($teacherId, $ho, $ten, $gioiTinh, $ngaySinh, $soDT, $cccd, $email, $diaChi)
+        {
+            $stmt = $this->conn->prepare("UPDATE account SET Ho = ?, Ten = ?, GioiTinh = ?, NgaySinh = ?, SoDT = ?, CCCD = ?, Email = ?, DiaChi = ? WHERE UserID = ?");
+            $stmt->bind_param("sssssssss", $ho, $ten, $gioiTinh, $ngaySinh, $soDT, $cccd, $email, $diaChi, $teacherId);
+            return $stmt->execute();
+        }
+        public function updateTeacherKhoa($teacherId, $maKhoa)
+        {
+            $stmt = $this->conn->prepare("UPDATE giangvien SET MaKhoa = ? WHERE MaGV = ?");
+            $stmt->bind_param("ss", $maKhoa, $teacherId);
+            return $stmt->execute();
+        }
+        public function deleteTeacher($teacherId)
+        {
+            // Xóa khỏi bảng giangvien
+            $stmt = $this->conn->prepare("DELETE FROM giangvien WHERE MaGV = ?");
+            $stmt->bind_param("s", $teacherId);
+            $stmt->execute();
+
+            // Xóa khỏi bảng account
+            $stmt2 = $this->conn->prepare("DELETE FROM account WHERE UserID = ?");
+            $stmt2->bind_param("s", $teacherId);
+            return $stmt2->execute();
+        }
+
 
     }
 ?>

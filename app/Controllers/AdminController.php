@@ -97,6 +97,7 @@
             $userModel = new User();
             $userModel->updateStudentInfo($mssv, $ho, $ten, $gioiTinh, 
                 $ngaySinh, $soDT, $cccd, $email, $diaChi);
+            $userModel->updateStudentLop($mssv, trim($_POST['MaLop'] ?? '')); 
             $this->rejectToPage("/Admin/QuanLyTaiKhoan/SinhVien","Cập nhật tài khoản sinh viên thành công.");
             return;
         }
@@ -428,6 +429,90 @@
                 $this->rejectToPage("/Admin/QuanLyHeThong/HocKy","Thêm học kỳ thành công.");
                 return;
             }
+        }
+        public function showThemGiangVien()
+        {
+            $khoaModel = new Khoa();
+            $listKhoa = $khoaModel->getAll();
+            $this->renderAdmin("Thêm tài khoản giảng viên", "ThemTKGiangVien.php",
+             ['listKhoa' => $listKhoa]);
+        }
+        public function submitThemGiangVien()
+        {
+            $magv = trim($_POST['MaGV'] ?? '');
+            $ho = trim($_POST['Ho'] ?? '');
+            $ten = trim($_POST['Ten'] ?? '');
+            $gioiTinh = trim($_POST['GioiTinh'] ?? '');
+            $ngaySinh = trim($_POST['NgaySinh'] ?? '');
+            $soDT = trim($_POST['SoDT'] ?? '');
+            $cccd = trim($_POST['CCCD'] ?? '');
+            $email = trim($_POST['Email'] ?? '');
+            $diaChi = trim($_POST['DiaChi'] ?? '');
+            $matKhau = trim($_POST['MatKhau'] ?? '');
+            $reMatKhau = trim($_POST['XacNhanMatKhau'] ?? '');
+            $userModel = new User();
+            $findUser = $userModel->getUserById($magv);
+            if ($findUser)
+            {
+                $this->rejectToPage("/Admin/QuanLyTaiKhoan/GiangVien/ThemGiangVien","Mã giảng viên đã tồn tại, vui lòng sử dụng mã khác.");
+                return;
+            }
+            else 
+            {
+                if(is_null($matKhau) || $matKhau === '')
+                {
+                    $matKhau = $magv; 
+                }
+                else 
+                {
+                    if($matKhau != $reMatKhau)
+                    {
+                        $this->rejectToPage("/Admin/QuanLyTaiKhoan/GiangVien/ThemGiangVien","Mật khẩu và xác nhận mật khẩu không khớp.");
+                        return;
+                    }   
+                }
+                $userModel->insertTeacher($magv, $ho, $ten, $gioiTinh, 
+                $ngaySinh, $soDT, $cccd, $email, $diaChi, $_POST['MaKhoa'] ?? '', $matKhau);
+                $this->rejectToPage("/Admin/QuanLyTaiKhoan/GiangVien","Thêm tài khoản giảng viên thành công.");
+                return;
+            }
+        }
+        public function showSuaGiangVien()
+        {
+            $userModel = new User();
+            $khoaModel = new Khoa();
+             $listKhoa = $khoaModel->getAll();
+            $dataUser = $userModel->getUserById(trim($_GET['MaGV'] ?? ''));
+            
+            $this->renderAdmin("Sửa tài khoản giảng viên",
+             "ThemTKGiangVien.php", ['giangVienData' => $dataUser, 'listKhoa' => $listKhoa]);
+        }
+        public function submitSuaGiangVien()
+        {
+            $magv = trim($_POST['MaGV'] ?? '');
+            $ho = trim($_POST['Ho'] ?? '');
+            $ten = trim($_POST['Ten'] ?? '');
+            $gioiTinh = trim($_POST['GioiTinh'] ?? '');
+            $ngaySinh = trim($_POST['NgaySinh'] ?? '');
+            $soDT = trim($_POST['SoDT'] ?? '');
+            $cccd = trim($_POST['CCCD'] ?? '');
+            $email = trim($_POST['Email'] ?? '');
+            $diaChi = trim($_POST['DiaChi'] ?? '');
+            
+            $userModel = new User();
+            $userModel->updateTeacherInfo($magv, $ho, $ten, $gioiTinh, 
+                $ngaySinh, $soDT, $cccd, $email, $diaChi);
+            $userModel->updateTeacherKhoa($magv, $_POST['MaKhoa'] ?? '');    
+            $this->rejectToPage("/Admin/QuanLyTaiKhoan/GiangVien","Cập nhật tài khoản giảng viên thành công.");
+            return;
+        }
+        public function xoaGiangVien()
+        {
+            $magv = trim($_GET['MaGV'] ?? '');
+            $userModel = new User();
+            $userModel->deleteTeacher($magv);
+            $this->rejectToPage("/Admin/QuanLyTaiKhoan/GiangVien","Xóa tài khoản giảng viên thành công.");
+            return;
         }
 
     }

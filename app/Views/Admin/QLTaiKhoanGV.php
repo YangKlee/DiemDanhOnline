@@ -28,7 +28,7 @@
                         <i class="bi bi-search search-icon"></i>
                     </form>
 
-                    <a href="Admin/QuanLyTaiKhoan/SinhVien/ThemSinhVien" class="btn btn-primary btn-add">
+                    <a href="Admin/QuanLyTaiKhoan/GiangVien/ThemGiangVien" class="btn btn-primary btn-add">
                         <i class="bi bi-plus-circle me-2"></i>
                         Thêm giảng viên
                     </a>

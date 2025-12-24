@@ -319,6 +319,25 @@ switch ($requestPath)
         $adminController->showQuanLyTKGiangVien();
         break;
     }
+    case "/Admin/QuanLyTaiKhoan/GiangVien/ThemGiangVien":
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $adminController->submitThemGiangVien();
+        } else {    
+            $adminController->showThemGiangVien();
+        }
+        break;
+    case "/Admin/QuanLyTaiKhoan/GiangVien/SuaGiangVien":
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $adminController->submitSuaGiangVien();
+        } else {
+            $adminController->showSuaGiangVien();
+        }
+        break;
+    case "/Admin/QuanLyTaiKhoan/GiangVien/XoaGiangVien":
+        if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['MaGV'])) {
+            $adminController->xoaGiangVien();
+        }
+        break;
     case "/Admin/ThongKe":
         $adminController->showThongKe();
         break;
