@@ -574,6 +574,88 @@
             $this->rejectToPage("/Admin/QuanLyDiemDanh/MonHoc","Xóa môn học thành công.");
             return;
         }
+        public function showQlLopHocPhan()
+        {
+            $listLopHP = (new LopHP())->getAllLopHP();
+            $this->renderAdmin("Quản lý lớp học phần", "lop-hoc-phan.php", ['listLopHP' => $listLopHP]);
+        }
+        public function showThemLopHP()
+        {
+
+            $userModel = new User();
+            $listGiangVien = $userModel->getAllTeacherInfo();
+            $hockyModel = new Term();
+            $listHocKy = $hockyModel->getAllHK();
+            $monHocModel = new MonHoc();
+            $listMonHoc = $monHocModel->getAllMonHoc();
+            $this->renderAdmin("Thêm lớp học phần", "ThemLopHP.php", 
+            [ 'listGiangVien' => $listGiangVien, 'listHocKy' => $listHocKy, 'listMonHoc' => $listMonHoc]);
+        }
+        public function submitThemLopHP()
+        {
+            $maLHP = trim($_POST['MaLHP'] ?? '');
+            $maMonHoc = trim($_POST['MaMonHoc'] ?? '');
+            $maGiangVien = trim($_POST['MaGiangVien'] ?? '');
+            $maHK = trim($_POST['MaHocKy'] ?? '');
+            $thoiGianBatDau = trim($_POST['ThoiGianBatDau'] ?? '');
+            $thoiGianKetThuc = trim($_POST['ThoiGianKetThuc'] ?? '');
+            $maMonHoc = trim($_POST['MaMonHoc'] ?? '');
+            $lopHPModel = new LopHP();
+            $findLopHP = $lopHPModel->getLopHP($maLHP);
+            if ($findLopHP)
+            {
+                $this->rejectToPage("/Admin/QuanLyDiemDanh/LopHocPhan/ThemLopHP","Mã lớp học phần đã tồn tại, vui lòng sử dụng mã khác.");
+                return;
+            }
+            else 
+            {
+                $lopHPModel->insertLopHP($maLHP, $maMonHoc, $maGiangVien, 
+                $maHK, $thoiGianBatDau, $thoiGianKetThuc);
+                $this->rejectToPage("/Admin/QuanLyDiemDanh/LopHocPhan","Thêm lớp học phần thành công.");
+                return;
+            }
+        }
+        public function showSuaLopHP()
+        {
+            $lopHPModel = new LopHP();
+            $dataLopHP = $lopHPModel->getLopHP(trim($_GET['MaLop'] ?? ''));
+            if(!$dataLopHP)
+            {
+                $this->rejectToPage("/Admin/QuanLyDiemDanh/LopHocPhan","Lớp học phần không tồn tại.");
+                return;
+            }
+            $userModel = new User();
+            $listGiangVien = $userModel->getAllTeacherInfo();
+            $hockyModel = new Term();
+            $listHocKy = $hockyModel->getAllHK();
+            $monHocModel = new MonHoc();
+            $listMonHoc = $monHocModel->getAllMonHoc();
+            $this->renderAdmin("Sửa lớp học phần", "ThemLopHP.php", 
+            ['dataLopHP' => $dataLopHP, 'listGiangVien' => $listGiangVien, 
+            'listHocKy' => $listHocKy, 'listMonHoc' => $listMonHoc]);
+        }
+        public function submitSuaLopHP()
+        {
+            $maLHP = trim($_POST['MaLHP'] ?? '');
+            $maMonHoc = trim($_POST['MaMonHoc'] ?? '');
+            $maGiangVien = trim($_POST['MaGiangVien'] ?? '');
+            $maHK = trim($_POST['MaHocKy'] ?? '');
+            $thoiGianBatDau = trim($_POST['ThoiGianBatDau'] ?? '');
+            $thoiGianKetThuc = trim($_POST['ThoiGianKetThuc'] ?? '');
+            $lopHPModel = new LopHP();
+            $lopHPModel->updateLopHP($maLHP, $maMonHoc, $maGiangVien, 
+                $maHK, $thoiGianBatDau, $thoiGianKetThuc);
+            $this->rejectToPage("/Admin/QuanLyDiemDanh/LopHocPhan","Cập nhật lớp học phần thành công.");
+            return;
+        }
+        public function xoaLopHP()
+        {
+            $maLHP = trim($_GET['LopHPID'] ?? '');
+            $lopHPModel = new LopHP();
+            $lopHPModel->deleteLopHP($maLHP);
+            $this->rejectToPage("/Admin/QuanLyDiemDanh/LopHocPhan","Xóa lớp học phần thành công.");
+            return;
+        }
 
     }
     

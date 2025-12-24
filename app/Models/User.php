@@ -186,6 +186,32 @@
             $stmt2->bind_param("s", $teacherId);
             return $stmt2->execute();
         }
+        public function getGiangVienByKhoa($maKhoa)
+        {
+            $stmt = $this->conn->prepare("SELECT MaGV, Ho, Ten FROM account 
+            RIGHT JOIN giangvien on account.UserID = giangvien.MaGV
+            WHERE giangvien.MaKhoa = ?");
+            $stmt->bind_param("s", $maKhoa);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $data = [];
+            while ($row = $result->fetch_assoc()) {
+                $data[] = $row;
+            }
+            return $data;
+        }
+        public function getAllGiangVien()
+        {
+            $stmt = $this->conn->prepare("SELECT MaGV, Ho, Ten FROM account 
+            RIGHT JOIN giangvien on account.UserID = giangvien.MaGV");
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $data = [];
+            while ($row = $result->fetch_assoc()) {
+                $data[] = $row;
+            }
+            return $data;
+        }
 
 
     }

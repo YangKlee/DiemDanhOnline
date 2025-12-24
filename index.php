@@ -360,6 +360,28 @@ switch ($requestPath)
             $adminController->xoaMonHoc();
         }
         break;
+    case "/Admin/QuanLyDiemDanh/LopHocPhan":
+        $adminController->showQlLopHocPhan();
+        break;
+    case "/Admin/QuanLyDiemDanh/LopHocPhan/ThemLopHP":
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $adminController->submitThemLopHP();
+        } else {    
+            $adminController->showThemLopHP();
+        }
+        break;
+    case "/Admin/QuanLyDiemDanh/LopHocPhan/SuaLopHP":
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $adminController->submitSuaLopHP();
+        } else {
+            $adminController->showSuaLopHP();
+        }
+        break;
+    case "/Admin/QuanLyDiemDanh/LopHocPhan/XoaLopHP":
+        if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['MaLop'])) {
+            $adminController->xoaLopHP();
+        }
+        break;
     case "/Admin/ThongKe":
         $adminController->showThongKe();
         break;

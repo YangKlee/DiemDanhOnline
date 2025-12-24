@@ -16,7 +16,7 @@
             <h1 class="page-title">Danh sách lớp học phần</h1>
 
             <input type="text" id="searchInput" placeholder="Tìm kiếm..." onkeyup="searchLHP()">
-            <button onclick="showForm()" style="margin-bottom:10px;">+ Thêm lớp học phần</button>
+            <a href="Admin/QuanLyDiemDanh/LopHocPhan/ThemLopHP" class="btn btn-primary" style="margin-bottom:10px;">+ Thêm lớp học phần</a>
 
             <div class="table-box">
                 <table>
@@ -25,31 +25,39 @@
                             <th>Mã lớp HP</th>
                             <th>Môn học</th>
                             <th>Giảng viên</th>
-                            <th>Thứ</th>
-                            <th>Tiết</th>
-                            <th>Phòng</th>
                             <th>Học kỳ</th>
-                            <th>Năm học</th>
-                            <th>Trạng thái</th>
+                            <th>Thời gian bắt đầu</th>
+                            <th>Thời gian kết thúc</th>
                             <th>Hành động</th>
                         </tr>
                     </thead>
                     <tbody id="lhp-table">
-                        <tr>
+                        <?php foreach($data['listLopHP'] as $lhp): ?>
+                            <tr>
+                            <td><?= htmlspecialchars($lhp['MaLHP']) ?></td>
+                            <td><?= htmlspecialchars($lhp['TenMonHoc']) ?></td>
+                            <td><?= htmlspecialchars($lhp['TenGiangVien']) ?></td>
+                            <td><?= htmlspecialchars($lhp['TenHK']) ?></td>
+                            <td><?= htmlspecialchars($lhp['ThoiGianBatDau']) ?></td>
+                            <td><?= htmlspecialchars($lhp['ThoiGianKetThuc']) ?></td>
+                            <td>
+                                <a href="Admin/QuanLyDiemDanh/LopHocPhan/SuaLopHP?MaLop=<?= htmlspecialchars($lhp['MaLHP']) ?>">Sửa</a>
+                                <a href="Admin/QuanLyDiemDanh/LopHocPhan/XoaLopHP?MaLop=<?= htmlspecialchars($lhp['MaLHP']) ?>">Xóa</a>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
+                        <!-- <tr>
                             <td>CT101</td>
                             <td>Lập trình C</td>
                             <td>GV001</td>
                             <td>2</td>
-                            <td>1-3</td>
-                            <td>A102</td>
-                            <td>HK1</td>
-                            <td>2024-2025</td>
-                            <td>Đang mở</td>
+                            <td>08:00 01/09/2024</td>
+                            <td>17:00 15/12/2024</td>
                             <td>
                                 <button onclick="editRow(this)">Sửa</button>
                                 <button onclick="deleteRow(this)">Xóa</button>
                             </td>
-                        </tr>
+                        </tr> -->
                     </tbody>
                 </table>
             </div>
@@ -186,34 +194,7 @@
     }
 
     // Sửa dòng
-    function editRow(btn) {
-        let row = btn.parentElement.parentElement;
-
-        for (let i = 0; i < 9; i++) {
-            let old = row.cells[i].innerText;
-            if (i === 6) { // Học kỳ
-                row.cells[i].innerHTML = `
-                <select>
-                    <option value="HK1" ${old==="HK1"?"selected":""}>HK1</option>
-                    <option value="HK2" ${old==="HK2"?"selected":""}>HK2</option>
-                </select>`;
-            } else if (i === 8) { // Trạng thái
-                row.cells[i].innerHTML = `
-                <select>
-                    <option value="Đang mở" ${old==="Đang mở"?"selected":""}>Đang mở</option>
-                    <option value="Đã đóng" ${old==="Đã đóng"?"selected":""}>Đã đóng</option>
-                </select>`;
-            } else {
-                row.cells[i].innerHTML = `<input value="${old}">`;
-            }
-        }
-
-        btn.innerText = "Lưu";
-        btn.onclick = function() {
-            saveRow(this);
-        };
-    }
-
+    
     // Lưu sau khi sửa
     function saveRow(btn) {
         let row = btn.parentElement.parentElement;
