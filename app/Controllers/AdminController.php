@@ -547,7 +547,7 @@
         public function showSuaMonHoc()
         {
             $monHocModel = new MonHoc();
-            $dataMH = $monHocModel->getMonHocById($_GET['MaMonHoc']);
+            $dataMH = $monHocModel->getMonHocById(trim($_GET['MaMonHoc'] ?? ''));
             if(!$dataMH)
             {
                 $this->rejectToPage("/Admin/QuanLyDiemDanh/MonHoc","Môn học không tồn tại.");

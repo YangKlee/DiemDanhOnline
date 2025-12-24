@@ -39,8 +39,8 @@
                             <td><?= htmlspecialchars($mh['KhoaPhuTrach']) ?></td>
 
                             <td>
-                                <a class="btn btn-primary" href="Admin/QuanLyDiemDanh/MonHoc/SuaMonHoc"> Sửa</a>
-                                <a class="btn btn-danger" style="background-color: red;" href="Admin/QuanLyDiemDanh/MonHoc/XoaMonHoc">Xóa</a>
+                                <a class="btn btn-primary" href="Admin/QuanLyDiemDanh/MonHoc/SuaMonHoc?MaMonHoc=<?= htmlspecialchars($mh['MaMonHoc']) ?>"> Sửa</a>
+                                <a class="btn btn-danger" style="background-color: red;" href="Admin/QuanLyDiemDanh/MonHoc/XoaMonHoc?MaMonHoc=<?= htmlspecialchars($mh['MaMonHoc']) ?>">Xóa</a>
                             </td>
                         </tr>
                         <?php endforeach; ?>
