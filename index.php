@@ -294,6 +294,13 @@ switch ($requestPath)
     case "/Admin/QuanLyHeThong/HocKy/XoaHocKy":
         $adminController->xoaHocKy();
         break;
+    case "/Admin/QuanLyTaiKhoan/SinhVien/ThemSinhVien":
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $adminController->submitThemTKSinhVien();
+        } else {    
+            $adminController->showThemTKSinhVien();
+        }
+        break;
     case "/Admin/ThongKe":
         $adminController->showThongKe();
         break;

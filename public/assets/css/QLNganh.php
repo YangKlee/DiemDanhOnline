@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <link rel="stylesheet" href="assest/css/admin/qlnganh.css">
+    <link rel="stylesheet" href="assets/css/qlnganh.css">
 </head>
 <body>
 

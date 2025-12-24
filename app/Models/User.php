@@ -27,6 +27,37 @@
             $result = $stmt->get_result();
             return $result->fetch_assoc();
         }
+        public  function getAllStudentInfo()
+        {
+            $stmt = $this->conn->prepare("SELECT MSSV, Ho, Ten, GioiTinh, NgaySinh, SoDT, CCCD, Email, DiaChi, TenLop, TenNganh FROM account 
+            RIGHT JOIN student on account.UserID = student.MSSV  
+            LEFT JOIN lopsv on  lopsv.MaLop = student.MaLop 
+            LEFT JOIN nganh on lopsv.MaNganh = nganh.MaNganh ");
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $data = [];
+            while ($row = $result->fetch_assoc()) {
+                $data[] = $row;
+            }
+            return $data;
+        }
+        public function searchStudentInfo($keyword)
+        {
+            $likeKeyword = '%' . $keyword . '%';
+            $stmt = $this->conn->prepare("SELECT MSSV, Ho, Ten, GioiTinh, NgaySinh, SoDT, CCCD, Email, DiaChi, TenLop, TenNganh FROM account 
+            RIGHT JOIN student on account.UserID = student.MSSV  
+            LEFT JOIN lopsv on  lopsv.MaLop = student.MaLop 
+            LEFT JOIN nganh on lopsv.MaNganh = nganh.MaNganh 
+            WHERE MSSV LIKE ? OR Ho LIKE ? OR Ten LIKE ? OR Email LIKE ?");
+            $stmt->bind_param("ssss", $likeKeyword, $likeKeyword, $likeKeyword, $likeKeyword);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $data = [];
+            while ($row = $result->fetch_assoc()) {
+                $data[] = $row;
+            }
+            return $data;
+        }
         public function getTeacherInfo($teacherId)
         {
             $stmt = $this->conn->prepare("SELECT UserID, Ho, Ten, GioiTinh, NgaySinh, SoDT, CCCD, Email, DiaChi, TenKhoa FROM account 

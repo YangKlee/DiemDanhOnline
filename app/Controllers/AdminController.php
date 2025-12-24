@@ -14,16 +14,56 @@
         }
         public function showQuanLyTKSinhVien()
         {
-            $this->renderAdmin("Quản lý tài khoản sinh viên", "sinh-vien.php");
+            if(isset($_GET['search']))
+            {
+                $listAccount = (new User())->searchStudentInfo(trim($_GET['search']));
+            }
+            else
+                $listAccount = (new User())->getAllStudentInfo(); 
+            $this->renderAdmin("Quản lý tài khoản sinh viên", "QLTaiKhoanSV.php",
+             ['listAccount' => $listAccount]);
+        }
+        public function showThemTKSinhVien()
+        {
+            $khoaModel = new Khoa();
+            $listKhoa = $khoaModel->getAll();
+            $this->renderAdmin("Thêm tài khoản sinh viên", "ThemTKSinhVien.php",
+             ['listKhoa' => $listKhoa]);
+        }
+        public function submitThemTKSinhVien()
+        {
+            $mssv = trim($_POST['MSSV'] ?? '');
+            $ho = trim($_POST['Ho'] ?? '');
+            $ten = trim($_POST['Ten'] ?? '');
+            $gioiTinh = trim($_POST['GioiTinh'] ?? '');
+            $ngaySinh = trim($_POST['NgaySinh'] ?? '');
+            $soDT = trim($_POST['SoDT'] ?? '');
+            $cccd = trim($_POST['CCCD'] ?? '');
+            $email = trim($_POST['Email'] ?? '');
+            $diaChi = trim($_POST['DiaChi'] ?? '');
+            $maLop = trim($_POST['MaLop'] ?? '');
+
+            $userModel = new User();
+            $findUser = $userModel->getUserById($mssv);
+            if ($findUser)
+            {
+                $this->rejectToPage("/Admin/QuanLyTaiKhoan/SinhVien/ThemSinhVien","Mã sinh viên đã tồn tại, vui lòng sử dụng mã khác.");
+                return;
+            }
+            else 
+            {
+                //$userModel->insertStudentAccount($mssv, $ho, $ten, $gioiTinh, $ngaySinh, $soDT, $cccd, $email, $diaChi, $maLop);
+                $this->rejectToPage("/Admin/QuanLyTaiKhoan/SinhVien","Thêm tài khoản sinh viên thành công.");
+                return;
+            }
         }
         public function showQuanLyTKGiangVien()
         {
-            $this->renderAdmin("Quản lý tài khoản giảng viên", "giang-vien.php");
-
+            $this->renderAdmin("Quản lý tài khoản giảng viên", "QLTaiKhoanGV.php");
         }
         public function showQuanLyTKAdmin()
         {
-            $this->renderAdmin("Quản lý tài khoản admin", "tkadmin.php");
+            $this->renderAdmin("Quản lý tài khoản admin", "QLTaiKhoanAdmin.php");
 
         }
         public function showResetMatKhau()
