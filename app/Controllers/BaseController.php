@@ -13,6 +13,7 @@ require_once __DIR__ . '/../Models/Term.php';
 require_once __DIR__ . '/../Config/database.php';
 require_once __DIR__ . '/../Models/MonHoc.php';
 require_once __DIR__ . '/../Models/LopHP.php';
+require_once __DIR__ . '/../Models/PhienDiemDanh.php';
 
 class BaseController
 {

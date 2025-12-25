@@ -378,7 +378,7 @@ switch ($requestPath)
         }
         break;
     case "/Admin/QuanLyDiemDanh/LopHocPhan/XoaLopHP":
-        if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['MaLop'])) {
+        if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['MaLopHP'])) {
             $adminController->xoaLopHP();
         }
         break;
@@ -397,6 +397,9 @@ switch ($requestPath)
                 $adminController->apiGetDSLop();
                 break;
             }
+    case "/Admin/QuanLyDiemDanh/PhienDiemDanh":
+        $adminController->showPhienDiemDanh();
+        break;
     default:
         $studentController->Error404();
         break;

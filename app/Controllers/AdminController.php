@@ -656,6 +656,11 @@
             $this->rejectToPage("/Admin/QuanLyDiemDanh/LopHocPhan","Xóa lớp học phần thành công.");
             return;
         }
+        public function showPhienDiemDanh()
+        {
+            $listPhienDD = (new PhienDiemDanh())->getAllPhienDiemDanhAdmin();
+            $this->renderAdmin("Phiên điểm danh", "attendances.php", ['listPhienDD' => $listPhienDD]);
+        }
 
     }
     

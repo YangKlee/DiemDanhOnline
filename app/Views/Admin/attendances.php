@@ -38,12 +38,32 @@
                         <th>Mã QR</th>
                         <th>Thời gian QR</th>
                         <th>Ngày</th>
-                        <th>Điểm danh</th>
+                        <th>Giảng viên</th>
                         <th>Chi tiết</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Render từ JS -->
+                    <?php foreach($data['listPhienDD'] as $phien): ?>
+                    <tr>
+                        <td><?= htmlspecialchars($phien['MaPhien']) ?></td>
+                        <td><?= htmlspecialchars($phien['MaLHP']) ?></td>
+                        <td><?= htmlspecialchars($phien['TenMonHoc']) ?></td>
+                        <td>
+                            <button class="btn btn-sm btn-primary btnQR" 
+                                data-id="<?= htmlspecialchars($phien['MaPhien']) ?>"
+                                data-token="<?= htmlspecialchars($phien['StrToken']) ?>"
+                                data-malhp="<?= htmlspecialchars($phien['MaLHP']) ?>"
+                                data-time="<?= htmlspecialchars($phien['ThoiGianBatDau']) . ' - ' . htmlspecialchars($phien['ThoiGianKetThuc']) ?>"
+                            >Xem QR</button>
+                        </td>
+                        <td><?= htmlspecialchars($phien['ThoiGianBatDau']) . '-' . htmlspecialchars($phien['ThoiGianKetThuc']) ?> phút</td>
+                        <td><?= htmlspecialchars($phien['ThoiGian']) ?></td>
+                        <td><?= htmlspecialchars($phien['GiangVien']) ?></td>
+                        <td>
+                            <button class="btn btn-sm btn-info btnDetail" data-id="<?= htmlspecialchars($phien['MaPhien']) ?>">Xem chi tiết</button>
+                        </td>
+                    </tr>
+                    <?php endforeach; ?>
                 </tbody>
             </table>
         </div>
@@ -94,7 +114,6 @@
                                 <th>Tên sinh viên</th>
                                 <th>Trạng thái</th>
                                 <th>Thời gian</th>
-                                <th>Vị trí</th>
                                 <!-- ĐÃ XÓA CỘT HÀNH ĐỘNG -->
                             </tr>
                         </thead>
@@ -121,50 +140,6 @@
    DATA GIẢ LẬP CÓ SẴN
 ------------------------- */
 
-const ITEMS = [
-    {
-        id: "DD101",
-        maLHP: "CT101",
-        tenLHP: "Lập trình C cơ bản",
-        timeRange: "08:00 - 08:10",
-        date: "2025-12-01",
-        attendees: [
-            {code:"SV001", name:"Nguyễn Văn A", status:"D", time:"08:02", loc:"B1-01"},
-            {code:"SV002", name:"Trần Thị B", status:"A", time:"", loc:""},
-            {code:"SV003", name:"Nguyễn Văn C", status:"D", time:"08:05", loc:"B1-03"},
-        ],
-        total: 3
-    }
-];
-
-/* ------------------------
-   RENDER BẢNG CHÍNH
-------------------------- */
-
-function renderTable() {
-    const tbody = document.querySelector("#tableDD tbody");
-    tbody.innerHTML = "";
-
-    ITEMS.forEach(item => {
-        const tr = document.createElement("tr");
-
-        tr.innerHTML = `
-            <td>${item.id}</td>
-            <td>${item.maLHP}</td>
-            <td>${item.tenLHP}</td>
-            <td><button class="btn btn-outline-secondary btn-sm btnQR" data-id="${item.id}">Xem QR</button></td>
-            <td>${item.timeRange}</td>
-            <td>${formatDate(item.date)}</td>
-            <td>${item.attendees.filter(a=>a.status==="D").length}/${item.total}</td>
-            <td><button class="btn btn-info btn-sm text-white btnDetail" data-id="${item.id}">Chi tiết</button></td>
-        `;
-
-        tbody.appendChild(tr);
-    });
-
-    bindEvents();
-}
-
 function formatDate(s) {
     const d = new Date(s);
     return d.toLocaleDateString("vi-VN");
@@ -176,7 +151,7 @@ function formatDate(s) {
 
 function bindEvents() {
     document.querySelectorAll(".btnQR").forEach(btn => {
-        btn.onclick = () => openQR(btn.dataset.id);
+        btn.onclick = () => openQR(btn);
     });
 
     document.querySelectorAll(".btnDetail").forEach(btn => {
@@ -188,16 +163,19 @@ function bindEvents() {
    QR
 ------------------------- */
 
-function openQR(id) {
-    const item = ITEMS.find(x => x.id === id);
+function openQR(btn) {
+    const id = btn.dataset.id;
+    const token = btn.dataset.token;
+    const maLHP = btn.dataset.malhp;
+    const time = btn.dataset.time;
 
     document.getElementById("qrContainer").innerHTML = "";
     new QRCode(document.getElementById("qrContainer"), {
-        text: item.id, width: 200, height: 200
+        text: token, width: 200, height: 200
     });
 
     document.getElementById("qrInfo").innerText =
-        `${item.id} • ${item.maLHP} • ${item.timeRange}`;
+        `${id} • ${maLHP} • ${time}`;
 
     bootstrap.Modal.getOrCreateInstance(document.getElementById("modalQR")).show();
 }
@@ -259,7 +237,7 @@ function updateCount(item) {
 /* ------------------------
    KHỞI TẠO
 ------------------------- */
-renderTable();
+bindEvents();
 
 </script>
 
