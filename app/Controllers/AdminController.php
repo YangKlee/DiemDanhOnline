@@ -661,7 +661,13 @@
             $listPhienDD = (new PhienDiemDanh())->getAllPhienDiemDanhAdmin();
             $this->renderAdmin("Phiên điểm danh", "attendances.php", ['listPhienDD' => $listPhienDD]);
         }
+        public function showChiTietPhienDiemDanh()
+        {
+            $phienDDModel = new PhienDiemDanh();
+            $dataPhienDD = $phienDDModel->getLichSuDiemDanh(trim($_GET['MaPhien'] ?? ''));
 
+            $this->renderAdmin("Chi tiết phiên điểm danh", "detail_diemdanh.php", ['dataPhienDD' => $dataPhienDD]);
+        }
     }
     
 

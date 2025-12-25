@@ -400,6 +400,9 @@ switch ($requestPath)
     case "/Admin/QuanLyDiemDanh/PhienDiemDanh":
         $adminController->showPhienDiemDanh();
         break;
+    case "/Admin/QuanLyDiemDanh/PhienDiemDanh/ChiTietDiemDanh":
+        $adminController->showChiTietPhienDiemDanh();
+        break;
     default:
         $studentController->Error404();
         break;

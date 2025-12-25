@@ -34,9 +34,31 @@
         }
         public function getLichSuDiemDanh($PhienDiemDanh)
         {
-            $sql = "SELECT lichsudiemdanh.*, CONCAT(account.Ho, ' ', account.Ten) AS SinhVien from lichsudiemdanh 
-            JOIN account ON lichsudiemdanh.MSSV = account.UserID
-            WHERE MaPhien = ?";
+            $sql = "SELECT 
+    -- Thông tin sinh viên từ danh sách lớp
+    ds.MSSV, 
+    CONCAT(sv.Ho, ' ', sv.Ten) AS TenSinhVien,
+    
+    -- Kiểm tra trạng thái
+    CASE 
+        WHEN lsd.MSSV IS NOT NULL THEN 1 
+        ELSE 0 
+    END AS TrangThai,
+    
+    -- Lấy thông tin chi tiết để debug
+    lsd.ThoiGian AS ThoiGianDiemDanh,
+    pdd.MaPhien AS PhienHienTai,
+    lsd.MaPhien AS PhienTrongLichSu -- Cột này quan trọng: nếu nó NULL nghĩa là không khớp Phiên
+
+FROM danhsachlhp ds
+JOIN phiendiemdanh pdd ON ds.MaLHP = pdd.MaLHP
+JOIN account sv ON ds.MSSV = sv.UserID
+-- LEFT JOIN: Tìm sinh viên trong bảng lịch sử có cùng MSSV VÀ cùng MaPhien
+LEFT JOIN lichsudiemdanh lsd ON ds.MSSV = lsd.MSSV AND lsd.MaPhien = pdd.MaPhien
+
+WHERE pdd.MaPhien = ? 
+ORDER BY ds.MSSV ASC;
+    ";
             $stmt = $this->conn->prepare($sql);
             $stmt->bind_param("i", $PhienDiemDanh);
             $data = [];

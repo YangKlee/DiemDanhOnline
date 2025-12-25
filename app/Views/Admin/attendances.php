@@ -60,7 +60,7 @@
                         <td><?= htmlspecialchars($phien['ThoiGian']) ?></td>
                         <td><?= htmlspecialchars($phien['GiangVien']) ?></td>
                         <td>
-                            <button class="btn btn-sm btn-info btnDetail" data-id="<?= htmlspecialchars($phien['MaPhien']) ?>">Xem chi tiết</button>
+                            <a href="Admin/QuanLyDiemDanh/PhienDiemDanh/ChiTietDiemDanh?MaPhien=<?= htmlspecialchars($phien['MaPhien']) ?>" class="btn btn-sm btn-info btnDetail" data-id="<?= htmlspecialchars($phien['MaPhien']) ?>">Xem chi tiết</a>
                         </td>
                     </tr>
                     <?php endforeach; ?>
@@ -89,48 +89,7 @@
 </div>
 
 <!-- Modal Chi tiết -->
-<div class="modal fade" id="modalDetail">
-    <div class="modal-dialog modal-xl modal-dialog-centered">
-        <div class="modal-content">
 
-            <div class="modal-header">
-                <h5 class="modal-title">
-                    Chi tiết điểm danh — <span id="detailHeader"></span>
-                </h5>
-                <button class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-
-            <div class="modal-body">
-
-                <!-- THANH TÌM KIẾM SINH VIÊN -->
-                <input id="searchStudent" class="form-control mb-3" placeholder="Tìm sinh viên...">
-
-                <div class="table-responsive">
-                    <table class="table table-bordered" id="tableDetail">
-                        <thead class="table-light">
-                            <tr>
-                                <th style="width:60px">STT</th>
-                                <th>Mã sinh viên</th>
-                                <th>Tên sinh viên</th>
-                                <th>Trạng thái</th>
-                                <th>Thời gian</th>
-                                <!-- ĐÃ XÓA CỘT HÀNH ĐỘNG -->
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
-                </div>
-
-            </div>
-
-            <div class="modal-footer">
-                <div class="me-auto small-muted" id="countInfo"></div>
-                <button class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-            </div>
-
-        </div>
-    </div>
-</div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
