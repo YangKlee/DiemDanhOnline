@@ -21,7 +21,7 @@
             $maGV = $_SESSION['UID'];
 
             // Lấy thống kê cho giảng viên hiện tại
-            $thongKeGV = $attendanceModel->getGVStatistics($maGV); 
+            // $thongKeGV = $attendanceModel->getGVStatistics($maGV); 
             $this->renderTeacher("Trang chủ giảng viên", "Home.php", [
                 'thongKeGV' => $thongKeGV
             ]);

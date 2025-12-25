@@ -82,38 +82,38 @@ class AttendanceModelGV
 
     // Lấy thống kê giảng viên (dùng cho home/dashboard)
 // Lấy thống kê cho 1 giảng viên (dùng cho home/dashboard)
-    public function getGVStatistics($maGV)
-    {
-        $sql = "
-        SELECT 
-            gv.MaGV,
-            COUNT(DISTINCT lhp.MaLHP) AS TongLopHocPhan,
-            COUNT(DISTINCT mh.MaMonHoc) AS TongMonHoc,
-            COUNT(DISTINCT pdd.MaPhien) AS SoBuoiDiemDanhTrongNgay,
-            CONCAT(
-                ROUND(
-                    COUNT(ldd.MSSV) / NULLIF(COUNT(DISTINCT dk.MSSV), 0) * 100, 2
-                ), '%'
-            ) AS TyLeChuyenCanTrongNgay
-        FROM giangvien gv
-        LEFT JOIN lophp lhp ON gv.MaGV = lhp.MaGV
-        LEFT JOIN monhoc mh ON lhp.MaMonHoc = mh.MaMonHoc
-        LEFT JOIN phiendiemdanh pdd 
-            ON pdd.MaLHP = lhp.MaLHP AND DATE(pdd.ThoiGian) = CURDATE()
-        LEFT JOIN lichsudiemdanh ldd 
-            ON ldd.MaPhien = pdd.MaPhien AND DATE(ldd.ThoiGian) = CURDATE()
-        LEFT JOIN dangkyhocphan dk 
-            ON dk.MaLHP = lhp.MaLHP AND dk.TrangThai = 'Hoc'
-        WHERE gv.MaGV = ?
-        GROUP BY gv.MaGV
-        ";
+    // public function getGVStatistics($maGV)
+    // {
+    //     $sql = "
+    //     SELECT 
+    //         gv.MaGV,
+    //         COUNT(DISTINCT lhp.MaLHP) AS TongLopHocPhan,
+    //         COUNT(DISTINCT mh.MaMonHoc) AS TongMonHoc,
+    //         COUNT(DISTINCT pdd.MaPhien) AS SoBuoiDiemDanhTrongNgay,
+    //         CONCAT(
+    //             ROUND(
+    //                 COUNT(ldd.MSSV) / NULLIF(COUNT(DISTINCT dk.MSSV), 0) * 100, 2
+    //             ), '%'
+    //         ) AS TyLeChuyenCanTrongNgay
+    //     FROM giangvien gv
+    //     LEFT JOIN lophp lhp ON gv.MaGV = lhp.MaGV
+    //     LEFT JOIN monhoc mh ON lhp.MaMonHoc = mh.MaMonHoc
+    //     LEFT JOIN phiendiemdanh pdd 
+    //         ON pdd.MaLHP = lhp.MaLHP AND DATE(pdd.ThoiGian) = CURDATE()
+    //     LEFT JOIN lichsudiemdanh ldd 
+    //         ON ldd.MaPhien = pdd.MaPhien AND DATE(ldd.ThoiGian) = CURDATE()
+    //     LEFT JOIN dangkyhocphan dk 
+    //         ON dk.MaLHP = lhp.MaLHP AND dk.TrangThai = 'Hoc'
+    //     WHERE gv.MaGV = ?
+    //     GROUP BY gv.MaGV
+    //     ";
 
-        $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("i", $maGV);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        return $result->fetch_assoc(); // Trả về 1 giảng viên
-    }
+    //     $stmt = $this->conn->prepare($sql);
+    //     $stmt->bind_param("i", $maGV);
+    //     $stmt->execute();
+    //     $result = $stmt->get_result();
+    //     return $result->fetch_assoc(); // Trả về 1 giảng viên
+    // }
 
 public function getAttendanceStats($MaGV = null, $MaHK = null, $MaLHP = null) {
     $sql = "
